@@ -10,7 +10,7 @@ namespace TRANS4D.Compatibility
     /// indexing scheme.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    internal class FortranArray<T>// : IEnumerable<T>
+    public class FortranArray<T>// : IEnumerable<T>
     {
         private readonly T[] _array;
 
@@ -32,5 +32,7 @@ namespace TRANS4D.Compatibility
                 _array[index - 1] = value;
             }
         }
+
+        public int Length => _array.Length;
     }
 }
