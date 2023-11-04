@@ -7,21 +7,21 @@ namespace TRANS4D.Tests
         [Fact]
         public void CreateEmptyArray_Succeeds()
         {
-            FortranArray<int> array = new FortranArray<int>(0);
+            var array = new FortranArray<int>(0);
             Assert.Equal(0, array.Length);
         }
 
         [Fact]
         public void CreateArray_Succeeds()
         {
-            FortranArray<int> array = new FortranArray<int>(10);
+            var array = new FortranArray<int>(10);
             Assert.Equal(10, array.Length);
         }
 
         [Fact]
         public void AccessArray_Succeeds()
         {
-            FortranArray<int> array = new FortranArray<int>(10);
+            var array = new FortranArray<int>(10);
             array[1] = 1;
             array[2] = 2;
             array[3] = 3;
@@ -33,7 +33,7 @@ namespace TRANS4D.Tests
         [Fact]
         public void AccessArray_OutOfRange_Throws()
         {
-            FortranArray<int> array = new FortranArray<int>(10);
+            var array = new FortranArray<int>(10);
             Assert.Throws<IndexOutOfRangeException>(() => array[0]);
             Assert.Throws<IndexOutOfRangeException>(() => array[11]);
         }

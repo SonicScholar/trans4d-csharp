@@ -27,10 +27,7 @@ namespace TRANS4D.Compatibility
                     throw new IndexOutOfRangeException();
                 return _array[index - 1];
             }
-            set
-            {
-                _array[index - 1] = value;
-            }
+            set => _array[index - 1] = value;
         }
 
         public int Length => _array.Length;
