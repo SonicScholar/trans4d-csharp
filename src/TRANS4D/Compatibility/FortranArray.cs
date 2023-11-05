@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace TRANS4D.Compatibility
@@ -31,5 +32,21 @@ namespace TRANS4D.Compatibility
         }
 
         public int Length => _array.Length;
+    }
+
+    public static class FortranArrayHelper
+    {
+        public static FortranArray<T> ToFortranArray<T>(this IEnumerable<T> source)
+        {
+            var sourceList = source.ToList();
+            var array = new FortranArray<T>(sourceList.Count);
+            var i = 1;
+            foreach (var item in source)
+            {
+                array[i] = item;
+                i++;
+            }
+            return array;
+        }
     }
 }
