@@ -9,6 +9,7 @@ namespace TRANS4D.BlockData
     {
         const int BOUNDARY_SIZE = 5000;
         const int NPOINT_SIZE = 30;
+        private const int NMREGN = 24;
 
         private static bool Initialized = false;
 
@@ -42,10 +43,48 @@ namespace TRANS4D.BlockData
             }
         }
 
+        public static RadialUnits RadialUnits { get; private set; }
+
+        /// <summary>
+        /// Convert all the X,Y coordinates to radians
+        /// </summary>
+        public static void ConvertToRadians()
+        {
+            if(RadialUnits == RadialUnits.Radians)
+                return;
+            int lastCoordinateIndex = NPOINT[NMREGN + 1] -1;
+            for (int i = 1; i <= lastCoordinateIndex; i++)
+            {
+                _X[i] = _X[i] * Math.PI / 180.0;
+                _Y[i] = _Y[i] * Math.PI / 180.0;
+            }
+        }
+
+        /// <summary>
+        /// Convert all the X,Y coordinates to degrees
+        /// </summary>
+        public static void ConvertToDegrees()
+        {
+            if (RadialUnits == RadialUnits.Degrees)
+                return;
+            int lastCoordinateIndex = NPOINT[NMREGN + 1] - 1;
+            for (int i = 1; i <= lastCoordinateIndex; i++)
+            {
+                _X[i] = _X[i] * 180.0 / Math.PI;
+                _Y[i] = _Y[i] * 180.0 / Math.PI;
+            }
+        }
+
         private static void Init()
         {
             if (Initialized)
                 return;
+
+            //todo: maybe break these up into separate regions
+            // the boundary region class could be an IEnumerable<Coordinate>
+            // it could also potentially have an on the fly degrees to radians conversion?
+            //todo: maybe use a coordinate class or tuple for the X,Y pairs?
+            
 
             _X[1] = 35.80000; _Y[1] = 239.49000;
             _X[2] = 36.79000; _Y[2] = 239.49000;
