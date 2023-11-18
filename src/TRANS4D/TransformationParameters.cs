@@ -654,23 +654,22 @@ namespace TRANS4D
             RefEpoch = 2010.0e0
         };
 
-        //*** From ITRF2014 to Pre-CATRF2022 [Caribbean IFVM]
-
-        //tx[17] = 0.00e0;
-        //ty[17] = 0.00e0;
-        //tz[17] = 0.00e0;
-        //dtx[17] = 0.000e0;
-        //dty[17] = 0.000e0;
-        //dtz[17] = 0.000e0;
-        //rx[17] = 0.000e0 / RHOSEC;
-        //ry[17] =  0.000e0 / RHOSEC;
-        //rz[17] =  0.000e0 / RHOSEC;
-        //drx[17] = -0.000000000351e0; 
-        //dry[17] = -0.000000004522e0;
-        //drz[17] = +0.000000002888e0;
-        //scale[17] = 0.000e0;
-        //dscale[17] = 0.000e0;
-        //refepc[17] = 2010.0e0;
+        //*** From ITRF2014 to Plate Motion Model for Caribbean
+        //tx(17) = 0.00d0
+        //ty(17) = 0.00d0
+        //tz(17) = 0.00d0
+        //dtx(17) = 0.000d0
+        //dty(17) = 0.000d0
+        //dtz(17) = 0.000d0
+        //rx(17) = 0.000d0
+        //ry(17) =  0.000d0
+        //rz(17) =  0.000d0
+        //drx(17) = -0.000000000188d0 
+        //dry(17) = -0.000000004730d0 
+        //drz(17) = +0.000000002963d0 
+        //scale(17) = 0.000d0
+        //dscale(17) = 0.000d0
+        //refepc(17) = 2010.0d0
         public static readonly TransformationParameters ITRF_2014_TO_PRE_CATRF_2022 = new TransformationParameters()
         {
             Tx = 0.00e0,
@@ -682,13 +681,84 @@ namespace TRANS4D
             Rx = 0.000e0 / Constants.RHOSEC,
             Ry = 0.000e0 / Constants.RHOSEC,
             Rz = 0.000e0 / Constants.RHOSEC,
-            Drx = -0.000000000351e0,
-            Dry = -0.000000004522e0,
-            Drz = +0.000000002888e0,
+            Drx = -0.000000000188e0,
+            Dry = -0.000000004730e0,
+            Drz = +0.000000002963e0,
             Scale = 0.000e0,
             DScale = 0.000e0,
             RefEpoch = 2010.0e0
         };
+
+        ////TODO TODO TODO ADD These
+        //*** From ITRF2014 to Plate Motion Model for Pacific
+
+        //    tx(18) = 0.00d0
+        //ty(18) = 0.00d0
+        //tz(18) = 0.00d0
+        //dtx(18) = 0.00d0
+        //dty(18) = 0.00d0
+        //rx(18) = 0.00d0
+        //ry(18) = 0.00d0
+        //rz(18) = 0.00d0
+        //drx(18) = -0.000000001983d0
+        //dry(18) = +0.000000005076d0 
+        //drz(18) = -0.000000010516d0
+        //scale(18) = 0.00d0
+        //dscale(18) = 0.000d0
+        //refepc(18) = 2010.0d0
+      
+        //    *** From ITRF2014 to Plate Motion Model for Mariana
+
+        //    tx(19) = 0.00d0
+        //ty(19) = 0.00d0
+        //tz(19) = 0.00d0
+        //dtx(19) = 0.00d0
+        //dty(19) = 0.00d0
+        //rx(19) = 0.00d0
+        //ry(19) = 0.00d0
+        //rz(19) = 0.00d0
+        //drx(19) = -0.000000039217d0
+        //dry(19) = +0.000000028783d0 
+        //drz(19) = +0.000000010467d0
+        //scale(19) = 0.00d0
+        //dscale(19) = 0.000d0
+        //refepc(19) = 2010.0d0
+      
+        //    *** From ITRF2014 to Plate Motion Model for Bering
+
+        //    tx(20) = 0.00d0
+        //ty(20) = 0.00d0
+        //tz(20) = 0.00d0
+        //dtx(20) = 0.00d0
+        //dty(20) = 0.00d0
+        //rx(20) = 0.00d0
+        //ry(20) = 0.00d0
+        //rz(20) = 0.00d0
+        //drx(20) = +0.000000001556d0
+        //dry(20) = -0.000000003550d0 
+        //drz(20) = -0.000000001981d0
+        //scale(20) = 0.00d0
+        //dscale(20) = 0.000d0
+        //refepc(20) = 2010.0d0
+      
+        //    *** From ITRF2014 to ITRF2020
+
+        //tx(21) = 0.0014d0
+        //ty(21) = 0.0014d0
+        //tz(21) = -0.0024d0
+        //dtx(21) = 0.0d0
+        //dty(21) = 0.0001d0
+        //dtz(21) = -0.0002d0
+        //rx(21) = 0.0d0
+        //ry(21) = 0.0d0
+        //rz(21) = 0.0d0
+        //drx(21) = 0.0d0
+        //dry(21) = 0.0d0
+        //drx(21) = 0.0d0
+        //scale(21) = 0.00000000042d0
+        //dscale(21) = 0.0d0
+        //refepc(21) = 2010.00d0
+
 
         public static readonly FortranArray<TransformationParameters> SupportedTransformations =
             new List<TransformationParameters>
