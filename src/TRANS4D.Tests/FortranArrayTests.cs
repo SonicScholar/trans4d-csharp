@@ -37,5 +37,16 @@ namespace TRANS4D.Tests
             Assert.Throws<IndexOutOfRangeException>(() => array[0]);
             Assert.Throws<IndexOutOfRangeException>(() => array[11]);
         }
+
+        [Fact]
+        public void ToFortranArray_Succeeds()
+        {
+            var list = new List<int> { 1, 2, 3 };
+            var array = list.ToFortranArray();
+            Assert.Equal(3, array.Length);
+            Assert.Equal(1, array[1]);
+            Assert.Equal(2, array[2]);
+            Assert.Equal(3, array[3]);
+        }
     }
 }

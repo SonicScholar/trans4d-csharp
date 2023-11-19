@@ -6,36 +6,36 @@ namespace TRANS4D
 {
     public static class Utilities
     {
+        //todo: determine if these are needed
+        //public static double DABS(double x) { return Math.Abs(x);}
+        ///* arctan */
+        //public static double DATAN(double x) { return Math.Atan(x); }
+        ///* arctan 2*/
+        //public static double DATAN2(double y, double x) { return Math.Atan2(y, x); }
+        ///* convert to double */
+        //public static  double DBLE(int x) { return (double)x; }
+        ///* cos */
+        //public static double DCOS(double x) { return Math.Cos(x); }
+        ///* Exponential */
+        //public static  double DEXP(double x) { return Math.Exp(x); }
+        ///* Truncation of Real */
+        //public static double DINT(double x) { return (double)((int)x); }
+        ///* Natural Log */
+        //public static double DLOG(double x) { return Math.Log(x); }
+        ///* sin */
+        //public static double DSIN(double x) { return Math.Sin(x); }
+        ///* square root */
+        //public static double DSQRT(double x) { return Math.Sqrt(x); }
+        ///* convert to int */
+        //public static int IDINT(double x) { return (int)x; }
 
-        public static double DABS(double x) { return Math.Abs(x);}
-        /* arctan */
-        public static double DATAN(double x) { return Math.Atan(x); }
-        /* arctan 2*/
-        public static double DATAN2(double y, double x) { return Math.Atan2(y, x); }
-        /* convert to double */
-        public static  double DBLE(int x) { return (double)x; }
-        /* cos */
-        public static double DCOS(double x) { return Math.Cos(x); }
-        /* Exponential */
-        public static  double DEXP(double x) { return Math.Exp(x); }
-        /* Truncation of Real */
-        public static double DINT(double x) { return (double)((int)x); }
-        /* Natural Log */
-        public static double DLOG(double x) { return Math.Log(x); }
-        /* sin */
-        public static double DSIN(double x) { return Math.Sin(x); }
-        /* square root */
-        public static double DSQRT(double x) { return Math.Sqrt(x); }
-        /* convert to int */
-        public static int IDINT(double x) { return (int)x; }
-
-        /* IF_ARITHMETIC */
-        public static int IF_ARITHMETIC(double x)
-        {
-            if (x < 0) return -1;
-            if (x == 0) return 0;
-            return 1;
-        }
+        ///* IF_ARITHMETIC */
+        //public static int IF_ARITHMETIC(double x)
+        //{
+        //    if (x < 0) return -1;
+        //    if (x == 0) return 0;
+        //    return 1;
+        //}
 
         ///* Utility functions ported from HTDP and TRANS4D */
         //public static int IYMDMJ(int IYR, int IMON, int IDAY)

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace TRANS4D
 {
-    internal class Constants
+    internal static class Constants
     {
         /*
            Original Fortran values

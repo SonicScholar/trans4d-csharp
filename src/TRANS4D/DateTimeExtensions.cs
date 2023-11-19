@@ -8,10 +8,11 @@ namespace TRANS4D
     {
         public static readonly DateTime ModifiedJulianDateEpoch = new DateTime(1858, 11, 17);
 
-        public static int ToModifiedJulianDate(this DateTime dateTime)
-        {
-            return (int)(dateTime - ModifiedJulianDateEpoch).TotalDays;
-        }
+        //todo: determine if this is needed
+        //public static int ToModifiedJulianDate(this DateTime dateTime)
+        //{
+        //    return (int)(dateTime - ModifiedJulianDateEpoch).TotalDays;
+        //}
 
         public static int ToModifiedJulianDateMinutes(this DateTime dateTime)
         {

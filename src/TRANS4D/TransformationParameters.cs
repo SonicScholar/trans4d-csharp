@@ -5,6 +5,17 @@ using TRANS4D.Compatibility;
 
 namespace TRANS4D
 {
+    //todo: idea. create a Attribute class that can be used to decorate the built
+    //in transformatino parameters. It would have a From and To property that would
+    //take a Datum enum value. This would then register that tranformation with some
+    //kind of factory that would be used to look up the transformation parameters.
+    //All of the transforms work by using ITRF2014 as an intermediate datum.
+    //i.e. if you wanted to transform from NAD83 to ITRF2008, you would first
+    //transform from NAD83 to ITRF2014, then from ITRF2014 to ITRF2008.
+    //I'm imagining a function that would take a from and to datum and return
+    //a tuple of the from and to transformation parameters.
+    
+
     public class TransformationParameters
     {
 
@@ -670,7 +681,7 @@ namespace TRANS4D
         //scale(17) = 0.000d0
         //dscale(17) = 0.000d0
         //refepc(17) = 2010.0d0
-        public static readonly TransformationParameters ITRF_2014_TO_PRE_CATRF_2022 = new TransformationParameters()
+        public static readonly TransformationParameters ITRF_2014_TO_CATRF_2022 = new TransformationParameters()
         {
             Tx = 0.00e0,
             Ty = 0.00e0,
@@ -689,7 +700,6 @@ namespace TRANS4D
             RefEpoch = 2010.0e0
         };
 
-        ////TODO TODO TODO ADD These
         //*** From ITRF2014 to Plate Motion Model for Pacific
 
         //    tx(18) = 0.00d0
@@ -706,6 +716,24 @@ namespace TRANS4D
         //scale(18) = 0.00d0
         //dscale(18) = 0.000d0
         //refepc(18) = 2010.0d0
+        public static readonly TransformationParameters ITRF_2014_TO_PMM_PACIFIC = new TransformationParameters()
+        {
+            Tx = 0.00e0,
+            Ty = 0.00e0,
+            Tz = 0.00e0,
+            Dtx = 0.00e0,
+            Dty = 0.00e0,
+            Dtz = 0.00e0,
+            Rx = 0.00e0,
+            Ry = 0.00e0,
+            Rz = 0.00e0,
+            Drx = -0.000000001983e0,
+            Dry = +0.000000005076e0,
+            Drz = -0.000000010516e0,
+            Scale = 0.00e0,
+            DScale = 0.000e0,
+            RefEpoch = 2010.0e0
+        };
       
         //    *** From ITRF2014 to Plate Motion Model for Mariana
 
@@ -723,7 +751,26 @@ namespace TRANS4D
         //scale(19) = 0.00d0
         //dscale(19) = 0.000d0
         //refepc(19) = 2010.0d0
+        public static readonly TransformationParameters ITRF_2014_TO_PMM_MARIANA = new TransformationParameters()
+        {
+            Tx = 0.00e0,
+            Ty = 0.00e0,
+            Tz = 0.00e0,
+            Dtx = 0.00e0,
+            Dty = 0.00e0,
+            Dtz = 0.00e0,
+            Rx = 0.00e0,
+            Ry = 0.00e0,
+            Rz = 0.00e0,
+            Drx = -0.000000039217e0,
+            Dry = +0.000000028783e0,
+            Drz = +0.000000010467e0,
+            Scale = 0.00e0,
+            DScale = 0.000e0,
+            RefEpoch = 2010.0e0
+        };
       
+        ////TODO TODO TODO ADD These
         //    *** From ITRF2014 to Plate Motion Model for Bering
 
         //    tx(20) = 0.00d0
@@ -740,6 +787,24 @@ namespace TRANS4D
         //scale(20) = 0.00d0
         //dscale(20) = 0.000d0
         //refepc(20) = 2010.0d0
+        public static readonly TransformationParameters ITRF_2014_TO_PMM_BERING = new TransformationParameters()
+        {
+            Tx = 0.00e0,
+            Ty = 0.00e0,
+            Tz = 0.00e0,
+            Dtx = 0.00e0,
+            Dty = 0.00e0,
+            Dtz = 0.00e0,
+            Rx = 0.00e0,
+            Ry = 0.00e0,
+            Rz = 0.00e0,
+            Drx = +0.000000001556e0,
+            Dry = -0.000000003550e0,
+            Drz = -0.000000001981e0,
+            Scale = 0.00e0,
+            DScale = 0.000e0,
+            RefEpoch = 2010.0e0
+        };
       
         //    *** From ITRF2014 to ITRF2020
 
@@ -758,6 +823,24 @@ namespace TRANS4D
         //scale(21) = 0.00000000042d0
         //dscale(21) = 0.0d0
         //refepc(21) = 2010.00d0
+        public static readonly TransformationParameters ITRF_2014_TO_ITRF_2020 = new TransformationParameters()
+        {
+            Tx = 0.0014e0,
+            Ty = 0.0014e0,
+            Tz = -0.0024e0,
+            Dtx = 0.0e0,
+            Dty = 0.0001e0,
+            Dtz = -0.0002e0,
+            Rx = 0.0e0,
+            Ry = 0.0e0,
+            Rz = 0.0e0,
+            Drx = 0.0e0,
+            Dry = 0.0e0,
+            Drz = 0.0e0,
+            Scale = 0.00000000042e0,
+            DScale = 0.0e0,
+            RefEpoch = 2010.00e0
+        };
 
 
         public static readonly FortranArray<TransformationParameters> SupportedTransformations =
@@ -779,19 +862,25 @@ namespace TRANS4D
                 ITRF_2014_TO_ITRF_2005,
                 ITRF_2014_TO_ITRF_2008,
                 ITRF_2014_TO_ITRF_2014,
-                ITRF_2014_TO_PRE_CATRF_2022
+                ITRF_2014_TO_CATRF_2022,
+                ITRF_2014_TO_PMM_PACIFIC,
+                ITRF_2014_TO_PMM_MARIANA,
+                ITRF_2014_TO_PMM_BERING,
+                ITRF_2014_TO_ITRF_2020
             }.ToFortranArray();
 
-        public static TransformationParameters ForDatum(Datum datum) =>
-            SupportedTransformations[(int)datum];
+        //todo: see if this is needed
+        //public static TransformationParameters ForDatum(Datum datum) =>
+        //    SupportedTransformations[(int)datum];
 
 
     }
 
-    public static class TransformationParametersHelper
-    {
-        public static TransformationParameters GetTransformationParameters(this Datum datum) =>
-            TransformationParameters.ForDatum(datum);
+    //todo
+    //public static class TransformationParametersHelper
+    //{
+    //    public static TransformationParameters GetTransformationParameters(this Datum datum) =>
+    //        TransformationParameters.ForDatum(datum);
 
-    }
+    //}
 }

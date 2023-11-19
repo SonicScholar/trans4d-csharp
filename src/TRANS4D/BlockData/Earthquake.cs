@@ -9,7 +9,7 @@ namespace TRANS4D.BlockData
     {
         //todo: Ask Rich What this is? N D Locations?
         // ND stands for Number of Data Locations?
-        public const int NDLOC = 2195;
+        public const int NDLOC = 2740;
         public const int RENAME_ME_SIZE_50 = 50; //todo: what is this?
         public const int NUMEQ = 33;
 
