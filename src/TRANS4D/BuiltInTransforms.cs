@@ -5,101 +5,8 @@ using TRANS4D.Compatibility;
 
 namespace TRANS4D
 {
-    //todo: idea. create a Attribute class that can be used to decorate the built
-    //in transformatino parameters. It would have a From and To property that would
-    //take a Datum enum value. This would then register that tranformation with some
-    //kind of factory that would be used to look up the transformation parameters.
-    //All of the transforms work by using ITRF2014 as an intermediate datum.
-    //i.e. if you wanted to transform from NAD83 to ITRF2008, you would first
-    //transform from NAD83 to ITRF2014, then from ITRF2014 to ITRF2008.
-    //I'm imagining a function that would take a from and to datum and return
-    //a tuple of the from and to transformation parameters.
-    
-
-    public class TransformationParameters
+    public class BuiltInTransforms
     {
-
-        public TransformationParameters()
-        {
-
-        }
-
-
-        /// <summary>
-        /// Translation in X (meters)
-        /// </summary>
-        public double Tx { get; set; }
-
-        /// <summary>
-        /// Translation in Y (meters)
-        /// </summary>
-        public double Ty { get; set; }
-
-        /// <summary>
-        /// Translation in Z (meters)
-        /// </summary>
-        public double Tz { get; set; }
-
-        /// <summary>
-        /// Translation in X over time (meters/year)
-        /// </summary>
-        public double Dtx { get; set; }
-
-        /// <summary>
-        /// Translation in Y over time (meters/year)
-        /// </summary>
-        public double Dty { get; set; }
-
-        /// <summary>
-        /// Translation in Z over time (meters/year)
-        /// </summary>
-        public double Dtz { get; set; }
-
-        /// <summary>
-        /// Rotation about X (radians)
-        /// </summary>
-        public double Rx { get; set; }
-
-        /// <summary>
-        /// Rotation about Y (radians)
-        /// </summary>
-        public double Ry { get; set; }
-
-        /// <summary>
-        /// Rotation about Z (radians)
-        /// </summary>
-        public double Rz { get; set; }
-
-        /// <summary>
-        /// Rotation about X over time (radians/year)
-        /// </summary>
-        public double Drx { get; set; }
-
-        /// <summary>
-        /// Rotation about Y over time (radians/year)
-        /// </summary>
-        public double Dry { get; set; }
-
-        /// <summary>
-        /// Rotation about Z over time (radians/year)
-        /// </summary>
-        public double Drz { get; set; }
-
-        /// <summary>
-        /// Scale
-        /// </summary>
-        public double Scale { get; set; }
-
-        /// <summary>
-        /// Change in scale over time (per year)
-        /// </summary>
-        public double DScale { get; set; }
-
-        /// <summary>
-        /// Reference epoch
-        /// </summary>
-        public double RefEpoch { get; set; }
-
         //// *** From ITRF2014 to NAD 83[2011] or NAD 83[CORS96]
         //tx[1] = 1.00530e0;
         //ty[1] = -1.9021e0;
@@ -116,7 +23,7 @@ namespace TRANS4D
         //scale[1] = 0.36891e-9;
         //dscale[1] = -0.07201e-9;
         //refepc[1] = 2010.0e0;
-        public static readonly TransformationParameters ITRF_2014_TO_NAD_1983_2011 = new TransformationParameters()
+        public static readonly DatumTransform ITRF_2014_TO_NAD_1983_2011 = new DatumTransform()
         {
             Tx = 1.00530e0,
             Ty = -1.9021e0,
@@ -151,7 +58,7 @@ namespace TRANS4D
         //scale[2] = 11.29e-9;
         //dscale[2] = 0.12e-9;
         //refepc[2] = 2010.0e0;
-        public static readonly TransformationParameters ITRF_2014_TO_ITRF_1988 = new TransformationParameters()
+        public static readonly DatumTransform ITRF_2014_TO_ITRF_1988 = new DatumTransform()
         {
             Tx = 0.0254e0,
             Ty = -.0005e0,
@@ -186,7 +93,7 @@ namespace TRANS4D
         //scale[3] = 8.19e-9;
         //dscale[3] = 0.12e-9;
         //refepc[3] = 2010.0e0;
-        public static readonly TransformationParameters ITRF_2014_TO_ITRF_1989 = new TransformationParameters()
+        public static readonly DatumTransform ITRF_2014_TO_ITRF_1989 = new DatumTransform()
         {
             Tx = 0.0304e0,
             Ty = 0.0355e0,
@@ -223,7 +130,7 @@ namespace TRANS4D
         //scale[4] = 4.79e-9;
         //dscale[4] = 0.12e-9;
         //refepc[4] = 2010.0e0;
-        public static readonly TransformationParameters ITRF_2014_TO_ITRF_1990 = new TransformationParameters()
+        public static readonly DatumTransform ITRF_2014_TO_ITRF_1990 = new DatumTransform()
         {
             Tx = 0.0254e0,
             Ty = 0.0115e0,
@@ -258,7 +165,7 @@ namespace TRANS4D
         //scale[5] = 4.49e-9;
         //dscale[5] = 0.12e-9;
         //refepc[5] = 2010.0e0;
-        public static readonly TransformationParameters ITRF_2014_TO_ITRF_1991 = new TransformationParameters()
+        public static readonly DatumTransform ITRF_2014_TO_ITRF_1991 = new DatumTransform()
         {
             Tx = 0.0274e0,
             Ty = 0.0155e0,
@@ -293,7 +200,7 @@ namespace TRANS4D
         //scale[6] = 3.09e-9;
         //dscale[6] = 0.12e-9;
         //refepc[6] = 2010.0e0;
-        public static readonly TransformationParameters ITRF_2014_TO_ITRF_1992 = new TransformationParameters()
+        public static readonly DatumTransform ITRF_2014_TO_ITRF_1992 = new DatumTransform()
         {
             Tx = 0.0154e0,
             Ty = 0.0015e0,
@@ -328,7 +235,7 @@ namespace TRANS4D
         //scale[7] = 4.29e-9;
         //dscale[7] = 0.12e-9;
         //refepc[7] = 2010.0e0;
-        public static readonly TransformationParameters ITRF_2014_TO_ITRF_1993 = new TransformationParameters()
+        public static readonly DatumTransform ITRF_2014_TO_ITRF_1993 = new DatumTransform()
         {
             Tx = -.0504e0,
             Ty = 0.0033e0,
@@ -363,7 +270,7 @@ namespace TRANS4D
         //scale[8] = 3.80e-9;
         //dscale[8] = 0.12e-9;
         //refepc[8] = 2010.0e0;
-        public static readonly TransformationParameters ITRF_2014_TO_ITRF_1994_AND_1996 = new TransformationParameters()
+        public static readonly DatumTransform ITRF_2014_TO_ITRF_1994_AND_1996 = new DatumTransform()
         {
             Tx = 0.0074e0,
             Ty = -.0005e0,
@@ -398,7 +305,7 @@ namespace TRANS4D
         //scale[9] = 3.80e-9;
         //dscale[9] = 0.12e-9;
         //refepc[9] = 2010.0e0;
-        public static readonly TransformationParameters ITRF_2014_TO_ITRF_1997 = new TransformationParameters()
+        public static readonly DatumTransform ITRF_2014_TO_ITRF_1997 = new DatumTransform()
         {
             Tx = 0.0074e0,
             Ty = -.0005e0,
@@ -433,7 +340,7 @@ namespace TRANS4D
         //scale[10] = 0.0e-9;
         //dscale[10] = 0.0e-9;
         //refepc[10] = 2010.0e0;
-        public static readonly TransformationParameters ITRF_2014_TO_ITRF_2014_PMM_NORTH_AMERICA = new TransformationParameters()
+        public static readonly DatumTransform ITRF_2014_TO_ITRF_2014_PMM_NORTH_AMERICA = new DatumTransform()
         {
             Tx = 0.0e0,
             Ty = 0.0e0,
@@ -468,7 +375,7 @@ namespace TRANS4D
         //scale[11] = 2.12e-9;
         //dscale[11] = 0.11e-9;
         //refepc[11] = 2010.0e0;
-        public static readonly TransformationParameters ITRF_2014_TO_ITRF_2000 = new TransformationParameters()
+        public static readonly DatumTransform ITRF_2014_TO_ITRF_2000 = new DatumTransform()
         {
             Tx = 0.0007e0,
             Ty = 0.0012e0,
@@ -505,7 +412,7 @@ namespace TRANS4D
         //scale[12] = 2.12e-9;
         //dscale[12] = 0.11e-9;
         //refepc[12] = 2010.0e0;
-        public static readonly TransformationParameters ITRF_2014_TO_PACP_2000_OR_PA_2011 = new TransformationParameters()
+        public static readonly DatumTransform ITRF_2014_TO_PACP_2000_OR_PA_2011 = new DatumTransform()
         {
             Tx = 0.9109e0,
             Ty = -2.0129e0,
@@ -541,7 +448,7 @@ namespace TRANS4D
         //scale[13] = 2.12e-9;
         //dscale[13] = 0.11e-9;
         //refepc[13] = 2010.0e0;
-        public static readonly TransformationParameters ITRF_2014_TO_MARP_2000_OR_MA_2011 = new TransformationParameters()
+        public static readonly DatumTransform ITRF_2014_TO_MARP_2000_OR_MA_2011 = new DatumTransform()
         {
             Tx = 0.9109e0,
             Ty = -2.0129e0,
@@ -576,7 +483,7 @@ namespace TRANS4D
         //scale[14] = 0.92e-9;
         //dscale[14] = 0.03e-9;
         //refepc[14] = 2010.0e0;
-        public static readonly TransformationParameters ITRF_2014_TO_ITRF_2005 = new TransformationParameters()
+        public static readonly DatumTransform ITRF_2014_TO_ITRF_2005 = new DatumTransform()
         {
             Tx = 0.0026e0,
             Ty = 0.0010e0,
@@ -611,7 +518,7 @@ namespace TRANS4D
         //scale[15] = -0.02e-9;
         //dscale[15] = 0.03e-9;
         //refepc[15] = 2010.0e0;
-        public static readonly TransformationParameters ITRF_2014_TO_ITRF_2008 = new TransformationParameters()
+        public static readonly DatumTransform ITRF_2014_TO_ITRF_2008 = new DatumTransform()
         {
             Tx = 0.0016e0,
             Ty = 0.0019e0,
@@ -646,7 +553,7 @@ namespace TRANS4D
         //scale[16]  = 0.0e0;
         //dscale[16] =  0.0e0;               
         //refepc[16] =  2010.0e0;
-        public static readonly TransformationParameters ITRF_2014_TO_ITRF_2014 = new TransformationParameters()
+        public static readonly DatumTransform ITRF_2014_TO_ITRF_2014 = new DatumTransform()
         {
             Tx = 0.0e0,
             Ty = 0.0e0,
@@ -681,7 +588,7 @@ namespace TRANS4D
         //scale(17) = 0.000d0
         //dscale(17) = 0.000d0
         //refepc(17) = 2010.0d0
-        public static readonly TransformationParameters ITRF_2014_TO_CATRF_2022 = new TransformationParameters()
+        public static readonly DatumTransform ITRF_2014_TO_CATRF_2022 = new DatumTransform()
         {
             Tx = 0.00e0,
             Ty = 0.00e0,
@@ -716,7 +623,7 @@ namespace TRANS4D
         //scale(18) = 0.00d0
         //dscale(18) = 0.000d0
         //refepc(18) = 2010.0d0
-        public static readonly TransformationParameters ITRF_2014_TO_PMM_PACIFIC = new TransformationParameters()
+        public static readonly DatumTransform ITRF_2014_TO_PMM_PACIFIC = new DatumTransform()
         {
             Tx = 0.00e0,
             Ty = 0.00e0,
@@ -734,7 +641,7 @@ namespace TRANS4D
             DScale = 0.000e0,
             RefEpoch = 2010.0e0
         };
-      
+
         //    *** From ITRF2014 to Plate Motion Model for Mariana
 
         //    tx(19) = 0.00d0
@@ -751,7 +658,7 @@ namespace TRANS4D
         //scale(19) = 0.00d0
         //dscale(19) = 0.000d0
         //refepc(19) = 2010.0d0
-        public static readonly TransformationParameters ITRF_2014_TO_PMM_MARIANA = new TransformationParameters()
+        public static readonly DatumTransform ITRF_2014_TO_PMM_MARIANA = new DatumTransform()
         {
             Tx = 0.00e0,
             Ty = 0.00e0,
@@ -769,10 +676,8 @@ namespace TRANS4D
             DScale = 0.000e0,
             RefEpoch = 2010.0e0
         };
-      
-        ////TODO TODO TODO ADD These
-        //    *** From ITRF2014 to Plate Motion Model for Bering
 
+        //    *** From ITRF2014 to Plate Motion Model for Bering
         //    tx(20) = 0.00d0
         //ty(20) = 0.00d0
         //tz(20) = 0.00d0
@@ -787,7 +692,7 @@ namespace TRANS4D
         //scale(20) = 0.00d0
         //dscale(20) = 0.000d0
         //refepc(20) = 2010.0d0
-        public static readonly TransformationParameters ITRF_2014_TO_PMM_BERING = new TransformationParameters()
+        public static readonly DatumTransform ITRF_2014_TO_PMM_BERING = new DatumTransform()
         {
             Tx = 0.00e0,
             Ty = 0.00e0,
@@ -805,7 +710,7 @@ namespace TRANS4D
             DScale = 0.000e0,
             RefEpoch = 2010.0e0
         };
-      
+
         //    *** From ITRF2014 to ITRF2020
 
         //tx(21) = 0.0014d0
@@ -823,7 +728,7 @@ namespace TRANS4D
         //scale(21) = 0.00000000042d0
         //dscale(21) = 0.0d0
         //refepc(21) = 2010.00d0
-        public static readonly TransformationParameters ITRF_2014_TO_ITRF_2020 = new TransformationParameters()
+        public static readonly DatumTransform ITRF_2014_TO_ITRF_2020 = new DatumTransform()
         {
             Tx = 0.0014e0,
             Ty = 0.0014e0,
@@ -843,8 +748,8 @@ namespace TRANS4D
         };
 
 
-        public static readonly FortranArray<TransformationParameters> SupportedTransformations =
-            new List<TransformationParameters>
+        public static readonly FortranArray<DatumTransform> SupportedTransformations =
+            new List<DatumTransform>
             {
                 ITRF_2014_TO_NAD_1983_2011,
                 ITRF_2014_TO_ITRF_1988,
@@ -869,18 +774,5 @@ namespace TRANS4D
                 ITRF_2014_TO_ITRF_2020
             }.ToFortranArray();
 
-        //todo: see if this is needed
-        //public static TransformationParameters ForDatum(Datum datum) =>
-        //    SupportedTransformations[(int)datum];
-
-
     }
-
-    //todo
-    //public static class TransformationParametersHelper
-    //{
-    //    public static TransformationParameters GetTransformationParameters(this Datum datum) =>
-    //        TransformationParameters.ForDatum(datum);
-
-    //}
 }

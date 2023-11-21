@@ -52,7 +52,7 @@ namespace TRANS4D.BlockData
         {
             if(RadialUnits == RadialUnits.Radians)
                 return;
-            int lastCoordinateIndex = NPOINT[NMREGN + 1] -1;
+            int lastCoordinateIndex = _NPOINT[NMREGN + 1] -1;
             for (int i = 1; i <= lastCoordinateIndex; i++)
             {
                 _X[i] = _X[i] * Math.PI / 180.0;
@@ -67,7 +67,7 @@ namespace TRANS4D.BlockData
         {
             if (RadialUnits == RadialUnits.Degrees)
                 return;
-            int lastCoordinateIndex = NPOINT[NMREGN + 1] - 1;
+            int lastCoordinateIndex = _NPOINT[NMREGN + 1] - 1;
             for (int i = 1; i <= lastCoordinateIndex; i++)
             {
                 _X[i] = _X[i] * 180.0 / Math.PI;
@@ -4563,6 +4563,8 @@ namespace TRANS4D.BlockData
             _NPOINT[23] = 4196;
             _NPOINT[24] = 4301;
             _NPOINT[25] = 4453;
+
+            ConvertToRadians();
 
             Initialized = true;
         }

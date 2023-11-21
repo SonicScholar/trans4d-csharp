@@ -119,5 +119,10 @@ namespace TRANS4D
         public static double ToRadians(this double degrees) => degrees * Math.PI / 180.0;
 
         public static double ToDegrees(this double radians) => radians * 180.0 / Math.PI;
+
+        public static double DmsToDecimalDegrees(double degrees, double minutes, double seconds)
+        {
+            return degrees + (minutes / 60.0) + (seconds / 3600.0);
+        }
     }
 }
