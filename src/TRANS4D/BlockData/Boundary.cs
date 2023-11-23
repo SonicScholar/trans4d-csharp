@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 using TRANS4D.Compatibility;
+using TRANS4D.Geometry;
 
 namespace TRANS4D.BlockData
 {
@@ -13,8 +14,44 @@ namespace TRANS4D.BlockData
 
         private static bool Initialized = false;
 
+        private static IReadOnlyList<Polygon> boundaryPolygons;
+
+        public static IReadOnlyList<Polygon> BoundaryPolygons
+        {
+            get
+            {
+                if (!Initialized)
+                    Init();
+                return boundaryPolygons;
+            }
+        }
+
+        private static List<Polygon> InitBoundaryPolygons()
+        {
+            List<Polygon> polygons = new List<Polygon>(NMREGN);
+            /*
+               _NPOINT[1] = 1;
+               _NPOINT[2] = 5;
+                ...
+            */
+            for (int region = 1; region <= NMREGN; region++)
+            {
+                int startIndex = _NPOINT[region];
+                int nextRegionIndex = _NPOINT[region + 1];
+                int count = nextRegionIndex - startIndex;
+
+                var range = Enumerable.Range(startIndex, count);
+                IEnumerable<double> xPts = range.Select(i => _X[i]);
+                IEnumerable<double> yPts = range.Select(i => _Y[i]);
+                Polygon boundary = new Polygon(xPts, yPts);
+                polygons.Add(boundary);
+            }
+
+            return polygons;
+        }
+
         private static readonly FortranArray<double> _X = new FortranArray<double>(BOUNDARY_SIZE);
-        public static FortranArray<double> X
+        private static FortranArray<double> X
         {
             get
             {
@@ -4565,7 +4602,7 @@ namespace TRANS4D.BlockData
             _NPOINT[25] = 4453;
 
             ConvertToRadians();
-
+            boundaryPolygons = InitBoundaryPolygons();
             Initialized = true;
         }
     }

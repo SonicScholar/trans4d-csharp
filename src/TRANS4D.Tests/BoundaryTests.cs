@@ -7,13 +7,14 @@ namespace TRANS4D.Tests
         [Fact]
         public void InitializeBoundary_Succeeds()
         {
-            var x = Boundary.X;
-            var y = Boundary.Y;
-            var npoint = Boundary.NPOINT;
+            var boundaryPolygons = Boundary.BoundaryPolygons;
 
-            Assert.NotNull(x);
-            Assert.NotNull(y);
-            Assert.NotNull(npoint);
+            Assert.NotNull(boundaryPolygons);
+            Assert.Equal(24, boundaryPolygons.Count);
+
+            var polygon1 = boundaryPolygons[0];
+            Assert.Equal(4, polygon1.Vertices.Count);
+
         }
     }
 }

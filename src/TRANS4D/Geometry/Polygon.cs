@@ -49,13 +49,16 @@ namespace TRANS4D.Geometry
             bool inside = false;
             int j = Vertices.Count - 1;
 
+            //quick check the bounding box first
+            if (x < MinX || x > MaxX || y < MinY || y > MaxY)
+                return false;
+
             for (int i = 0; i < Vertices.Count; i++)
             {
                 var (xi, yi) = Vertices[i];
                 var (xj, yj) = Vertices[j];
 
                 //check if point is on the edge (the segment between two vertices)
-                // given a point p1 and p2, chec
                 if(includeEdge && (x,y).IsPointOnLineSegment(xi, yi, xj, yj))
                     return true;
 
@@ -70,7 +73,6 @@ namespace TRANS4D.Geometry
 
             return inside;
         }
-
     }
 
     internal static class TupleExtension
