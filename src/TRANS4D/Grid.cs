@@ -7,7 +7,16 @@ namespace TRANS4D
     // this will be for reading the grid files containing the velocity data
     // (also contains standard deviations, I think. Have to double check with
     // Rich or check the original FORTRAN code)
-    internal class Grid
+    public class Grid : IGrid<double>
     {
+        //todo: grid boundaries
+        //todo: grid spacing
+
+        public double GetGridValue(double x, double y)
+        {
+            throw new NotImplementedException();
+        }
+
+        object IGrid.GetGridValue(double x, double y) => GetGridValue(x, y);
     }
 }

@@ -5,6 +5,16 @@ using TRANS4D.Compatibility;
 
 namespace TRANS4D.BlockData
 {
+    public class VelocityInfo
+    {
+        public double VN { get; set; }
+        public double VE { get; set; }
+        public double VU { get; set; }
+        public double SN { get; set; }
+        public double SE { get; set; }
+        public double SU { get; set; }
+    }
+
     internal class Velocity
     {
         public const int NUMGRD = 8;
@@ -16,7 +26,7 @@ namespace TRANS4D.BlockData
         {
             get
             {
-                Init(); 
+                Init();
                 return _GRDLX;
             }
         }
@@ -26,7 +36,7 @@ namespace TRANS4D.BlockData
         {
             get
             {
-                Init(); 
+                Init();
                 return _GRDUX;
             }
         }
@@ -36,7 +46,7 @@ namespace TRANS4D.BlockData
         {
             get
             {
-                Init(); 
+                Init();
                 return _GRDLY;
             }
         }
@@ -46,7 +56,7 @@ namespace TRANS4D.BlockData
         {
             get
             {
-                Init(); 
+                Init();
                 return _GRDUY;
             }
         }
@@ -56,7 +66,7 @@ namespace TRANS4D.BlockData
         {
             get
             {
-                Init(); 
+                Init();
                 return _ICNTX;
             }
         }

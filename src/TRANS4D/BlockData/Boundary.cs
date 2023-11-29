@@ -50,6 +50,23 @@ namespace TRANS4D.BlockData
             return polygons;
         }
 
+        /// <summary>
+        /// Returns the boundary polygon that contains the given point
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
+        public Polygon GetBoundary(double x, double y)
+        {
+            foreach (var polygon in BoundaryPolygons)
+            {
+                if (polygon.ContainsPoint(x, y))
+                    return polygon;
+            }
+
+            return null;
+        }
+
         private static readonly FortranArray<double> _X = new FortranArray<double>(BOUNDARY_SIZE);
         private static FortranArray<double> X
         {

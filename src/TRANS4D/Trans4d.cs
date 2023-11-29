@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
+using TRANS4D.BlockData;
 using TRANS4D.Compatibility;
 
 [assembly: InternalsVisibleTo("TRANS4D.Tests")]
@@ -65,152 +66,163 @@ namespace TRANS4D
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Compute the ITRF2014 velocity at a point in mm/yr
+        /// </summary>
+        /// <param name="lat">latitude in radians</param>
+        /// <param name="lon">longitude in radians</param>
+        /// <param name="region"></param>
+        /// <returns></returns>
+        public static VelocityInfo ComputeVelocity(double lat, double lon, int region)
+        {
+            throw new NotImplementedException();
+        }
 
         //todo what is this for, and can we declare it as a literal?
-        // 11/19 - I think this is just for looking up bluebook format things
-        // likely don't need this. commenting out for now.
-        // would save some processing time
-        //internal static void SETRF()
-        //{
-        //    //*** From blue book identifier to HTDP indentifier
-        //    //*** WGS 72 Precise
-        //    IRFCON[1] = 1;
+            // 11/19 - I think this is just for looking up bluebook format things
+            // likely don't need this. commenting out for now.
+            // would save some processing time
+            //internal static void SETRF()
+            //{
+            //    //*** From blue book identifier to HTDP indentifier
+            //    //*** WGS 72 Precise
+            //    IRFCON[1] = 1;
 
-        //    //*** WGS 84 (orig) Precise (set  equal to NAD 83)
-        //    IRFCON[2] = 1;
+            //    //*** WGS 84 (orig) Precise (set  equal to NAD 83)
+            //    IRFCON[2] = 1;
 
-        //    //*** WGS 72 Broadcast
-        //    IRFCON[3] = 1;
+            //    //*** WGS 72 Broadcast
+            //    IRFCON[3] = 1;
 
-        //    //*** WGS 84 (orig) Broadcast (set equal to NAD 83)
-        //    IRFCON[4] = 1;
+            //    //*** WGS 84 (orig) Broadcast (set equal to NAD 83)
+            //    IRFCON[4] = 1;
 
-        //    //*** ITRF89
-        //    IRFCON[5] = 3;
+            //    //*** ITRF89
+            //    IRFCON[5] = 3;
 
-        //    //*** PNEOS 90 or NEOS 91.25 (set equal to ITRF90)
-        //    IRFCON[6] = 4;
+            //    //*** PNEOS 90 or NEOS 91.25 (set equal to ITRF90)
+            //    IRFCON[6] = 4;
 
-        //    //*** NEOS 90 (set equal to ITRF90)
-        //    IRFCON[7] = 4;
+            //    //*** NEOS 90 (set equal to ITRF90)
+            //    IRFCON[7] = 4;
 
-        //    //*** ITRF91
-        //    IRFCON[8] = 5;
+            //    //*** ITRF91
+            //    IRFCON[8] = 5;
 
-        //    //*** SIO/MIT 92.57 (set equal to ITRF91)
-        //    IRFCON[9] = 5;
+            //    //*** SIO/MIT 92.57 (set equal to ITRF91)
+            //    IRFCON[9] = 5;
 
-        //    //*** ITRF91
-        //    IRFCON[10] = 5;
+            //    //*** ITRF91
+            //    IRFCON[10] = 5;
 
-        //    //*** ITRF92
-        //    IRFCON[11] = 6;
+            //    //*** ITRF92
+            //    IRFCON[11] = 6;
 
-        //    //*** ITRF93
-        //    IRFCON[12] = 7;
+            //    //*** ITRF93
+            //    IRFCON[12] = 7;
 
-        //    //*** WGS 84 (G730) Precise (set equal to ITRF91)
-        //    IRFCON[13] = 5;
+            //    //*** WGS 84 (G730) Precise (set equal to ITRF91)
+            //    IRFCON[13] = 5;
 
-        //    //*** WGS 84 (G730) Broadcast (set equal to ITRF91)
-        //    IRFCON[14] = 5;
+            //    //*** WGS 84 (G730) Broadcast (set equal to ITRF91)
+            //    IRFCON[14] = 5;
 
-        //    //*** ITRF94
-        //    IRFCON[15] = 8;
+            //    //*** ITRF94
+            //    IRFCON[15] = 8;
 
-        //    //*** WGS 84 (G873) Precise  (set equal to ITRF94)
-        //    IRFCON[16] = 8;
+            //    //*** WGS 84 (G873) Precise  (set equal to ITRF94)
+            //    IRFCON[16] = 8;
 
-        //    //*** WGS 84 (G873) Broadcast (set equal to ITRF94)
-        //    IRFCON[17] = 8;
+            //    //*** WGS 84 (G873) Broadcast (set equal to ITRF94)
+            //    IRFCON[17] = 8;
 
-        //    //*** ITRF96
-        //    IRFCON[18] = 8;
+            //    //*** ITRF96
+            //    IRFCON[18] = 8;
 
-        //    //*** ITRF97
-        //    IRFCON[19] = 9;
+            //    //*** ITRF97
+            //    IRFCON[19] = 9;
 
-        //    //*** IGS97
-        //    IRFCON[20] = 9;
+            //    //*** IGS97
+            //    IRFCON[20] = 9;
 
-        //    //*** ITRF00
-        //    IRFCON[21] = 11;
+            //    //*** ITRF00
+            //    IRFCON[21] = 11;
 
-        //    //*** IGS00
-        //    IRFCON[22] = 11;
+            //    //*** IGS00
+            //    IRFCON[22] = 11;
 
-        //    //*** WGS 84 (G1150)
-        //    IRFCON[23] = 11;
+            //    //*** WGS 84 (G1150)
+            //    IRFCON[23] = 11;
 
-        //    //*** IGb00
-        //    IRFCON[24] = 11;
+            //    //*** IGb00
+            //    IRFCON[24] = 11;
 
-        //    //*** ITRF2005
-        //    IRFCON[25] = 14;
+            //    //*** ITRF2005
+            //    IRFCON[25] = 14;
 
-        //    //*** IGS05
-        //    IRFCON[26] = 14;
+            //    //*** IGS05
+            //    IRFCON[26] = 14;
 
-        //    //*** ITRF2008 or IGS08
-        //    IRFCON[27] = 15;
+            //    //*** ITRF2008 or IGS08
+            //    IRFCON[27] = 15;
 
-        //    //*** IGb08
-        //    IRFCON[28] = 15;
+            //    //*** IGb08
+            //    IRFCON[28] = 15;
 
-        //    //*** ITRF2014
-        //    IRFCON[29] = 16;
+            //    //*** ITRF2014
+            //    IRFCON[29] = 16;
 
-        //    //*** From HTDP identifier to blue book identifier
-        //    //*** NAD 83 (set equal to WGS 84 (transit))
-        //    JRFCON[1] = 2;
+            //    //*** From HTDP identifier to blue book identifier
+            //    //*** NAD 83 (set equal to WGS 84 (transit))
+            //    JRFCON[1] = 2;
 
-        //    //*** ITRF88 (set equal to ITRF89)
-        //    JRFCON[2] = 5;
+            //    //*** ITRF88 (set equal to ITRF89)
+            //    JRFCON[2] = 5;
 
-        //    //*** ITRF89
-        //    JRFCON[3] = 5;
+            //    //*** ITRF89
+            //    JRFCON[3] = 5;
 
-        //    //*** ITRF90 (set equal to NEOS 90)
-        //    JRFCON[4] = 7;
+            //    //*** ITRF90 (set equal to NEOS 90)
+            //    JRFCON[4] = 7;
 
-        //    //*** ITRF91
-        //    JRFCON[5] = 8;
+            //    //*** ITRF91
+            //    JRFCON[5] = 8;
 
-        //    //*** ITRF92
-        //    JRFCON[6] = 11;
+            //    //*** ITRF92
+            //    JRFCON[6] = 11;
 
-        //    //*** ITRF93
-        //    JRFCON[7] = 12;
+            //    //*** ITRF93
+            //    JRFCON[7] = 12;
 
-        //    //*** ITRF96 (= ITRF94)
-        //    JRFCON[8] = 18;
+            //    //*** ITRF96 (= ITRF94)
+            //    JRFCON[8] = 18;
 
-        //    //*** ITRF97
-        //    JRFCON[9] = 19;
+            //    //*** ITRF97
+            //    JRFCON[9] = 19;
 
-        //    //*** NA12
-        //    JRFCON[10] = 0;
+            //    //*** NA12
+            //    JRFCON[10] = 0;
 
-        //    //*** ITRF00
-        //    JRFCON[11] = 21;
+            //    //*** ITRF00
+            //    JRFCON[11] = 21;
 
-        //    //*** NAD 83(PACP00) or NAD 83(PA11)
-        //    JRFCON[12] = 2;
+            //    //*** NAD 83(PACP00) or NAD 83(PA11)
+            //    JRFCON[12] = 2;
 
-        //    //*** NAD 83(MARP00) or NAD 83(MA11)
-        //    JRFCON[13] = 2;
+            //    //*** NAD 83(MARP00) or NAD 83(MA11)
+            //    JRFCON[13] = 2;
 
-        //    //*** ITRF2005 or IGS05
-        //    JRFCON[14] = 26;
+            //    //*** ITRF2005 or IGS05
+            //    JRFCON[14] = 26;
 
-        //    //*** ITRF2008 or IGS08/IGb08
-        //    JRFCON[15] = 27;
+            //    //*** ITRF2008 or IGS08/IGb08
+            //    JRFCON[15] = 27;
 
-        //    //*** ITRF2014
-        //    JRFCON[16] = 29;
+            //    //*** ITRF2014
+            //    JRFCON[16] = 29;
 
-        //    //*** NA_ICE-6G
-        //    JRFCON[17] = 0;
-        //}
-    }
+            //    //*** NA_ICE-6G
+            //    JRFCON[17] = 0;
+            //}
+        }
 }
