@@ -23,5 +23,11 @@ namespace TRANS4D
         ITRF2005 = 14,
         ITRF2008_or_IGS08_or_IGb08 = 15,
         ITRF2014 = 16,
+        PMM_Caribbean = 17,
+        PMM_Pacific = 18,
+        PMM_Mariana = 19,
+        PMM_Bering = 20,
+        ITRF20 = 21
+
     }
 }

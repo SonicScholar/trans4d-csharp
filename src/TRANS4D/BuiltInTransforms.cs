@@ -113,8 +113,6 @@ namespace TRANS4D
         };
 
         // *** From ITRF2014 to ITRF90
-
-        // *** From ITRF2014 to ITRF90
         //tx[4] = 0.0254e0;
         //ty[4] = 0.0115e0;
         //tz[4] = -.0928e0;
@@ -270,7 +268,7 @@ namespace TRANS4D
         //scale[8] = 3.80e-9;
         //dscale[8] = 0.12e-9;
         //refepc[8] = 2010.0e0;
-        public static readonly DatumTransform ITRF_2014_TO_ITRF_1994_AND_1996 = new DatumTransform()
+        public static readonly DatumTransform ITRF_2014_TO_ITRF_1994_OR_1996 = new DatumTransform()
         {
             Tx = 0.0074e0,
             Ty = -.0005e0,
@@ -518,7 +516,7 @@ namespace TRANS4D
         //scale[15] = -0.02e-9;
         //dscale[15] = 0.03e-9;
         //refepc[15] = 2010.0e0;
-        public static readonly DatumTransform ITRF_2014_TO_ITRF_2008 = new DatumTransform()
+        public static readonly DatumTransform ITRF_2014_TO_ITRF_2008_OR_IGS08_OR_IGB08 = new DatumTransform()
         {
             Tx = 0.0016e0,
             Ty = 0.0019e0,
@@ -758,14 +756,14 @@ namespace TRANS4D
                 ITRF_2014_TO_ITRF_1991,
                 ITRF_2014_TO_ITRF_1992,
                 ITRF_2014_TO_ITRF_1993,
-                ITRF_2014_TO_ITRF_1994_AND_1996,
+                ITRF_2014_TO_ITRF_1994_OR_1996,
                 ITRF_2014_TO_ITRF_1997,
                 ITRF_2014_TO_ITRF_2014_PMM_NORTH_AMERICA,
                 ITRF_2014_TO_ITRF_2000,
                 ITRF_2014_TO_PACP_2000_OR_PA_2011,
                 ITRF_2014_TO_MARP_2000_OR_MA_2011,
                 ITRF_2014_TO_ITRF_2005,
-                ITRF_2014_TO_ITRF_2008,
+                ITRF_2014_TO_ITRF_2008_OR_IGS08_OR_IGB08,
                 ITRF_2014_TO_ITRF_2014,
                 ITRF_2014_TO_CATRF_2022,
                 ITRF_2014_TO_PMM_PACIFIC,

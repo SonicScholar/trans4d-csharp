@@ -139,18 +139,24 @@ namespace TRANS4D
         public double RefEpoch { get; set; }
 
 
-        //todo: see if this is needed
-        //public static DatumTransform ForDatum(Datum datum) =>
-        //    SupportedTransformations[(int)datum];
+        public static DatumTransform ForDatum(Datum datum) =>
+            BuiltInTransforms.SupportedTransformations[(int)datum];
 
 
     }
 
-    //todo
-    //public static class TransformationParametersHelper
-    //{
-    //    public static DatumTransform GetTransformationParameters(this Datum datum) =>
-    //        DatumTransform.ForDatum(datum);
+    public static class TransformationParametersHelper
+    {
+        /// <summary>
+        /// This is used internally as an intermediate datum for all transformations.
+        /// i.e. input datum -> ITRF2014 -> output datum
+        /// This reduces the total # of transform permutations this library
+        /// has to keep track of.
+        /// </summary>
+        /// <param name="datum"></param>
+        /// <returns></returns>
+        public static DatumTransform GetTransformationParametersForItrf2014(this Datum datum) =>
+            DatumTransform.ForDatum(datum);
 
-    //}
+    }
 }

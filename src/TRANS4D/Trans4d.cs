@@ -66,6 +66,60 @@ namespace TRANS4D
             throw new NotImplementedException();
         }
 
+
+
+        public VelocityInfo PredictVelocity(double ylat, double ylon, double eht, double date, int iopt)
+        {
+            // Predict velocity in iopt reference frame
+
+            // Convert ylon to east longitude
+            double elon = -ylon;
+
+            // Initialize variables
+            //TOXYZ(ylat, elon, eht, ref x, ref y, ref z);
+            var (x,y,z) = Ellipsoid.GRS80.LatLongHeightToXYZ(ylat, elon, eht);
+
+            double rlat = 0, rlon = 0, eht2014 = 0;
+
+            // Check reference frame option
+            if (iopt == 16)
+            {
+                rlat = ylat;
+                rlon = ylon;
+            }
+            else
+            {
+                //XTOITRF2014(x, y, z, ref rlat, ref rlon, ref eht2014, date, iopt);
+            }
+
+            // Get deformation region
+            int? jregn;
+            //GETREG(rlat, rlon, out int jregnTemp);
+            int jregnTemp = 0; // Temporary assignment
+            jregn = jregnTemp == 0 ? (int?)null : jregnTemp;
+
+            if (jregn == null)
+            {
+                return new VelocityInfo(null, 0.0, 0.0, 0.0);
+            }
+
+            double vn = 0, ve = 0, vu = 0;
+            double sn = 0, se = 0, su = 0; // Standard deviations of velocities (unused)
+            //COMVEL(rlat, rlon, jregnTemp, out vn, out ve, out vu, out sn, out se, out su);
+
+            // Convert velocity to reference frame if iopt != ITRF2014
+            if (iopt != 16)
+            {
+                double vx = 0, vy = 0, vz = 0;
+                //TOVXYZ(ylat, elon, vn, ve, vu, ref vx, ref vy, ref vz);
+                //VTRANF(x, y, z, ref vx, ref vy, ref vz, 16, iopt);
+                //TOVNEU(ylat, elon, vx, vy, vz, ref vn, ref ve, ref vu);
+            }
+
+            return new VelocityInfo(jregn, vn, ve, vu);
+        }
+
+
         /// <summary>
         /// Compute the ITRF2014 velocity at a point in mm/yr
         /// </summary>

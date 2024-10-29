@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace TRANS4D.Geometry
+﻿namespace TRANS4D.Geometry
 {
     public class BoundingBox
     {
