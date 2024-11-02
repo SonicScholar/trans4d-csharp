@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TRANS4D.Tests
+﻿namespace TRANS4D.Tests
 {
     public class MiscTests
     {
@@ -36,6 +30,50 @@ namespace TRANS4D.Tests
             Assert.Equal(0.0, 0.0.ToDegrees());
             Assert.Equal(180.0, Math.PI.ToDegrees());
             Assert.Equal(360.0, 2.0 * Math.PI.ToDegrees());
+        }
+
+        [Fact]
+        public void DecimalDegreesToDms()
+        {
+            var dms = Utilities.DecimalDegreesToDms(40);
+            Assert.Equal(40, dms.degrees);
+            Assert.Equal(0, dms.minutes);
+            Assert.Equal(0, dms.seconds);
+
+            dms = Utilities.DecimalDegreesToDms(40.5);
+            Assert.Equal(40, dms.degrees);
+            Assert.Equal(30, dms.minutes);
+            Assert.Equal(0, dms.seconds);
+
+            dms = Utilities.DecimalDegreesToDms(40.75);
+            Assert.Equal(40, dms.degrees);
+            Assert.Equal(45, dms.minutes);
+            Assert.Equal(0, dms.seconds);
+
+            dms = Utilities.DecimalDegreesToDms(40.125);
+            Assert.Equal(40, dms.degrees);
+            Assert.Equal(7, dms.minutes);
+            Assert.Equal(30, dms.seconds);
+        }
+
+        [Fact]
+        public void DmsToDecimalDegrees()
+        {
+            Assert.Equal(40.0, Utilities.DmsToDecimalDegrees(40, 0, 0));
+            Assert.Equal(40.5, Utilities.DmsToDecimalDegrees(40, 30, 0));
+            Assert.Equal(40.75, Utilities.DmsToDecimalDegrees(40, 45, 0));
+            Assert.Equal(40.125, Utilities.DmsToDecimalDegrees(40, 7, 30));
+        }
+
+        [Fact]
+        public void GeodeticCoordinates_DefaultTo_Zero()
+        {
+            var geodeticCoordinates = new GeodeticCoordinates();
+            Assert.Equal(0.0, geodeticCoordinates.Latitude);
+            Assert.Equal(0.0, geodeticCoordinates.Longitude);
+            Assert.Equal(0.0, geodeticCoordinates.Height);
+            Assert.Equal(0.0, geodeticCoordinates.LatitudeDegrees);
+            Assert.Equal(0.0, geodeticCoordinates.LongitudeDegrees);
         }
     }
 }
