@@ -16,26 +16,34 @@ namespace TRANS4D
     //a tuple of the from and to transformation parameters.
 
 
-    public class DatumTransform
+    public class TransformationParameters
     {
-        public (double x, double y, double z) TransForm(double xIn, double yIn, double zIn, double epochYear)
-            => Transform(xIn, yIn, zIn, epochYear, false);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="coordinates"></param>
+        /// <param name="epochYear"></param>
+        /// <returns></returns>
+        public CartesianCoordinates TransForm(CartesianCoordinates coordinates, double epochYear)
+            => Transform(coordinates, epochYear, false);
 
 
-        public (double x, double y, double z) TransformInverse(double xIn, double yIn, double zIn, double epochYear)
-            => Transform(xIn, yIn, zIn, epochYear, true);
+        public CartesianCoordinates TransformInverse(CartesianCoordinates coordinates, double epochYear)
+            => Transform(coordinates, epochYear, true);
 
         /// <summary>
         /// Performs a 14-parameter transformation on cartesian coordinates using the parameters in this object.
         /// </summary>
-        /// <param name="xIn">input x coordinate</param>
-        /// <param name="yIn">input y coordinate</param>
-        /// <param name="zIn">input z coordinate</param>
+        /// <param name="coordinates">input xyz coordinate</param>
         /// <param name="epochYear">decimal epoch in years of input coordinates</param>
         /// <param name="inverse">If true, applies the inverse direction</param>
         /// <returns>x,y,z tuple of the transformed coordinates</returns>
-        internal (double x, double y, double z) Transform(double xIn, double yIn, double zIn, double epochYear, bool inverse)
+        internal CartesianCoordinates Transform(CartesianCoordinates coordinates, double epochYear, bool inverse)
         {
+            double xIn = coordinates.X;
+            double yIn = coordinates.Y;
+            double zIn = coordinates.Z;
+
             double yearTimeDiff = epochYear - RefEpoch;
             double xTranslation = Tx + Dtx * yearTimeDiff;
             double yTranslation = Ty + Dty * yearTimeDiff;
@@ -61,7 +69,7 @@ namespace TRANS4D
             double y2 = yTranslation - zRotation * xIn + ds * yIn + xRotation * zIn;
             double z2 = zTranslation + yRotation * xIn - xRotation * yIn + ds * zIn;
 
-            return (x2, y2, z2);
+            return new CartesianCoordinates(x2, y2, z2);
         }
         /// <summary>
         /// Translation in X (meters)
@@ -139,7 +147,7 @@ namespace TRANS4D
         public double RefEpoch { get; set; }
 
 
-        public static DatumTransform ForDatum(Datum datum) =>
+        public static TransformationParameters ForDatum(Datum datum) =>
             BuiltInTransforms.SupportedTransformations[(int)datum];
 
 
@@ -153,10 +161,10 @@ namespace TRANS4D
         /// This reduces the total # of transform permutations this library
         /// has to keep track of.
         /// </summary>
-        /// <param name="datum"></param>
+        /// <param name="datum">Specifies the datum to transform ITRF2014 coordinates into.</param>
         /// <returns></returns>
-        public static DatumTransform GetTransformationParametersForItrf2014(this Datum datum) =>
-            DatumTransform.ForDatum(datum);
+        public static TransformationParameters GetTransformationParametersForItrf2014(this Datum datum) =>
+            TransformationParameters.ForDatum(datum);
 
     }
 }

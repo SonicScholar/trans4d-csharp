@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TRANS4D.Tests
 {
-    public class DatumTransformTests
+    public class TransformationParametersTests
     {
         [Fact]
         public void SupportedTransformationsCount_Is_21()
@@ -77,13 +77,14 @@ namespace TRANS4D.Tests
             double latitude = Utilities.DmsToDecimalDegrees(40, 0, 0.00002).ToRadians();
             double longitude = Utilities.DmsToDecimalDegrees(-105, -0, -0.00004).ToRadians();
             double height = 1500.0;
+            var inputCoordinates = new GeodeticCoordinates(latitude, longitude, height);
+            
+            var inputXyz = Ellipsoid.GRS80.GeodeticToCartesian(inputCoordinates);
+            var result = transform.TransForm(inputXyz, transform.RefEpoch); //2010.0
 
-            var (xIn, yIn, zIn) = Ellipsoid.GRS80.LatLongHeightToXYZ(latitude, longitude, height);
-            var (x, y, z) = transform.TransForm(xIn, yIn, zIn, transform.RefEpoch); //2010.0
-
-            Assert.Equal(-1266622.548, x, 3);
-            Assert.Equal(-4727103.851, y, 3);
-            Assert.Equal(4078949.830, z, 3);
+            Assert.Equal(-1266622.548, result.X, 3);
+            Assert.Equal(-4727103.851, result.Y, 3);
+            Assert.Equal(4078949.830, result.Z, 3);
         }
 
         //now test the inverse
@@ -94,13 +95,14 @@ namespace TRANS4D.Tests
             double latitude = Utilities.DmsToDecimalDegrees(39, 59, 59.97972).ToRadians();
             double longitude = Utilities.DmsToDecimalDegrees(-104, -59, -59.95473).ToRadians();
             double height = 1500.865;
+            var geodeticCoords = new GeodeticCoordinates(latitude, longitude, height);
 
-            var (xIn, yIn, zIn) = Ellipsoid.GRS80.LatLongHeightToXYZ(latitude, longitude, height);
-            var (x, y, z) = transform.TransformInverse(xIn, yIn, zIn, transform.RefEpoch); //2010.0
+            var inputXyz = Ellipsoid.GRS80.GeodeticToCartesian(geodeticCoords);
+            var result = transform.TransformInverse(inputXyz, transform.RefEpoch); //2010.0
 
-            Assert.Equal(-1266623.310, x, 3);
-            Assert.Equal(-4727102.544, y, 4);
-            Assert.Equal(4078949.754, z, 4);
+            Assert.Equal(-1266623.310, result.X, 3);
+            Assert.Equal(-4727102.544, result.Y, 4);
+            Assert.Equal(4078949.754, result.Z, 4);
         }
     }
 }

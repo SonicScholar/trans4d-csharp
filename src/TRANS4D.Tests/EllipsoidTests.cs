@@ -12,22 +12,34 @@ namespace TRANS4D.Tests
         private const int EHTTolerance = 2;
 
         [Fact]
+        public void GRS80_AF_Is_Correct()
+        {
+            var grs80 = Ellipsoid.GRS80;
+            Assert.Equal(6399593.625864023, grs80.AF);
+        }
+
+        [Fact]
+        public void GRS80_EPS_Is_Correct()
+        {
+            var grs80 = Ellipsoid.GRS80;
+            Assert.Equal(0.0067394967754789573, grs80.EPS);
+        }
+
+        [Fact]
         public void GRS80_PrimeMeridianEquatorRadius_ToXYZ()
         {
             var grs80 = Ellipsoid.GRS80;
 
             //radians
-            double latitude = 0.0;
-            double longitude = 0.0;
-            double height = 0.0;
+            var geodeticCoords = new GeodeticCoordinates(0, 0, 0);
 
-            var (x, y, z) = grs80.LatLongHeightToXYZ(latitude, longitude, height);
+            var result = grs80.GeodeticToCartesian(geodeticCoords);
 
             double semiMajor = grs80.A;
             Assert.Equal(6378137.0, semiMajor);
-            Assert.Equal(semiMajor, x);
-            Assert.Equal(0.0, y);
-            Assert.Equal(0.0, z);
+            Assert.Equal(semiMajor, result.X);
+            Assert.Equal(0.0, result.Y);
+            Assert.Equal(0.0, result.Z);
         }
 
         [Fact]
@@ -36,17 +48,17 @@ namespace TRANS4D.Tests
             var grs80 = Ellipsoid.GRS80;
 
             //radians
-            double latitude = 0.0;
-            double longitude = 0.0;
-            double height = 100.0;
-
-            var (x, y, z) = grs80.LatLongHeightToXYZ(latitude, longitude, height);
+            //double latitude = 0.0;
+            //double longitude = 0.0;
+            //double height = 100.0;
+            var geodeticCoords = new GeodeticCoordinates(0, 0, 100.0);
+            var result = grs80.GeodeticToCartesian(geodeticCoords);
 
             double semiMajor = grs80.A;
             Assert.Equal(6378137.0, semiMajor);
-            Assert.Equal(semiMajor + height, x);
-            Assert.Equal(0.0, y);
-            Assert.Equal(0.0, z);
+            Assert.Equal(semiMajor + geodeticCoords.Height, result.X);
+            Assert.Equal(0.0, result.Y);
+            Assert.Equal(0.0, result.Z);
         }
 
         [Fact]
@@ -54,34 +66,32 @@ namespace TRANS4D.Tests
         {
             var grs80 = Ellipsoid.GRS80;
 
-            var (x,y,z) = grs80.LatLongHeightToXYZ(50.0.ToRadians(), 0.0, 0.0);
+            var geodeticCoords = new GeodeticCoordinates(50.0.ToRadians(), 0.0, 0.0);
+            var cartesianCoords = grs80.GeodeticToCartesian(geodeticCoords);
 
-
-            var (latitude, longitude, height, succeeded) = grs80.XYZToLatLongHeight(x, y, z);
+            var (result, succeeded) = grs80.XYZToLatLongHeight(cartesianCoords);
 
             Assert.True(succeeded);
-            Assert.Equal(50.0.ToRadians(), latitude);
-            Assert.Equal(0.0, longitude);
-            Assert.Equal(0.0, height,8);
+            Assert.Equal(50.0.ToRadians(), result.Latitude);
+            Assert.Equal(0.0, result.Longitude);
+            Assert.Equal(0.0, result.Height, 8);
         }
 
         [Fact]
         public void GRS80_XYZToLatLongHeight_NonConverging()
         {
             var grs80 = Ellipsoid.GRS80;
-            double lat = 45.0.ToRadians();
-            double lon = 45.0.ToRadians();
-            //way the hell out there in space... like orders of magnitude bigger than our observable universe
-            double eht = Math.Pow(Math.Sqrt(double.MaxValue), 1.001); 
+            //way the heck out there in space... like orders of magnitude bigger than our observable universe
+            double eht = Math.Pow(Math.Sqrt(double.MaxValue), 1.001);
+            var geodeticCoords = new GeodeticCoordinates(45.0.ToRadians(), 45.0.ToRadians(), eht);
 
-            var (x, y, z) = grs80.LatLongHeightToXYZ(lat, lon, eht);
-            (lat, lon, eht, var succeeded) = grs80.XYZToLatLongHeight(x, y, z);
+            var cartesianCoords = grs80.GeodeticToCartesian(geodeticCoords);
+            var (result, succeeded) = grs80.XYZToLatLongHeight(cartesianCoords);
 
             Assert.False(succeeded);
-            Assert.Equal(double.NaN, lat);
-            Assert.Equal(double.NaN, lon);
-            Assert.Equal(double.NaN, eht);
-            
+            Assert.Equal(double.NaN, result.Latitude);
+            Assert.Equal(double.NaN, result.Longitude);
+            Assert.Equal(double.NaN, result.Height);
         }
 
         //todo: test transform between two datums with different epochs, but doesn't use velocity model
@@ -105,27 +115,24 @@ namespace TRANS4D.Tests
         public void GRS80_WEST_US_ToXYZ()
         {
             var grs80 = Ellipsoid.GRS80;
-            double latitude = 40.0.ToRadians();
-            double longitude = -105.0.ToRadians();
-            double height = 1500.0;
-            var (x, y, z) = grs80.LatLongHeightToXYZ(latitude, longitude, height);
-            Assert.Equal(-1266623.309, x, 3);
-            Assert.Equal(-4727102.545, y, 3);
-            Assert.Equal(4078949.754, z, 3);
+            var geodeticCoords = new GeodeticCoordinates(40.0.ToRadians(), -105.0.ToRadians(), 1500.0);
+            var result = grs80.GeodeticToCartesian(geodeticCoords);
+            Assert.Equal(-1266623.309, result.X, 3);
+            Assert.Equal(-4727102.545, result.Y, 3);
+            Assert.Equal(4078949.754, result.Z, 3);
         }
 
         [Fact]
         public void GRS80_WEST_US_ToLatLongHeight()
         {
             var grs80 = Ellipsoid.GRS80;
-            double x = -1266623.309;
-            double y = -4727102.545;
-            double z = 4078949.754;
-            var (latitude, longitude, height, succeeded) = grs80.XYZToLatLongHeight(x, y, z);
+            var cartesianCoordinates = new CartesianCoordinates(-1266623.309, -4727102.545, 4078949.754);
+            var (result, succeeded) = grs80.XYZToLatLongHeight(cartesianCoordinates);
+
             Assert.True(succeeded);
-            Assert.Equal(40.0, latitude.ToDegrees(), FromXYZTolerance);
-            Assert.Equal(-105.0, longitude.ToDegrees(), FromXYZTolerance);
-            Assert.Equal(1500.0, height, EHTTolerance);
+            Assert.Equal(40.0, result.LatitudeDegrees, FromXYZTolerance);
+            Assert.Equal(-105.0, result.LongitudeDegrees, FromXYZTolerance);
+            Assert.Equal(1500.0, result.Height, EHTTolerance);
         }
     }
 }

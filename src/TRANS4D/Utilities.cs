@@ -124,5 +124,14 @@ namespace TRANS4D
         {
             return degrees + (minutes / 60.0) + (seconds / 3600.0);
         }
+
+        public static (double degrees, double minutes, double seconds) DecimalDegreesToDms(double decimalDegrees)
+        {
+            double degrees = Math.Floor(decimalDegrees);
+            double minutes = Math.Floor((decimalDegrees - degrees) * 60.0);
+            double seconds = ((decimalDegrees - degrees) * 60.0 - minutes) * 60.0;
+
+            return (degrees, minutes, seconds);
+        }
     }
 }

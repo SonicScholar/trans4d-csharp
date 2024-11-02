@@ -3,6 +3,8 @@ using System.Runtime.CompilerServices;
 using TRANS4D.BlockData;
 using TRANS4D.Compatibility;
 
+using static TRANS4D.Ellipsoid;
+
 [assembly: InternalsVisibleTo("TRANS4D.Tests")]
 
 namespace TRANS4D
@@ -67,29 +69,39 @@ namespace TRANS4D
         }
 
 
-
-        public VelocityInfo PredictVelocity(double ylat, double ylon, double eht, double date, int iopt)
+        /// <summary>
+        /// Compute the ITRF2014 velocity at a point in mm/yr todo: ?
+        /// </summary>
+        /// <param name="coordinates">
+        /// Geodetic coordinates in radians.
+        /// </param>
+        /// <param name="date"></param>
+        /// <param name="ioptDatum"></param>
+        /// <returns></returns>
+        //todo: convert iopt int variable to Datum enum
+        public VelocityInfo PredictVelocity(GeodeticCoordinates coordinates, DateTime date, Datum ioptDatum)
         {
             // Predict velocity in iopt reference frame
 
             // Convert ylon to east longitude
-            double elon = -ylon;
+            // todo: remove --> double elon = -ylon; coordinates should be provided in positive east.
 
             // Initialize variables
             //TOXYZ(ylat, elon, eht, ref x, ref y, ref z);
-            var (x,y,z) = Ellipsoid.GRS80.LatLongHeightToXYZ(ylat, elon, eht);
+            var cartesianCoords  = GRS80.GeodeticToCartesian(coordinates);
 
-            double rlat = 0, rlon = 0, eht2014 = 0;
+            var itrf2014Coordinates = new GeodeticCoordinates();
 
             // Check reference frame option
-            if (iopt == 16)
+            if (ioptDatum == Datum.ITRF2014)
             {
-                rlat = ylat;
-                rlon = ylon;
+                itrf2014Coordinates.Latitude = coordinates.Latitude;
+                itrf2014Coordinates.Longitude = coordinates.Longitude;
             }
             else
             {
                 //XTOITRF2014(x, y, z, ref rlat, ref rlon, ref eht2014, date, iopt);
+                itrf2014Coordinates = TransformToItrf2014(cartesianCoords, date, ioptDatum);
             }
 
             // Get deformation region
@@ -108,7 +120,7 @@ namespace TRANS4D
             //COMVEL(rlat, rlon, jregnTemp, out vn, out ve, out vu, out sn, out se, out su);
 
             // Convert velocity to reference frame if iopt != ITRF2014
-            if (iopt != 16)
+            if (ioptDatum != Datum.ITRF2014)
             {
                 double vx = 0, vy = 0, vz = 0;
                 //TOVXYZ(ylat, elon, vn, ve, vu, ref vx, ref vy, ref vz);
@@ -118,6 +130,51 @@ namespace TRANS4D
 
             return new VelocityInfo(jregn, vn, ve, vu);
         }
+
+        //XTOITRF2014(x, y, z, ref rlat, ref rlon, ref eht2014, date, iopt);
+        // Converts X,Y,Z in specified datum to latitude and
+        // longitude (in radians) and height (meters) in ITRF2014
+        // datum with longitude positive west.
+        public static GeodeticCoordinates TransformToItrf2014(CartesianCoordinates cartesianCoords,
+            DateTime date, Datum ioptDatum)
+        {
+            var result = TransformToItrf2014(
+                cartesianCoords.X, cartesianCoords.Y, cartesianCoords.Z, date, (int)ioptDatum);
+
+            throw new NotImplementedException();
+        }
+
+        public static (double latRadians, double westLongitudeRadians, double ellipsoidHeight)
+            TransformToItrf2014(double x, double y, double z, DateTime date, int iopt)
+        {
+            double X1, Y1, Z1;
+            double ELON;
+
+            // Convert to cartesian coordinates in ITRF2014
+            if (iopt == 16)
+            {
+                X1 = x;
+                Y1 = y;
+                Z1 = z;
+            }
+            else
+            {
+                //to_itrf2014(x, y, z, X1, Y1, Z1, DATE, IOPT);
+            }
+
+            //// Convert to geodetic coordinates
+            //if (!FRMXYZ(X1, Y1, Z1, RLAT, ELON, EHT14))
+            //    // C++ port, don't want to kill the app in the library code STOP(666);
+            //    std::cout << "FRMXYZ failed! X:" << X << " Y:" << Y << " Z:" << Z << std::endl;
+
+            //WLON = -ELON;
+            //while (WLON < 0)
+            //{
+            //    WLON = WLON + TWOPI;
+            //}
+            throw new NotImplementedException();
+        }
+
 
 
         /// <summary>
@@ -131,6 +188,9 @@ namespace TRANS4D
         {
             throw new NotImplementedException();
         }
+
+
+
 
         //todo what is this for, and can we declare it as a literal?
             // 11/19 - I think this is just for looking up bluebook format things
