@@ -57,6 +57,30 @@
         }
 
         [Fact]
+        public void NegativeDecimalDegreesToDms()
+        {
+            var dms = Utilities.DecimalDegreesToDms(-40);
+            Assert.Equal(-40, dms.degrees);
+            Assert.Equal(0, dms.minutes);
+            Assert.Equal(0, dms.seconds);
+
+            dms = Utilities.DecimalDegreesToDms(-40.5);
+            Assert.Equal(-40, dms.degrees);
+            Assert.Equal(-30, dms.minutes);
+            Assert.Equal(0, dms.seconds);
+
+            dms = Utilities.DecimalDegreesToDms(-40.75);
+            Assert.Equal(-40, dms.degrees);
+            Assert.Equal(-45, dms.minutes);
+            Assert.Equal(0, dms.seconds);
+
+            dms = Utilities.DecimalDegreesToDms(-40.125);
+            Assert.Equal(-40, dms.degrees);
+            Assert.Equal(-7, dms.minutes);
+            Assert.Equal(-30, dms.seconds);
+        }   
+
+        [Fact]
         public void DmsToDecimalDegrees()
         {
             Assert.Equal(40.0, Utilities.DmsToDecimalDegrees(40, 0, 0));
