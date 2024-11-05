@@ -4,6 +4,8 @@ namespace TRANS4D
 {
     public class GeodeticCoordinates
     {
+        public static GeodeticCoordinates Invalid => new GeodeticCoordinates(double.NaN, double.NaN, double.NaN);
+
         /// <summary>
         /// Latitude in radians
         /// </summary>
@@ -44,5 +46,18 @@ namespace TRANS4D
             Longitude = longitude;
             Height = height;
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is GeodeticCoordinates other)
+            {
+                return Latitude == other.Latitude &&
+                       Longitude == other.Longitude &&
+                       Height == other.Height;
+            }
+
+            return false;
+        }
     }
+
 }

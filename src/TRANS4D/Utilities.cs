@@ -127,9 +127,22 @@ namespace TRANS4D
 
         public static (double degrees, double minutes, double seconds) DecimalDegreesToDms(double decimalDegrees)
         {
+            bool negative = decimalDegrees < 0;
+            if (negative)
+            {
+                decimalDegrees = Math.Abs(decimalDegrees);
+            }
+
             double degrees = Math.Floor(decimalDegrees);
             double minutes = Math.Floor((decimalDegrees - degrees) * 60.0);
             double seconds = ((decimalDegrees - degrees) * 60.0 - minutes) * 60.0;
+
+            if (negative)
+            {
+                degrees = -degrees;
+                minutes = -minutes;
+                seconds = -seconds;
+            }
 
             return (degrees, minutes, seconds);
         }

@@ -80,7 +80,7 @@ namespace TRANS4D.Tests
             var inputCoordinates = new GeodeticCoordinates(latitude, longitude, height);
             
             var inputXyz = Ellipsoid.GRS80.GeodeticToCartesian(inputCoordinates);
-            var result = transform.TransForm(inputXyz, transform.RefEpoch); //2010.0
+            var result = transform.Transform(inputXyz, transform.RefEpoch); //2010.0
 
             Assert.Equal(-1266622.548, result.X, 3);
             Assert.Equal(-4727103.851, result.Y, 3);

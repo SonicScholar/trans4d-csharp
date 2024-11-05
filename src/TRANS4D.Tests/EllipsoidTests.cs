@@ -94,6 +94,20 @@ namespace TRANS4D.Tests
             Assert.Equal(double.NaN, result.Height);
         }
 
+        [Fact]
+        public void GRS80_XYZToLatLong_Poles()
+        {
+            var grs80 = Ellipsoid.GRS80;
+            var northPole = new XYZ(0.0, 0.0, grs80.B);
+            var southPole = new XYZ(0.0, 0.0, -grs80.B);
+
+            var (northResult, northSucceeded) = grs80.XYZToLatLongHeight(northPole);
+            var (southResult, southSucceeded) = grs80.XYZToLatLongHeight(southPole);
+            Assert.False(northSucceeded);
+            Assert.False(southSucceeded);
+
+        }
+
         //todo: test transform between two datums with different epochs, but doesn't use velocity model
 
         // Test data run from Trans4d 4.1 Fortran program
@@ -126,7 +140,7 @@ namespace TRANS4D.Tests
         public void GRS80_WEST_US_ToLatLongHeight()
         {
             var grs80 = Ellipsoid.GRS80;
-            var cartesianCoordinates = new CartesianCoordinates(-1266623.309, -4727102.545, 4078949.754);
+            var cartesianCoordinates = new XYZ(-1266623.309, -4727102.545, 4078949.754);
             var (result, succeeded) = grs80.XYZToLatLongHeight(cartesianCoordinates);
 
             Assert.True(succeeded);

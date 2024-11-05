@@ -24,11 +24,11 @@ namespace TRANS4D
         /// <param name="coordinates"></param>
         /// <param name="epochYear"></param>
         /// <returns></returns>
-        public CartesianCoordinates TransForm(CartesianCoordinates coordinates, double epochYear)
+        public XYZ Transform(XYZ coordinates, double epochYear)
             => Transform(coordinates, epochYear, false);
 
 
-        public CartesianCoordinates TransformInverse(CartesianCoordinates coordinates, double epochYear)
+        public XYZ TransformInverse(XYZ coordinates, double epochYear)
             => Transform(coordinates, epochYear, true);
 
         /// <summary>
@@ -38,7 +38,7 @@ namespace TRANS4D
         /// <param name="epochYear">decimal epoch in years of input coordinates</param>
         /// <param name="inverse">If true, applies the inverse direction</param>
         /// <returns>x,y,z tuple of the transformed coordinates</returns>
-        internal CartesianCoordinates Transform(CartesianCoordinates coordinates, double epochYear, bool inverse)
+        internal XYZ Transform(XYZ coordinates, double epochYear, bool inverse)
         {
             double xIn = coordinates.X;
             double yIn = coordinates.Y;
@@ -69,7 +69,7 @@ namespace TRANS4D
             double y2 = yTranslation - zRotation * xIn + ds * yIn + xRotation * zIn;
             double z2 = zTranslation + yRotation * xIn - xRotation * yIn + ds * zIn;
 
-            return new CartesianCoordinates(x2, y2, z2);
+            return new XYZ(x2, y2, z2);
         }
         /// <summary>
         /// Translation in X (meters)
@@ -162,7 +162,8 @@ namespace TRANS4D
         /// has to keep track of.
         /// </summary>
         /// <param name="datum">Specifies the datum to transform ITRF2014 coordinates into.</param>
-        /// <returns></returns>
+        /// <returns>Transformation parameters to go from ITRF2014 to <c>datum</c></returns>
+        /// <remarks>To go from <c>datum</c> to ITRF2014, call <see cref="TransformationParameters.TransformInverse"/></remarks>
         public static TransformationParameters GetTransformationParametersForItrf2014(this Datum datum) =>
             TransformationParameters.ForDatum(datum);
 

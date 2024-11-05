@@ -101,7 +101,8 @@ namespace TRANS4D
             else
             {
                 //XTOITRF2014(x, y, z, ref rlat, ref rlon, ref eht2014, date, iopt);
-                itrf2014Coordinates = TransformToItrf2014(cartesianCoords, date, ioptDatum);
+                itrf2014Coordinates = CoordinateTransformer.TransformToItrf2014(
+                    cartesianCoords, date, ioptDatum);
             }
 
             // Get deformation region
@@ -131,49 +132,10 @@ namespace TRANS4D
             return new VelocityInfo(jregn, vn, ve, vu);
         }
 
-        //XTOITRF2014(x, y, z, ref rlat, ref rlon, ref eht2014, date, iopt);
-        // Converts X,Y,Z in specified datum to latitude and
-        // longitude (in radians) and height (meters) in ITRF2014
-        // datum with longitude positive west.
-        public static GeodeticCoordinates TransformToItrf2014(CartesianCoordinates cartesianCoords,
-            DateTime date, Datum ioptDatum)
-        {
-            var result = TransformToItrf2014(
-                cartesianCoords.X, cartesianCoords.Y, cartesianCoords.Z, date, (int)ioptDatum);
 
-            throw new NotImplementedException();
-        }
 
-        public static (double latRadians, double westLongitudeRadians, double ellipsoidHeight)
-            TransformToItrf2014(double x, double y, double z, DateTime date, int iopt)
-        {
-            double X1, Y1, Z1;
-            double ELON;
 
-            // Convert to cartesian coordinates in ITRF2014
-            if (iopt == 16)
-            {
-                X1 = x;
-                Y1 = y;
-                Z1 = z;
-            }
-            else
-            {
-                //to_itrf2014(x, y, z, X1, Y1, Z1, DATE, IOPT);
-            }
 
-            //// Convert to geodetic coordinates
-            //if (!FRMXYZ(X1, Y1, Z1, RLAT, ELON, EHT14))
-            //    // C++ port, don't want to kill the app in the library code STOP(666);
-            //    std::cout << "FRMXYZ failed! X:" << X << " Y:" << Y << " Z:" << Z << std::endl;
-
-            //WLON = -ELON;
-            //while (WLON < 0)
-            //{
-            //    WLON = WLON + TWOPI;
-            //}
-            throw new NotImplementedException();
-        }
 
 
 
