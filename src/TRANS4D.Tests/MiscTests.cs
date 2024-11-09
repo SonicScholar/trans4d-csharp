@@ -99,5 +99,41 @@
             Assert.Equal(0.0, geodeticCoordinates.LatitudeDegrees);
             Assert.Equal(0.0, geodeticCoordinates.LongitudeDegrees);
         }
+
+        [Fact]
+        public void NormalizeRadians_Tests()
+        {
+            var twoPi = 2.0 * Math.PI;
+            var piOver2 = Math.PI/ 2.0;
+
+            Assert.Equal(0.0, 0.0.NormalizeRadians());
+            Assert.Equal(0.0, twoPi.NormalizeRadians());
+            Assert.Equal(0.0, -twoPi.NormalizeRadians());
+            Assert.Equal(0.0, -4.0 * twoPi.NormalizeRadians());
+            Assert.Equal(0.0, 4.0 * twoPi.NormalizeRadians());
+
+            Assert.Equal(piOver2, (piOver2 + twoPi).NormalizeRadians());
+            Assert.Equal(piOver2, (piOver2 - twoPi).NormalizeRadians());
+            Assert.Equal(piOver2, (piOver2 + 2 * twoPi).NormalizeRadians());
+            Assert.Equal(piOver2, (piOver2 - 2 * twoPi).NormalizeRadians());
+
+            // get a really, really , astronomically large multiple of 2pi
+            double largeMultiple = int.MaxValue * twoPi;
+            Assert.Equal(0.0, largeMultiple.NormalizeRadians());
+            Assert.Equal(piOver2, (piOver2 + largeMultiple).NormalizeRadians(), 1.0e-6);
+            Assert.Equal(piOver2, (piOver2 - largeMultiple).NormalizeRadians(), 1.0e-6);
+        }
+
+        [Fact]
+        public void SwitchLongitudeDirection_Tests()
+        {
+            var piOver2 = Math.PI / 2.0;
+            var threePiOver2 = 3.0 * Math.PI / 2.0;
+            var twoPi = 2.0 * Math.PI;
+
+            Assert.Equal(0.0, 0.0.SwitchLongitudeDirection());
+            Assert.Equal(threePiOver2, piOver2.SwitchLongitudeDirection());
+            Assert.Equal(piOver2, (-piOver2).SwitchLongitudeDirection());
+        }
     }
 }

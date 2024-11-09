@@ -2,7 +2,7 @@
 using System.Runtime.CompilerServices;
 using TRANS4D.BlockData;
 using TRANS4D.Compatibility;
-
+using TRANS4D.Geometry;
 using static TRANS4D.Ellipsoid;
 
 [assembly: InternalsVisibleTo("TRANS4D.Tests")]
@@ -134,7 +134,29 @@ namespace TRANS4D
 
 
 
+        public int GetRegion(double latitude, double longitude)
+        {
+            // Declare common boundary and constants (replace with appropriate definitions)
+            // DECLARE_COMMON_BNDRY
+            // DECLARE_COMMON_CONST
 
+            longitude.SwitchLongitudeDirection();
+
+            //for (int ir = 1; ir <= NMREGN; ir++)
+            //{
+            //    int iBegin = NPOINT[ir];
+            //    int numVer = NPOINT[ir + 1] - iBegin;
+            //    var polygon = new Polygon(N)
+            //    bool isPointContained = Polygon.ContainsPoint(x0, y0, includeEdge: true);
+
+            //    if (isPointContained)
+            //    {
+            //        return ir;
+            //    }
+            //}
+
+            return 0;
+        }
 
 
 

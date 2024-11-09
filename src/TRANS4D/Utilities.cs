@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
+
+using static TRANS4D.Constants;
 
 namespace TRANS4D
 {
@@ -116,9 +119,42 @@ namespace TRANS4D
         //    return MJD;
         //}
 
-        public static double ToRadians(this double degrees) => degrees * Math.PI / 180.0;
+        public static double ToRadians(this double degrees) => degrees * (1 / DEGREES_PER_RADIAN);
 
-        public static double ToDegrees(this double radians) => radians * 180.0 / Math.PI;
+        public static double ToDegrees(this double radians) => radians * DEGREES_PER_RADIAN;
+
+        /// <summary>
+        /// Switches the direction of the longitude from east to west or vice versa.
+        /// </summary>
+        /// <param name="longitudeRadians">longitude in radians</param>
+        /// <returns></returns>
+        public static double SwitchLongitudeDirection(this double longitudeRadians)
+        {
+            longitudeRadians = TWOPI - longitudeRadians;
+            return NormalizeRadians(longitudeRadians);
+        }
+
+        /// <summary>
+        /// Normalize the angle to be between 0 and 2pi
+        /// </summary>
+        /// <param name="radians">angle in radians</param>
+        /// <returns>a positive longitude value in radians that is 
+        /// </returns>
+        public static double NormalizeRadians(this double radians)
+        {
+            double multiplesOfTwoPi = Math.Floor(Math.Abs(radians) / TWOPI);
+
+            if (radians < 0)
+            {
+                radians += (multiplesOfTwoPi + 1) * TWOPI;
+            }
+            else
+            {
+                radians -= multiplesOfTwoPi * TWOPI;
+            }
+
+            return radians;
+        }
 
         public static double DmsToDecimalDegrees(double degrees, double minutes, double seconds)
         {
