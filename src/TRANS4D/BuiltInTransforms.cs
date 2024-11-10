@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using TRANS4D.Compatibility;
+using static TRANS4D.Constants;
 
 namespace TRANS4D
 {
@@ -23,24 +24,13 @@ namespace TRANS4D
         //scale[1] = 0.36891e-9;
         //dscale[1] = -0.07201e-9;
         //refepc[1] = 2010.0e0;
-        public static readonly TransformationParameters ITRF_2014_TO_NAD_1983_2011 = new TransformationParameters()
-        {
-            Tx = 1.00530e0,
-            Ty = -1.9021e0,
-            Tz = -.54157e0,
-            Dtx = 0.00079e0,
-            Dty = -.00060e0,
-            Dtz = -.00144e0,
-            Rx = 0.02678138 / Constants.RHOSEC,
-            Ry = -0.00042027 / Constants.RHOSEC,
-            Rz = 0.01093206 / Constants.RHOSEC,
-            Drx = 0.00006667 / Constants.RHOSEC,
-            Dry = -.00075744 / Constants.RHOSEC,
-            Drz = -.00005133 / Constants.RHOSEC,
-            Scale = 0.36891e-9,
-            DScale = -0.07201e-9,
-            RefEpoch = 2010.0e0
-        };
+        public static readonly TransformationParameters ITRF_2014_TO_NAD_1983_2011 = new TransformationParameters(
+            tx: 1.00530e0, ty: -1.9021e0, tz: -.54157e0,
+            dtx: 0.00079e0, dty: -.00060e0, dtz: -.00144e0,
+            rx: 0.02678138 / RHOSEC, ry: -0.00042027 / RHOSEC, rz: 0.01093206 / RHOSEC,
+            drx: 0.00006667 / RHOSEC, dry: -.00075744 / RHOSEC, drz: -.00005133 / RHOSEC,
+            scale: 0.36891e-9, dscale: -0.07201e-9, refEpoch: 2010.0e0);
+
 
         // *** From ITRF2014 to ITRF88
         //tx[2] = 0.0254e0;
@@ -58,24 +48,12 @@ namespace TRANS4D
         //scale[2] = 11.29e-9;
         //dscale[2] = 0.12e-9;
         //refepc[2] = 2010.0e0;
-        public static readonly TransformationParameters ITRF_2014_TO_ITRF_1988 = new TransformationParameters()
-        {
-            Tx = 0.0254e0,
-            Ty = -.0005e0,
-            Tz = -.1548e0,
-            Dtx = 0.0001e0,
-            Dty = -.0005e0,
-            Dtz = -.0033e0,
-            Rx = -.0001e0 / Constants.RHOSEC,
-            Ry = 0.0e0,
-            Rz = -0.00026e0 / Constants.RHOSEC,
-            Drx = 0.0e0,
-            Dry = 0.0e0,
-            Drz = -.00002e0 / Constants.RHOSEC,
-            Scale = 11.29e-9,
-            DScale = 0.12e-9,
-            RefEpoch = 2010.0e0
-        };
+        public static readonly TransformationParameters ITRF_2014_TO_ITRF_1988 = new TransformationParameters(
+            tx: 0.0254e0, ty: -.0005e0, tz: -.1548e0,
+            dtx: 0.0001e0, dty: -.0005e0, dtz: -.0033e0,
+            rx: -.0001e0 / RHOSEC, ry: 0.0e0, rz: -0.00026e0 / RHOSEC,
+            drx: 0.0e0, dry: 0.0e0, drz: -.00002e0 / RHOSEC,
+            scale: 11.29e-9, dscale: 0.12e-9, refEpoch: 2010.0e0);
 
         // *** From ITRF2014 to ITRF89
         //  tx[3] = 0.0304e0;
@@ -93,24 +71,12 @@ namespace TRANS4D
         //scale[3] = 8.19e-9;
         //dscale[3] = 0.12e-9;
         //refepc[3] = 2010.0e0;
-        public static readonly TransformationParameters ITRF_2014_TO_ITRF_1989 = new TransformationParameters()
-        {
-            Tx = 0.0304e0,
-            Ty = 0.0355e0,
-            Tz = -.1308e0,
-            Dtx = 0.0001e0,
-            Dty = -.0005e0,
-            Dtz = -.0033e0,
-            Rx = 0.0e0,
-            Ry = 0.0e0,
-            Rz = -.00026e0 / Constants.RHOSEC,
-            Drx = 0.0e0,
-            Dry = 0.0e0,
-            Drz = -.00002e0 / Constants.RHOSEC,
-            Scale = 8.19e-9,
-            DScale = 0.12e-9,
-            RefEpoch = 2010.0e0
-        };
+        public static readonly TransformationParameters ITRF_2014_TO_ITRF_1989 = new TransformationParameters(
+            tx: 0.0304e0, ty: 0.0355e0, tz: -.1308e0,
+            dtx: 0.0001e0, dty: -.0005e0, dtz: -.0033e0,
+            rx: 0.0e0, ry: 0.0e0, rz: -.00026e0 / RHOSEC,
+            drx: 0.0e0, dry: 0.0e0, drz: -.00002e0 / RHOSEC,
+            scale: 8.19e-9, dscale: 0.12e-9, refEpoch: 2010.0e0);
 
         // *** From ITRF2014 to ITRF90
         //tx[4] = 0.0254e0;
@@ -128,24 +94,12 @@ namespace TRANS4D
         //scale[4] = 4.79e-9;
         //dscale[4] = 0.12e-9;
         //refepc[4] = 2010.0e0;
-        public static readonly TransformationParameters ITRF_2014_TO_ITRF_1990 = new TransformationParameters()
-        {
-            Tx = 0.0254e0,
-            Ty = 0.0115e0,
-            Tz = -.0928e0,
-            Dtx = 0.0001e0,
-            Dty = -.0005e0,
-            Dtz = -.0033e0,
-            Rx = 0.0e0,
-            Ry = 0.0e0,
-            Rz = -.00026e0 / Constants.RHOSEC,
-            Drx = 0.0e0,
-            Dry = 0.0e0,
-            Drz = -.00002e0 / Constants.RHOSEC,
-            Scale = 4.79e-9,
-            DScale = 0.12e-9,
-            RefEpoch = 2010.0e0
-        };
+        public static readonly TransformationParameters ITRF_2014_TO_ITRF_1990 = new TransformationParameters(
+            tx: 0.0254e0, ty: 0.0115e0, tz: -.0928e0,
+            dtx: 0.0001e0, dty: -.0005e0, dtz: -.0033e0,
+            rx: 0.0e0, ry: 0.0e0, rz: -.00026e0 / RHOSEC,
+            drx: 0.0e0, dry: 0.0e0, drz: -.00002e0 / RHOSEC,
+            scale: 4.79e-9, dscale: 0.12e-9, refEpoch: 2010.0e0);
 
         // *** From ITRF2014 to ITRF91
         //tx[5] = 0.0274e0;
@@ -163,24 +117,12 @@ namespace TRANS4D
         //scale[5] = 4.49e-9;
         //dscale[5] = 0.12e-9;
         //refepc[5] = 2010.0e0;
-        public static readonly TransformationParameters ITRF_2014_TO_ITRF_1991 = new TransformationParameters()
-        {
-            Tx = 0.0274e0,
-            Ty = 0.0155e0,
-            Tz = -.0768e0,
-            Dtx = 0.0001e0,
-            Dty = -.0005e0,
-            Dtz = -.0033e0,
-            Rx = 0.0e0,
-            Ry = 0.0e0,
-            Rz = -.000026e0 / Constants.RHOSEC,
-            Drx = 0.0e0,
-            Dry = 0.0e0,
-            Drz = -.00002e0 / Constants.RHOSEC,
-            Scale = 4.49e-9,
-            DScale = 0.12e-9,
-            RefEpoch = 2010.0e0
-        };
+        public static readonly TransformationParameters ITRF_2014_TO_ITRF_1991 = new TransformationParameters(
+            tx: 0.0274e0, ty: 0.0155e0, tz: -.0768e0,
+            dtx: 0.0001e0, dty: -.0005e0, dtz: -.0033e0,
+            rx: 0.0e0, ry: 0.0e0, rz: -.000026e0 / RHOSEC,
+            drx: 0.0e0, dry: 0.0e0, drz: -.00002e0 / RHOSEC,
+            scale: 4.49e-9, dscale: 0.12e-9, refEpoch: 2010.0e0);
 
         // *** From ITRF2014 to ITRF92
         //tx[6] = 0.0154e0;
@@ -198,24 +140,12 @@ namespace TRANS4D
         //scale[6] = 3.09e-9;
         //dscale[6] = 0.12e-9;
         //refepc[6] = 2010.0e0;
-        public static readonly TransformationParameters ITRF_2014_TO_ITRF_1992 = new TransformationParameters()
-        {
-            Tx = 0.0154e0,
-            Ty = 0.0015e0,
-            Tz = -.0708e0,
-            Dtx = 0.0001e0,
-            Dty = -.0005e0,
-            Dtz = -.0033e0,
-            Rx = 0.0e0,
-            Ry = 0.0e0,
-            Rz = -.00026e0 / Constants.RHOSEC,
-            Drx = 0.0e0,
-            Dry = 0.0e0,
-            Drz = -.00002e0 / Constants.RHOSEC,
-            Scale = 3.09e-9,
-            DScale = 0.12e-9,
-            RefEpoch = 2010.0e0
-        };
+        public static readonly TransformationParameters ITRF_2014_TO_ITRF_1992 = new TransformationParameters(
+            tx: 0.0154e0, ty: 0.0015e0, tz: -.0708e0,
+            dtx: 0.0001e0, dty: -.0005e0, dtz: -.0033e0,
+            rx: 0.0e0, ry: 0.0e0, rz: -.00026e0 / RHOSEC,
+            drx: 0.0e0, dry: 0.0e0, drz: -.00002e0 / RHOSEC,
+            scale: 3.09e-9, dscale: 0.12e-9, refEpoch: 2010.0e0);
 
         // *** From ITRF2014 to ITRF93
         //tx[7] = -.0504e0;
@@ -233,24 +163,12 @@ namespace TRANS4D
         //scale[7] = 4.29e-9;
         //dscale[7] = 0.12e-9;
         //refepc[7] = 2010.0e0;
-        public static readonly TransformationParameters ITRF_2014_TO_ITRF_1993 = new TransformationParameters()
-        {
-            Tx = -.0504e0,
-            Ty = 0.0033e0,
-            Tz = -.0602e0,
-            Dtx = -.0028e0,
-            Dty = -.0001e0,
-            Dtz = -.0025e0,
-            Rx = 0.00281e0 / Constants.RHOSEC,
-            Ry = 0.00338e0 / Constants.RHOSEC,
-            Rz = -.00040e0 / Constants.RHOSEC,
-            Drx = .00011e0 / Constants.RHOSEC,
-            Dry = .00019e0 / Constants.RHOSEC,
-            Drz = -.00007e0 / Constants.RHOSEC,
-            Scale = 4.29e-9,
-            DScale = 0.12e-9,
-            RefEpoch = 2010.0e0
-        };
+        public static readonly TransformationParameters ITRF_2014_TO_ITRF_1993 = new TransformationParameters(
+            tx: -.0504e0, ty: 0.0033e0, tz: -.0602e0,
+            dtx: -.0028e0, dty: -.0001e0, dtz: -.0025e0,
+            rx: 0.00281e0 / RHOSEC, ry: 0.00338e0 / RHOSEC, rz: -.00040e0 / RHOSEC,
+            drx: .00011e0 / RHOSEC, dry: .00019e0 / RHOSEC, drz: -.00007e0 / RHOSEC,
+            scale: 4.29e-9, dscale: 0.12e-9, refEpoch: 2010.0e0);
 
         // *** From ITRF2014 to ITRF94 and ITRF96
         //tx[8] = 0.0074e0;
@@ -268,24 +186,12 @@ namespace TRANS4D
         //scale[8] = 3.80e-9;
         //dscale[8] = 0.12e-9;
         //refepc[8] = 2010.0e0;
-        public static readonly TransformationParameters ITRF_2014_TO_ITRF_1994_OR_1996 = new TransformationParameters()
-        {
-            Tx = 0.0074e0,
-            Ty = -.0005e0,
-            Tz = -.0628e0,
-            Dtx = 0.0001e0,
-            Dty = -.0005e0,
-            Dtz = -.0033e0,
-            Rx = 0.0e0,
-            Ry = 0.0e0,
-            Rz = -.00026e0 / Constants.RHOSEC,
-            Drx = 0.0e0,
-            Dry = 0.0e0,
-            Drz = -.00002e0 / Constants.RHOSEC,
-            Scale = 3.80e-9,
-            DScale = 0.12e-9,
-            RefEpoch = 2010.0e0
-        };
+        public static readonly TransformationParameters ITRF_2014_TO_ITRF_1994_OR_1996 = new TransformationParameters(
+            tx: 0.0074e0, ty: -.0005e0, tz: -.0628e0,
+            dtx: 0.0001e0, dty: -.0005e0, dtz: -.0033e0,
+            rx: 0.0e0, ry: 0.0e0, rz: -.00026e0 / RHOSEC,
+            drx: 0.0e0, dry: 0.0e0, drz: -.00002e0 / RHOSEC,
+            scale: 3.80e-9, dscale: 0.12e-9, refEpoch: 2010.0e0);
 
         // *** From ITRF2014 to ITRF97 
         //tx[9] = 0.0074e0;
@@ -303,24 +209,12 @@ namespace TRANS4D
         //scale[9] = 3.80e-9;
         //dscale[9] = 0.12e-9;
         //refepc[9] = 2010.0e0;
-        public static readonly TransformationParameters ITRF_2014_TO_ITRF_1997 = new TransformationParameters()
-        {
-            Tx = 0.0074e0,
-            Ty = -.0005e0,
-            Tz = -.0628e0,
-            Dtx = 0.0001e0,
-            Dty = -.0005e0,
-            Dtz = -.0033e0,
-            Rx = 0.0e0,
-            Ry = 0.0e0,
-            Rz = -.00026e0 / Constants.RHOSEC,
-            Drx = 0.0e0,
-            Dry = 0.0e0,
-            Drz = -0.00002e0 / Constants.RHOSEC,
-            Scale = 3.80e-9,
-            DScale = 0.12e-9,
-            RefEpoch = 2010.0e0
-        };
+        public static readonly TransformationParameters ITRF_2014_TO_ITRF_1997 = new TransformationParameters(
+            tx: 0.0074e0, ty: -.0005e0, tz: -.0628e0,
+            dtx: 0.0001e0, dty: -.0005e0, dtz: -.0033e0,
+            rx: 0.0e0, ry: 0.0e0, rz: -.00026e0 / RHOSEC,
+            drx: 0.0e0, dry: 0.0e0, drz: -0.00002e0 / RHOSEC,
+            scale: 3.80e-9, dscale: 0.12e-9, refEpoch: 2010.0e0);
 
         // *** From ITRF2014 to ITRF2014-PMM for North America
         //tx[10] = 0.0e0;
@@ -338,24 +232,12 @@ namespace TRANS4D
         //scale[10] = 0.0e-9;
         //dscale[10] = 0.0e-9;
         //refepc[10] = 2010.0e0;
-        public static readonly TransformationParameters ITRF_2014_TO_ITRF_2014_PMM_NORTH_AMERICA = new TransformationParameters()
-        {
-            Tx = 0.0e0,
-            Ty = 0.0e0,
-            Tz = 0.0e0,
-            Dtx = 0.0e0,
-            Dty = 0.0e0,
-            Dtz = 0.0e0,
-            Rx = 0.0e0,
-            Ry = 0.0e0,
-            Rz = 0.0e0,
-            Drx = +0.000024e0 / Constants.RHOSEC,
-            Dry = -0.000694e0 / Constants.RHOSEC,
-            Drz = -0.000063e0 / Constants.RHOSEC,
-            Scale = 0.0e-9,
-            DScale = 0.0e-9,
-            RefEpoch = 2010.0e0
-        };
+        public static readonly TransformationParameters ITRF_2014_TO_ITRF_2014_PMM_NORTH_AMERICA = new TransformationParameters(
+            tx: 0.0e0, ty: 0.0e0, tz: 0.0e0,
+            dtx: 0.0e0, dty: 0.0e0, dtz: 0.0e0,
+            rx: 0.0e0, ry: 0.0e0, rz: 0.0e0,
+            drx: +0.000024e0 / RHOSEC, dry: -0.000694e0 / RHOSEC, drz: -0.000063e0 / RHOSEC,
+            scale: 0.0e-9, dscale: 0.0e-9, refEpoch: 2010.0e0);
 
         // *** From ITRF2014 to ITRF2000
         //tx[11] = 0.0007e0;
@@ -373,24 +255,12 @@ namespace TRANS4D
         //scale[11] = 2.12e-9;
         //dscale[11] = 0.11e-9;
         //refepc[11] = 2010.0e0;
-        public static readonly TransformationParameters ITRF_2014_TO_ITRF_2000 = new TransformationParameters()
-        {
-            Tx = 0.0007e0,
-            Ty = 0.0012e0,
-            Tz = -.0261e0,
-            Dtx = 0.0001e0,
-            Dty = 0.0001e0,
-            Dtz = -0.0019e0,
-            Rx = 0.0e0,
-            Ry = 0.0e0,
-            Rz = 0.0e0,
-            Drx = 0.0e0,
-            Dry = 0.0e0,
-            Drz = 0.0e0,
-            Scale = 2.12e-9,
-            DScale = 0.11e-9,
-            RefEpoch = 2010.0e0
-        };
+        public static readonly TransformationParameters ITRF_2014_TO_ITRF_2000 = new TransformationParameters(
+            tx: 0.0007e0, ty: 0.0012e0, tz: -.0261e0,
+            dtx: 0.0001e0, dty: 0.0001e0, dtz: -0.0019e0,
+            rx: 0.0e0, ry: 0.0e0, rz: 0.0e0,
+            drx: 0.0e0, dry: 0.0e0, drz: 0.0e0,
+            scale: 2.12e-9, dscale: 0.11e-9, refEpoch: 2010.0e0);
 
         // *** From ITRF2014 to PACP00 or PA11
         // *** Based on the rotation rate of the Pacific plate
@@ -410,24 +280,12 @@ namespace TRANS4D
         //scale[12] = 2.12e-9;
         //dscale[12] = 0.11e-9;
         //refepc[12] = 2010.0e0;
-        public static readonly TransformationParameters ITRF_2014_TO_PACP_2000_OR_PA_2011 = new TransformationParameters()
-        {
-            Tx = 0.9109e0,
-            Ty = -2.0129e0,
-            Tz = -0.5863e0,
-            Dtx = 0.0001e0,
-            Dty = 0.0001e0,
-            Dtz = -.0019e0,
-            Rx = 0.022749e0 / Constants.RHOSEC,
-            Ry = 0.026560e0 / Constants.RHOSEC,
-            Rz = -.025706e0 / Constants.RHOSEC,
-            Drx = -.000344e0 / Constants.RHOSEC,
-            Dry = 0.001007e0 / Constants.RHOSEC,
-            Drz = -.002186e0 / Constants.RHOSEC,
-            Scale = 2.12e-9,
-            DScale = 0.11e-9,
-            RefEpoch = 2010.0e0
-        };
+        public static readonly TransformationParameters ITRF_2014_TO_PACP_2000_OR_PA_2011 = new TransformationParameters(
+            tx: 0.9109e0, ty: -2.0129e0, tz: -0.5863e0,
+            dtx: 0.0001e0, dty: 0.0001e0, dtz: -.0019e0,
+            rx: 0.022749e0 / RHOSEC, ry: 0.026560e0 / RHOSEC, rz: -.025706e0 / RHOSEC,
+            drx: -.000344e0 / RHOSEC, dry: 0.001007e0 / RHOSEC, drz: -.002186e0 / RHOSEC,
+            scale: 2.12e-9, dscale: 0.11e-9, refEpoch: 2010.0e0);
 
         // *** From ITRF2014 to MARP00 or MA11
         // *** Based on the velocity of GUAM
@@ -446,24 +304,12 @@ namespace TRANS4D
         //scale[13] = 2.12e-9;
         //dscale[13] = 0.11e-9;
         //refepc[13] = 2010.0e0;
-        public static readonly TransformationParameters ITRF_2014_TO_MARP_2000_OR_MA_2011 = new TransformationParameters()
-        {
-            Tx = 0.9109e0,
-            Ty = -2.0129e0,
-            Tz = -0.5863e0,
-            Dtx = 0.0001e0,
-            Dty = 0.0001e0,
-            Dtz = -.0019e0,
-            Rx = 0.028711e0 / Constants.RHOSEC,
-            Ry = 0.011785e0 / Constants.RHOSEC,
-            Rz = 0.004417e0 / Constants.RHOSEC,
-            Drx = -.000020e0 / Constants.RHOSEC,
-            Dry = 0.000105e0 / Constants.RHOSEC,
-            Drz = -.000347e0 / Constants.RHOSEC,
-            Scale = 2.12e-9,
-            DScale = 0.11e-9,
-            RefEpoch = 2010.0e0
-        };
+        public static readonly TransformationParameters ITRF_2014_TO_MARP_2000_OR_MA_2011 = new TransformationParameters(
+            tx: 0.9109e0, ty: -2.0129e0, tz: -0.5863e0,
+            dtx: 0.0001e0, dty: 0.0001e0, dtz: -.0019e0,
+            rx: 0.028711e0 / RHOSEC, ry: 0.011785e0 / RHOSEC, rz: 0.004417e0 / RHOSEC,
+            drx: -.000020e0 / RHOSEC, dry: 0.000105e0 / RHOSEC, drz: -.000347e0 / RHOSEC,
+            scale: 2.12e-9, dscale: 0.11e-9, refEpoch: 2010.0e0);
 
         //*** From ITRF2014 to ITRF2005
         //tx[14] = 0.0026e0;
@@ -481,24 +327,12 @@ namespace TRANS4D
         //scale[14] = 0.92e-9;
         //dscale[14] = 0.03e-9;
         //refepc[14] = 2010.0e0;
-        public static readonly TransformationParameters ITRF_2014_TO_ITRF_2005 = new TransformationParameters()
-        {
-            Tx = 0.0026e0,
-            Ty = 0.0010e0,
-            Tz = -.0023e0,
-            Dtx = 0.0003e0,
-            Dty = 0.0000e0,
-            Dtz = -.0001e0,
-            Rx = 0.0e0,
-            Ry = 0.0e0,
-            Rz = 0.0e0,
-            Drx = 0.0e0,
-            Dry = 0.0e0,
-            Drz = 0.0e0,
-            Scale = 0.92e-9,
-            DScale = 0.03e-9,
-            RefEpoch = 2010.0e0
-        };
+        public static readonly TransformationParameters ITRF_2014_TO_ITRF_2005 = new TransformationParameters(
+            tx: 0.0026e0, ty: 0.0010e0, tz: -.0023e0,
+            dtx: 0.0003e0, dty: 0.0000e0, dtz: -.0001e0,
+            rx: 0.0e0, ry: 0.0e0, rz: 0.0e0,
+            drx: 0.0e0, dry: 0.0e0, drz: 0.0e0,
+            scale: 0.92e-9, dscale: 0.03e-9, refEpoch: 2010.0e0);
 
         //*** From ITRF2014 to ITRF2008 [also IGS08 and IGB08]
         //tx[15] = 0.0016e0;
@@ -516,24 +350,12 @@ namespace TRANS4D
         //scale[15] = -0.02e-9;
         //dscale[15] = 0.03e-9;
         //refepc[15] = 2010.0e0;
-        public static readonly TransformationParameters ITRF_2014_TO_ITRF_2008_OR_IGS08_OR_IGB08 = new TransformationParameters()
-        {
-            Tx = 0.0016e0,
-            Ty = 0.0019e0,
-            Tz = 0.0024e0,
-            Dtx = 0.0e0,
-            Dty = 0.0e0,
-            Dtz = -.0001e0,
-            Rx = 0.0e0,
-            Ry = 0.0e0,
-            Rz = 0.0e0,
-            Drx = 0.0e0,
-            Dry = 0.0e0,
-            Drz = 0.0e0,
-            Scale = -0.02e-9,
-            DScale = 0.03e-9,
-            RefEpoch = 2010.0e0
-        };
+        public static readonly TransformationParameters ITRF_2014_TO_ITRF_2008_OR_IGS08_OR_IGB08 = new TransformationParameters(
+            tx: 0.0016e0, ty: 0.0019e0, tz: 0.0024e0,
+            dtx: 0.0e0, dty: 0.0e0, dtz: -.0001e0,
+            rx: 0.0e0, ry: 0.0e0, rz: 0.0e0,
+            drx: 0.0e0, dry: 0.0e0, drz: 0.0e0,
+            scale: -0.02e-9, dscale: 0.03e-9, refEpoch: 2010.0e0);
 
         //*** From ITRF2014 to ITRF2014
         //tx[16]     = 0.0e0;
@@ -551,24 +373,12 @@ namespace TRANS4D
         //scale[16]  = 0.0e0;
         //dscale[16] =  0.0e0;               
         //refepc[16] =  2010.0e0;
-        public static readonly TransformationParameters ITRF_2014_TO_ITRF_2014 = new TransformationParameters()
-        {
-            Tx = 0.0e0,
-            Ty = 0.0e0,
-            Tz = 0.0e0,
-            Dtx = 0.0e0,
-            Dty = 0.0e0,
-            Dtz = 0.0e0,
-            Rx = 0.0e0,
-            Ry = 0.0e0,
-            Rz = 0.0e0,
-            Drx = 0.0e0,
-            Dry = 0.0e0,
-            Drz = 0.0e0,
-            Scale = 0.0e0,
-            DScale = 0.0e0,
-            RefEpoch = 2010.0e0
-        };
+        public static readonly TransformationParameters ITRF_2014_TO_ITRF_2014 = new TransformationParameters(
+            tx: 0.0e0, ty: 0.0e0, tz: 0.0e0,
+            dtx: 0.0e0, dty: 0.0e0, dtz: 0.0e0,
+            rx: 0.0e0, ry: 0.0e0, rz: 0.0e0,
+            drx: 0.0e0, dry: 0.0e0, drz: 0.0e0,
+            scale: 0.0e0, dscale: 0.0e0, refEpoch: 2010.0e0);
 
         //*** From ITRF2014 to Plate Motion Model for Caribbean
         //tx(17) = 0.00d0
@@ -586,24 +396,12 @@ namespace TRANS4D
         //scale(17) = 0.000d0
         //dscale(17) = 0.000d0
         //refepc(17) = 2010.0d0
-        public static readonly TransformationParameters ITRF_2014_TO_CATRF_2022 = new TransformationParameters()
-        {
-            Tx = 0.00e0,
-            Ty = 0.00e0,
-            Tz = 0.00e0,
-            Dtx = 0.000e0,
-            Dty = 0.000e0,
-            Dtz = 0.000e0,
-            Rx = 0.000e0 / Constants.RHOSEC,
-            Ry = 0.000e0 / Constants.RHOSEC,
-            Rz = 0.000e0 / Constants.RHOSEC,
-            Drx = -0.000000000188e0,
-            Dry = -0.000000004730e0,
-            Drz = +0.000000002963e0,
-            Scale = 0.000e0,
-            DScale = 0.000e0,
-            RefEpoch = 2010.0e0
-        };
+        public static readonly TransformationParameters ITRF_2014_TO_CATRF_2022 = new TransformationParameters(
+            tx: 0.00e0, ty: 0.00e0, tz: 0.00e0,
+            dtx: 0.000e0, dty: 0.000e0, dtz: 0.000e0,
+            rx: 0.000e0, ry: 0.000e0, rz: 0.000e0,
+            drx: -0.000000000188e0, dry: -0.000000004730e0, drz: +0.000000002963e0,
+            scale: 0.000e0, dscale: 0.000e0, refEpoch: 2010.0e0);
 
         //*** From ITRF2014 to Plate Motion Model for Pacific
 
@@ -621,24 +419,12 @@ namespace TRANS4D
         //scale(18) = 0.00d0
         //dscale(18) = 0.000d0
         //refepc(18) = 2010.0d0
-        public static readonly TransformationParameters ITRF_2014_TO_PMM_PACIFIC = new TransformationParameters()
-        {
-            Tx = 0.00e0,
-            Ty = 0.00e0,
-            Tz = 0.00e0,
-            Dtx = 0.00e0,
-            Dty = 0.00e0,
-            Dtz = 0.00e0,
-            Rx = 0.00e0,
-            Ry = 0.00e0,
-            Rz = 0.00e0,
-            Drx = -0.000000001983e0,
-            Dry = +0.000000005076e0,
-            Drz = -0.000000010516e0,
-            Scale = 0.00e0,
-            DScale = 0.000e0,
-            RefEpoch = 2010.0e0
-        };
+        public static readonly TransformationParameters ITRF_2014_TO_PMM_PACIFIC = new TransformationParameters(
+            tx: 0.00e0, ty: 0.00e0, tz: 0.00e0,
+            dtx: 0.00e0, dty: 0.00e0, dtz: 0.00e0,
+            rx: 0.00e0, ry: 0.00e0, rz: 0.00e0,
+            drx: -0.000000001983e0, dry: +0.000000005076e0, drz: -0.000000010516e0,
+            scale: 0.00e0, dscale: 0.000e0, refEpoch: 2010.0e0);
 
         //    *** From ITRF2014 to Plate Motion Model for Mariana
 
@@ -656,24 +442,12 @@ namespace TRANS4D
         //scale(19) = 0.00d0
         //dscale(19) = 0.000d0
         //refepc(19) = 2010.0d0
-        public static readonly TransformationParameters ITRF_2014_TO_PMM_MARIANA = new TransformationParameters()
-        {
-            Tx = 0.00e0,
-            Ty = 0.00e0,
-            Tz = 0.00e0,
-            Dtx = 0.00e0,
-            Dty = 0.00e0,
-            Dtz = 0.00e0,
-            Rx = 0.00e0,
-            Ry = 0.00e0,
-            Rz = 0.00e0,
-            Drx = -0.000000039217e0,
-            Dry = +0.000000028783e0,
-            Drz = +0.000000010467e0,
-            Scale = 0.00e0,
-            DScale = 0.000e0,
-            RefEpoch = 2010.0e0
-        };
+        public static readonly TransformationParameters ITRF_2014_TO_PMM_MARIANA = new TransformationParameters(
+            tx: 0.00e0, ty: 0.00e0, tz: 0.00e0,
+            dtx: 0.00e0, dty: 0.00e0, dtz: 0.00e0,
+            rx: 0.00e0, ry: 0.00e0, rz: 0.00e0,
+            drx: -0.000000039217e0, dry: +0.000000028783e0, drz: +0.000000010467e0,
+            scale: 0.00e0, dscale: 0.000e0, refEpoch: 2010.0e0);
 
         //    *** From ITRF2014 to Plate Motion Model for Bering
         //    tx(20) = 0.00d0
@@ -690,24 +464,12 @@ namespace TRANS4D
         //scale(20) = 0.00d0
         //dscale(20) = 0.000d0
         //refepc(20) = 2010.0d0
-        public static readonly TransformationParameters ITRF_2014_TO_PMM_BERING = new TransformationParameters()
-        {
-            Tx = 0.00e0,
-            Ty = 0.00e0,
-            Tz = 0.00e0,
-            Dtx = 0.00e0,
-            Dty = 0.00e0,
-            Dtz = 0.00e0,
-            Rx = 0.00e0,
-            Ry = 0.00e0,
-            Rz = 0.00e0,
-            Drx = +0.000000001556e0,
-            Dry = -0.000000003550e0,
-            Drz = -0.000000001981e0,
-            Scale = 0.00e0,
-            DScale = 0.000e0,
-            RefEpoch = 2010.0e0
-        };
+        public static readonly TransformationParameters ITRF_2014_TO_PMM_BERING = new TransformationParameters(
+            tx: 0.00e0, ty: 0.00e0, tz: 0.00e0,
+            dtx: 0.00e0, dty: 0.00e0, dtz: 0.00e0,
+            rx: 0.00e0, ry: 0.00e0, rz: 0.00e0,
+            drx: +0.000000001556e0, dry: -0.000000003550e0, drz: -0.000000001981e0,
+            scale: 0.00e0, dscale: 0.000e0, refEpoch: 2010.0e0);
 
         //    *** From ITRF2014 to ITRF2020
 
@@ -726,24 +488,12 @@ namespace TRANS4D
         //scale(21) = 0.00000000042d0
         //dscale(21) = 0.0d0
         //refepc(21) = 2010.00d0
-        public static readonly TransformationParameters ITRF_2014_TO_ITRF_2020 = new TransformationParameters()
-        {
-            Tx = 0.0014e0,
-            Ty = 0.0014e0,
-            Tz = -0.0024e0,
-            Dtx = 0.0e0,
-            Dty = 0.0001e0,
-            Dtz = -0.0002e0,
-            Rx = 0.0e0,
-            Ry = 0.0e0,
-            Rz = 0.0e0,
-            Drx = 0.0e0,
-            Dry = 0.0e0,
-            Drz = 0.0e0,
-            Scale = 0.00000000042e0,
-            DScale = 0.0e0,
-            RefEpoch = 2010.00e0
-        };
+        public static readonly TransformationParameters ITRF_2014_TO_ITRF_2020 = new TransformationParameters(
+            tx: 0.0014e0, ty: 0.0014e0, tz: -0.0024e0,
+            dtx: 0.0e0, dty: 0.0001e0, dtz: -0.0002e0,
+            rx: 0.0e0, ry: 0.0e0, rz: 0.0e0,
+            drx: 0.0e0, dry: 0.0e0, drz: 0.0e0,
+            scale: 0.00000000042e0, dscale: 0.0e0, refEpoch: 2010.00e0);
 
 
         public static readonly FortranArray<TransformationParameters> SupportedTransformations =

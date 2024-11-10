@@ -169,7 +169,7 @@ namespace TRANS4D
                 itrf2014CoordinatesXyz = transformationParameters.TransformInverse(xyz, date.ToEpoch());
             }
 
-            //// Convert to geodetic coordinates
+            // Convert to geodetic coordinates
 
             //if (!FRMXYZ(X1, Y1, Z1, RLAT, ELON, EHT14))
             var (itrf2014CoordinatesGeodetic, success) = GRS80.XYZToLatLongHeight(itrf2014CoordinatesXyz);

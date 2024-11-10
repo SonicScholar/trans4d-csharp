@@ -129,7 +129,6 @@
         {
             var piOver2 = Math.PI / 2.0;
             var threePiOver2 = 3.0 * Math.PI / 2.0;
-            var twoPi = 2.0 * Math.PI;
 
             Assert.Equal(0.0, 0.0.SwitchLongitudeDirection());
             Assert.Equal(threePiOver2, piOver2.SwitchLongitudeDirection());

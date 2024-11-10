@@ -18,6 +18,30 @@ namespace TRANS4D
 
     public class TransformationParameters
     {
+        public TransformationParameters(
+            double tx, double ty, double tz,
+            double dtx, double dty, double dtz,
+            double rx, double ry, double rz,
+            double drx, double dry, double drz,
+            double scale, double dscale, double refEpoch)
+        {
+            Tx = tx;
+            Ty = ty;
+            Tz = tz;
+            Dtx = dtx;
+            Dty = dty;
+            Dtz = dtz;
+            Rx = rx;
+            Ry = ry;
+            Rz = rz;
+            Drx = drx;
+            Dry = dry;
+            Drz = drz;
+            Scale = scale;
+            DScale = dscale;
+            RefEpoch = refEpoch;
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -30,6 +54,16 @@ namespace TRANS4D
 
         public XYZ TransformInverse(XYZ coordinates, double epochYear)
             => Transform(coordinates, epochYear, true);
+
+        public TransformationParameters GetInverse()
+        {
+            return new TransformationParameters(
+                               -Tx, -Ty, -Tz,
+                              -Dtx, -Dty, -Dtz,
+                              -Rx, -Ry, -Rz,
+                              -Drx, -Dry, -Drz,
+                              -Scale, -DScale, RefEpoch);
+        }
 
         /// <summary>
         /// Performs a 14-parameter transformation on cartesian coordinates using the parameters in this object.
@@ -44,24 +78,16 @@ namespace TRANS4D
             double yIn = coordinates.Y;
             double zIn = coordinates.Z;
 
+            var xform = inverse ? GetInverse() : this;
+
             double yearTimeDiff = epochYear - RefEpoch;
-            double xTranslation = Tx + Dtx * yearTimeDiff;
-            double yTranslation = Ty + Dty * yearTimeDiff;
-            double zTranslation = Tz + Dtz * yearTimeDiff;
-            double xRotation = Rx + Drx * yearTimeDiff;
-            double yRotation = Ry + Dry * yearTimeDiff;
-            double zRotation = Rz + Drz * yearTimeDiff;
-            double scaleDelta = Scale + DScale * yearTimeDiff;
-            if (inverse)
-            {
-                xTranslation = -xTranslation;
-                yTranslation = -yTranslation;
-                zTranslation = -zTranslation;
-                xRotation = -xRotation;
-                yRotation = -yRotation;
-                zRotation = -zRotation;
-                scaleDelta = -scaleDelta;
-            }
+            double xTranslation = xform.Tx + xform.Dtx * yearTimeDiff;
+            double yTranslation = xform.Ty + xform.Dty * yearTimeDiff;
+            double zTranslation = xform.Tz + xform.Dtz * yearTimeDiff;
+            double xRotation = xform.Rx + xform.Drx * yearTimeDiff;
+            double yRotation = xform.Ry + xform.Dry * yearTimeDiff;
+            double zRotation = xform.Rz + xform.Drz * yearTimeDiff;
+            double scaleDelta = xform.Scale + xform.DScale * yearTimeDiff;
 
             double ds = 1.0 + scaleDelta;
 
@@ -74,77 +100,77 @@ namespace TRANS4D
         /// <summary>
         /// Translation in X (meters)
         /// </summary>
-        public double Tx { get; set; }
+        public double Tx { get; }
 
         /// <summary>
         /// Translation in Y (meters)
         /// </summary>
-        public double Ty { get; set; }
+        public double Ty { get; }
 
         /// <summary>
         /// Translation in Z (meters)
         /// </summary>
-        public double Tz { get; set; }
+        public double Tz { get; }
 
         /// <summary>
         /// Translation in X over time (meters/year)
         /// </summary>
-        public double Dtx { get; set; }
+        public double Dtx { get; }
 
         /// <summary>
         /// Translation in Y over time (meters/year)
         /// </summary>
-        public double Dty { get; set; }
+        public double Dty { get; }
 
         /// <summary>
         /// Translation in Z over time (meters/year)
         /// </summary>
-        public double Dtz { get; set; }
+        public double Dtz { get; }
 
         /// <summary>
         /// Rotation about X (radians)
         /// </summary>
-        public double Rx { get; set; }
+        public double Rx { get; }
 
         /// <summary>
         /// Rotation about Y (radians)
         /// </summary>
-        public double Ry { get; set; }
+        public double Ry { get; }
 
         /// <summary>
         /// Rotation about Z (radians)
         /// </summary>
-        public double Rz { get; set; }
+        public double Rz { get; }
 
         /// <summary>
         /// Rotation about X over time (radians/year)
         /// </summary>
-        public double Drx { get; set; }
+        public double Drx { get; }
 
         /// <summary>
         /// Rotation about Y over time (radians/year)
         /// </summary>
-        public double Dry { get; set; }
+        public double Dry { get; }
 
         /// <summary>
         /// Rotation about Z over time (radians/year)
         /// </summary>
-        public double Drz { get; set; }
+        public double Drz { get; }
 
         /// <summary>
         /// Scale
         /// </summary>
-        public double Scale { get; set; }
+        public double Scale { get; }
 
         /// <summary>
         /// Change in scale over time (per year)
         /// </summary>
-        public double DScale { get; set; }
+        public double DScale { get; }
 
         /// <summary>
         /// Reference epoch
         /// </summary>
-        public double RefEpoch { get; set; }
+        public double RefEpoch { get; }
 
 
         public static TransformationParameters ForDatum(Datum datum) =>
