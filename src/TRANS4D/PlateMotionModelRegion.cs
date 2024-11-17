@@ -3,10 +3,10 @@ using TRANS4D.Geometry;
 
 namespace TRANS4D
 {
-    public class PlateMotionModelRegionBase : RegionBase
+    public class PlateMotionModelRegion : RegionBase
     {
-        public PlateMotionModelRegionBase(Polygon polygon) 
-            : base(polygon)
+        public PlateMotionModelRegion(Polygon boundary) 
+            : base(boundary)
         {
         }
 

@@ -15,9 +15,9 @@ namespace TRANS4D.BlockData
 
         private static bool initialized = false;
 
-        private static IReadOnlyList<Polygon> regions;
+        private static IReadOnlyList<IRegion> regions;
 
-        public static IReadOnlyList<Polygon> Regions
+        public static IReadOnlyList<IRegion> Regions
         {
             get
             {
@@ -47,16 +47,20 @@ namespace TRANS4D.BlockData
                 IEnumerable<double> yPts = range.Select(i => _Y[i]);
                 Polygon boundary = new Polygon(xPts, yPts);
                 polygons.Add(boundary);
+
+                // polygons 1 - 10 are the boundaries of grids used to interpolate
+                // velocities. The rest are boundaries of tectonic plates used to
+                // calculate the velocity of a location on a plate using plate
+                // motion model (Euler's fixed point theorem).
+                if (region <= NumGrids)
+                    regions.Add(new GridBasedRegion(boundary));
+                else
+                    regions.Add(new PlateMotionModelRegion(boundary));
             }
 
-            // polygons 1 - 10 are the boundaries of grids used to interpolate
-            // velocities. The rest are boundaries of tectonic plates used to
-            // calculate the velocity of a location on a plate using plate
-            // motion model (Euler's fixed point theorem).
-            var 
-
-
-            return polygons;
+            
+            
+            return regions;
         }
 
         /// <summary>
@@ -65,12 +69,12 @@ namespace TRANS4D.BlockData
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <returns></returns>
-        public Polygon GetBoundary(double x, double y)
+        public IRegion GetBoundary(double x, double y)
         {
-            foreach (var polygon in Regions)
+            foreach (var region in Regions)
             {
-                if (polygon.ContainsPoint(x, y))
-                    return polygon;
+                if (region.ContainsPoint(x, y))
+                    return region;
             }
 
             return null;

@@ -146,8 +146,8 @@ namespace TRANS4D
             //{
             //    int iBegin = NPOINT[ir];
             //    int numVer = NPOINT[ir + 1] - iBegin;
-            //    var polygon = new Polygon(N)
-            //    bool isPointContained = Polygon.ContainsPoint(x0, y0, includeEdge: true);
+            //    var polygon = new Boundary(N)
+            //    bool isPointContained = Boundary.ContainsPoint(x0, y0, includeEdge: true);
 
             //    if (isPointContained)
             //    {

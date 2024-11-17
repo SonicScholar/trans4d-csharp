@@ -7,14 +7,13 @@ namespace TRANS4D.Tests
         [Fact]
         public void InitializeBoundary_Succeeds()
         {
-            var boundaryPolygons = RegionManager.Regions;
+            var regions = RegionManager.Regions;
 
-            Assert.NotNull(boundaryPolygons);
-            Assert.Equal(24, boundaryPolygons.Count);
+            Assert.NotNull(regions);
+            Assert.Equal(24, regions.Count);
 
-            var polygon1 = boundaryPolygons[0];
-            Assert.Equal(4, polygon1.Vertices.Count);
-
+            var region = regions[0];
+            Assert.Equal(4, region.Boundary.Vertices.Count);
         }
     }
 }

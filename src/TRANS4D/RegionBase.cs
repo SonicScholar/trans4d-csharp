@@ -4,16 +4,17 @@ namespace TRANS4D
 {
     public abstract class RegionBase: IRegion
     {
-        protected RegionBase(Polygon polygon)
+        protected RegionBase(Polygon boundary)
         {
-            Polygon = polygon;
+            Boundary = boundary;
         }
 
-        public Polygon Polygon { get; }
+        public Polygon Boundary { get; }
+
 
         public bool ContainsPoint(double latitude, double longitude)
         {
-            Polygon.ContainsPoint(longitude, latitude);
+            return Boundary.ContainsPoint(longitude, latitude);
         }
 
         public abstract VelocityInfo GetVelocity(double latitude, double longitude);
