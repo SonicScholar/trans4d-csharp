@@ -6,35 +6,37 @@ using TRANS4D.Geometry;
 
 namespace TRANS4D.BlockData
 {
-    internal class Boundary
+    internal class RegionManager
     {
-        const int BOUNDARY_SIZE = 5000;
+        const int BoundarySize = 5000;
         const int NPOINT_SIZE = 30;
-        private const int NMREGN = 24;
+        private const int NumRegions = 24;
+        private const int NumGrids = 10;
 
-        private static bool Initialized = false;
+        private static bool initialized = false;
 
-        private static IReadOnlyList<Polygon> boundaryPolygons;
+        private static IReadOnlyList<Polygon> regions;
 
-        public static IReadOnlyList<Polygon> BoundaryPolygons
+        public static IReadOnlyList<Polygon> Regions
         {
             get
             {
-                if (!Initialized)
+                if (!initialized)
                     Init();
-                return boundaryPolygons;
+                return regions;
             }
         }
 
-        private static List<Polygon> InitBoundaryPolygons()
+        private static List<IRegion> InitRegions()
         {
-            List<Polygon> polygons = new List<Polygon>(NMREGN);
+            List<Polygon> polygons = new List<Polygon>(NumRegions);
+            List<IRegion> regions = new List<IRegion>(NumRegions);
             /*
                _NPOINT[1] = 1;
                _NPOINT[2] = 5;
                 ...
             */
-            for (int region = 1; region <= NMREGN; region++)
+            for (int region = 1; region <= NumRegions; region++)
             {
                 int startIndex = _NPOINT[region];
                 int nextRegionIndex = _NPOINT[region + 1];
@@ -47,6 +49,13 @@ namespace TRANS4D.BlockData
                 polygons.Add(boundary);
             }
 
+            // polygons 1 - 10 are the boundaries of grids used to interpolate
+            // velocities. The rest are boundaries of tectonic plates used to
+            // calculate the velocity of a location on a plate using plate
+            // motion model (Euler's fixed point theorem).
+            var 
+
+
             return polygons;
         }
 
@@ -58,7 +67,7 @@ namespace TRANS4D.BlockData
         /// <returns></returns>
         public Polygon GetBoundary(double x, double y)
         {
-            foreach (var polygon in BoundaryPolygons)
+            foreach (var polygon in Regions)
             {
                 if (polygon.ContainsPoint(x, y))
                     return polygon;
@@ -67,7 +76,7 @@ namespace TRANS4D.BlockData
             return null;
         }
 
-        private static readonly FortranArray<double> _X = new FortranArray<double>(BOUNDARY_SIZE);
+        private static readonly FortranArray<double> _X = new FortranArray<double>(BoundarySize);
         private static FortranArray<double> X
         {
             get
@@ -77,7 +86,7 @@ namespace TRANS4D.BlockData
             }
         }
 
-        private static readonly FortranArray<double> _Y = new FortranArray<double>(BOUNDARY_SIZE);
+        private static readonly FortranArray<double> _Y = new FortranArray<double>(BoundarySize);
         public static FortranArray<double> Y
         {
             get
@@ -106,11 +115,11 @@ namespace TRANS4D.BlockData
         {
             if(RadialUnits == RadialUnits.Radians)
                 return;
-            int lastCoordinateIndex = _NPOINT[NMREGN + 1] -1;
+            int lastCoordinateIndex = _NPOINT[NumRegions + 1] -1;
             for (int i = 1; i <= lastCoordinateIndex; i++)
             {
-                _X[i] = _X[i] * Math.PI / 180.0;
-                _Y[i] = _Y[i] * Math.PI / 180.0;
+                _X[i] = _X[i].ToRadians();
+                _Y[i] = _Y[i].ToRadians();
             }
         }
 
@@ -121,17 +130,17 @@ namespace TRANS4D.BlockData
         {
             if (RadialUnits == RadialUnits.Degrees)
                 return;
-            int lastCoordinateIndex = _NPOINT[NMREGN + 1] - 1;
+            int lastCoordinateIndex = _NPOINT[NumRegions + 1] - 1;
             for (int i = 1; i <= lastCoordinateIndex; i++)
             {
-                _X[i] = _X[i] * 180.0 / Math.PI;
-                _Y[i] = _Y[i] * 180.0 / Math.PI;
+                _X[i] = _X[i].ToDegrees();
+                _Y[i] = _Y[i].ToDegrees();
             }
         }
 
         private static void Init()
         {
-            if (Initialized)
+            if (initialized)
                 return;
 
             //todo: maybe break these up into separate regions
@@ -4619,8 +4628,8 @@ namespace TRANS4D.BlockData
             _NPOINT[25] = 4453;
 
             ConvertToRadians();
-            boundaryPolygons = InitBoundaryPolygons();
-            Initialized = true;
+            regions = InitRegions();
+            initialized = true;
         }
     }
 }

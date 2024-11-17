@@ -64,6 +64,9 @@ namespace TRANS4D
             inputVelocity.Y /= 1000.0;
             inputVelocity.Z /= 1000.0;
 
+            //var region = EulerPoleRegion.GetRegion(inDatum, outDatum);
+
+
             var inputTranformParameters = inDatum.GetTransformationParametersForItrf2014();
             var outputTranformParameters = outDatum.GetTransformationParametersForItrf2014();
 

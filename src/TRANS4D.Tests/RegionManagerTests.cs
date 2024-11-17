@@ -2,12 +2,12 @@
 
 namespace TRANS4D.Tests
 {
-    public class BoundaryTests
+    public class RegionManagerTests
     {
         [Fact]
         public void InitializeBoundary_Succeeds()
         {
-            var boundaryPolygons = Boundary.BoundaryPolygons;
+            var boundaryPolygons = RegionManager.Regions;
 
             Assert.NotNull(boundaryPolygons);
             Assert.Equal(24, boundaryPolygons.Count);

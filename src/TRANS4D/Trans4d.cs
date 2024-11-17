@@ -113,7 +113,7 @@ namespace TRANS4D
 
             if (jregn == null)
             {
-                return new VelocityInfo(null, 0.0, 0.0, 0.0);
+                return new VelocityInfo(0.0, 0.0, 0.0);
             }
 
             double vn = 0, ve = 0, vu = 0;
@@ -129,7 +129,7 @@ namespace TRANS4D
                 //TOVNEU(ylat, elon, vx, vy, vz, ref vn, ref ve, ref vu);
             }
 
-            return new VelocityInfo(jregn, vn, ve, vu);
+            return new VelocityInfo(vn, ve, vu);
         }
 
 

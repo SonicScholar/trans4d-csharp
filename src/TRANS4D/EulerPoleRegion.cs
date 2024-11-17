@@ -5,22 +5,29 @@ namespace TRANS4D
 
     public class EulerPoleRegion
     {
-        public string Name { get; set; }
-        public double Wx { get; set; }
-        public double Wy { get; set; }
-        public double Wz { get; set; }
+        public string Name { get; }
+        public Datum Datum { get; }
+
+        /// <summary>
+        /// The x component the omega (ω) vector in radians/year
+        /// </summary>
+        public double Wx { get; }
+        public double Wy { get; }
+        public double Wz { get; }
+
 
         private EulerPoleRegion(double wx, double wy, double wz)
             : this(wx, wy, wz, string.Empty)
         {
         }
 
-        public EulerPoleRegion(double wx, double wy, double wz, string name)
+        public EulerPoleRegion(double wx, double wy, double wz, string name, Datum datum=Datum.ITRF2014)
         {
             Name = name;
             Wx = wx;
             Wy = wy;
             Wz = wz;
+            Datum = datum;
         }
 
         // Static instances representing named plates
@@ -60,7 +67,7 @@ namespace TRANS4D
         /// todo: re-calculate values so we don't need special values for this?
         /// todo: maybe a derived class is needed to handle this case
         public static EulerPoleRegion Mariana = new EulerPoleRegion(
-            -0.097e-9, 0.509e-9, -1.682e-9, nameof(Mariana));
+            -0.097e-9, 0.509e-9, -1.682e-9, nameof(Mariana), Datum.ITRF2000);
 
         /// <summary>
         /// Philippine Sea Plate (Kreemer et al. 2014, Geochem. Geophys. Geosyst., vol. 15)
@@ -92,6 +99,15 @@ namespace TRANS4D
         public static EulerPoleRegion NorthAndes = new EulerPoleRegion(
             -1.964e-9, -1.518e-9, 0.4e-9, nameof(NorthAndes));
 
+
+        /// <summary>
+        /// Computes a velocity vector (cartesian) for a given point on the plate. The vector is
+        /// with respect to the ITRF2014 reference frame.
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="z"></param>
+        /// <returns></returns>
         public (double vx, double vy, double vz) ComputeVelocity(double x, double y, double z)
         {
             // Compute velocities
