@@ -18,31 +18,24 @@ namespace TRANS4D
         static readonly FortranArray<int> JRFCON = new FortranArray<int>(REFCON_SIZE);
 
         public static (int latitude, int longitude, int ellipsoidHeight) 
-            TransformPosition(double latitudeDegrees, double longitudeDegrees, double ellipsoidHeight,
-                Datum inDatum, DateTime inDate, Datum outDatum, DateTime outDate)
+            TransformPosition(GeodeticCoordinates coordinates, DatumEpoch sourceDatumEpoch, DatumEpoch targetDatumEpoch)
         {
-            int inDateMjdMinutes = inDate.ToModifiedJulianDateMinutes();
-            int outDateMjdMinutes = outDate.ToModifiedJulianDateMinutes();
+            int inDateMjdMinutes = sourceDatumEpoch.Epoch.ToModifiedJulianDateMinutes();
+            int outDateMjdMinutes = targetDatumEpoch.Epoch.ToModifiedJulianDateMinutes();
 
-            double latitudeRadians = latitudeDegrees.ToRadians();
-            double longitudeRadians = longitudeDegrees.ToRadians();
-
-            //todo: confirm these variable names are meaningful
-            double latitudeRadiansOut = 0;
-            double longitudeRadiansOut = 0;
-            double ellipsoidHeightOut = 0;
-            if (inDate == outDate)
+            GeodeticCoordinates result = null;
+            if (sourceDatumEpoch.Epoch == targetDatumEpoch.Epoch)
             {
-                latitudeRadiansOut = latitudeRadians;
-                longitudeRadiansOut = longitudeRadians;
-                ellipsoidHeightOut = ellipsoidHeight;
+                result = GeodeticCoordinates.FromRadians(coordinates.Latitude, coordinates.Longitude, coordinates.Height);
             }
             else
             {
                 int jregn;
                 double vn, ve, vu;
+                
+                var velocityInfo = PredictVelocity(coordinates, sourceDatumEpoch.Epoch, sourceDatumEpoch.Datum);
                 //PREDV() requires longitude in positive west
-               // trans4d::PREDV(rlat, -rlon, eht, inDate, inOpt, jregn, vn, ve, vu);
+                // trans4d::PREDV(rlat, -rlon, eht, inDate, inOpt, jregn, vn, ve, vu);
                 //if (jregn == 0)
                 //    return;
 
@@ -73,24 +66,20 @@ namespace TRANS4D
         /// Compute the ITRF2014 velocity at a point in mm/yr todo: ?
         /// </summary>
         /// <param name="coordinates">
-        /// Geodetic coordinates in radians.
+        /// Geodetic coordinates in radians. (Positive east)
         /// </param>
         /// <param name="date"></param>
         /// <param name="ioptDatum"></param>
         /// <returns></returns>
-        //todo: convert iopt int variable to Datum enum
-        public VelocityInfo PredictVelocity(GeodeticCoordinates coordinates, DateTime date, Datum ioptDatum)
+        public static VelocityInfo PredictVelocity(GeodeticCoordinates coordinates, DateTime date, Datum ioptDatum)
         {
             // Predict velocity in iopt reference frame
-
-            // Convert ylon to east longitude
-            // todo: remove --> double elon = -ylon; coordinates should be provided in positive east.
 
             // Initialize variables
             //TOXYZ(ylat, elon, eht, ref x, ref y, ref z);
             var cartesianCoords  = GRS80.GeodeticToCartesian(coordinates);
 
-            var itrf2014Coordinates = new GeodeticCoordinates();
+            var itrf2014Coordinates = GeodeticCoordinates.FromRadians(0, 0, 0);
 
             // Check reference frame option
             if (ioptDatum == Datum.ITRF2014)
@@ -133,13 +122,16 @@ namespace TRANS4D
         }
 
 
-
+        /// <summary>
+        /// Determines the deformation region for the given latitude and longitude.
+        /// Assumes longitude is in positive east (standard geodetic) convention.
+        /// </summary>
+        /// <param name="latitude">Latitude in radians.</param>
+        /// <param name="longitude">Longitude in radians, positive east.</param>
+        /// <returns>The region index, or 0 if not found.</returns>
         public int GetRegion(double latitude, double longitude)
         {
-            // Declare common boundary and constants (replace with appropriate definitions)
-            // DECLARE_COMMON_BNDRY
-            // DECLARE_COMMON_CONST
-
+            // Internally, the region coordinates are in positive west.
             longitude.SwitchLongitudeDirection();
 
             //for (int ir = 1; ir <= NMREGN; ir++)
@@ -157,8 +149,6 @@ namespace TRANS4D
 
             return 0;
         }
-
-
 
 
         /// <summary>

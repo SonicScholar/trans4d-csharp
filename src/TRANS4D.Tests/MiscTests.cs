@@ -90,17 +90,6 @@
         }
 
         [Fact]
-        public void GeodeticCoordinates_DefaultTo_Zero()
-        {
-            var geodeticCoordinates = new GeodeticCoordinates();
-            Assert.Equal(0.0, geodeticCoordinates.Latitude);
-            Assert.Equal(0.0, geodeticCoordinates.Longitude);
-            Assert.Equal(0.0, geodeticCoordinates.Height);
-            Assert.Equal(0.0, geodeticCoordinates.LatitudeDegrees);
-            Assert.Equal(0.0, geodeticCoordinates.LongitudeDegrees);
-        }
-
-        [Fact]
         public void NormalizeRadians_Tests()
         {
             var twoPi = 2.0 * Math.PI;

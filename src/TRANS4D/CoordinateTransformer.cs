@@ -83,7 +83,7 @@ namespace TRANS4D
             // is about 10^127 times larger than the width of the observable universe. So....
             if (double.IsInfinity(p)) //
             {
-                return (new GeodeticCoordinates(double.NaN, double.NaN, double.NaN),
+                return (GeodeticCoordinates.FromRadians(double.NaN, double.NaN, double.NaN),
                     false);
             }
             double tgla = z / p / (1.0 - E2);
@@ -134,7 +134,7 @@ namespace TRANS4D
                 eht = z / slat - en + E2 * en;
             }
 
-            return (new GeodeticCoordinates(glat, glon, eht), true);
+            return (GeodeticCoordinates.FromRadians(glat, glon, eht), true);
 
         }
 
@@ -172,14 +172,14 @@ namespace TRANS4D
             // Convert to geodetic coordinates
 
             //if (!FRMXYZ(X1, Y1, Z1, RLAT, ELON, EHT14))
-            var (itrf2014CoordinatesGeodetic, success) = GRS80.XYZToLatLongHeight(itrf2014CoordinatesXyz);
-            if (!success)
+            var itrf2014CoordinatesGeodetic = GRS80.XYZToLatLongHeight(itrf2014CoordinatesXyz);
+            if (!itrf2014CoordinatesGeodetic.Item2)
             {
                 //todo: consider adding to a logging service instead of throwing an exception
                 throw new InvalidOperationException("Failed to convert XYZ to geodetic coordinates.");
             }
 
-            return itrf2014CoordinatesGeodetic;
+            return itrf2014CoordinatesGeodetic.Item1;
 
             // todo: make sure whatever uses this knows it's getting it in pos. East. Maybe make conversion property
             //WLON = -ELON;

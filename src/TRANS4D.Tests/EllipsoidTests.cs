@@ -31,7 +31,7 @@ namespace TRANS4D.Tests
             var grs80 = Ellipsoid.GRS80;
 
             //radians
-            var geodeticCoords = new GeodeticCoordinates(0, 0, 0);
+            var geodeticCoords = GeodeticCoordinates.FromRadians(0, 0, 0);
 
             var result = grs80.GeodeticToCartesian(geodeticCoords);
 
@@ -51,7 +51,7 @@ namespace TRANS4D.Tests
             //double latitude = 0.0;
             //double longitude = 0.0;
             //double height = 100.0;
-            var geodeticCoords = new GeodeticCoordinates(0, 0, 100.0);
+            var geodeticCoords = GeodeticCoordinates.FromRadians(0, 0, 100.0);
             var result = grs80.GeodeticToCartesian(geodeticCoords);
 
             double semiMajor = grs80.A;
@@ -66,7 +66,7 @@ namespace TRANS4D.Tests
         {
             var grs80 = Ellipsoid.GRS80;
 
-            var geodeticCoords = new GeodeticCoordinates(50.0.ToRadians(), 0.0, 0.0);
+            var geodeticCoords = GeodeticCoordinates.FromRadians(50.0.ToRadians(), 0.0, 0.0);
             var cartesianCoords = grs80.GeodeticToCartesian(geodeticCoords);
 
             var (result, succeeded) = grs80.XYZToLatLongHeight(cartesianCoords);
@@ -83,7 +83,7 @@ namespace TRANS4D.Tests
             var grs80 = Ellipsoid.GRS80;
             //way the heck out there in space... like orders of magnitude bigger than our observable universe
             double eht = Math.Pow(Math.Sqrt(double.MaxValue), 1.001);
-            var geodeticCoords = new GeodeticCoordinates(45.0.ToRadians(), 45.0.ToRadians(), eht);
+            var geodeticCoords = GeodeticCoordinates.FromRadians(45.0.ToRadians(), 45.0.ToRadians(), eht);
 
             var cartesianCoords = grs80.GeodeticToCartesian(geodeticCoords);
             var (result, succeeded) = grs80.XYZToLatLongHeight(cartesianCoords);
@@ -129,7 +129,7 @@ namespace TRANS4D.Tests
         public void GRS80_WEST_US_ToXYZ()
         {
             var grs80 = Ellipsoid.GRS80;
-            var geodeticCoords = new GeodeticCoordinates(40.0.ToRadians(), -105.0.ToRadians(), 1500.0);
+            var geodeticCoords = GeodeticCoordinates.FromRadians(40.0.ToRadians(), -105.0.ToRadians(), 1500.0);
             var result = grs80.GeodeticToCartesian(geodeticCoords);
             Assert.Equal(-1266623.309, result.X, 3);
             Assert.Equal(-4727102.545, result.Y, 3);

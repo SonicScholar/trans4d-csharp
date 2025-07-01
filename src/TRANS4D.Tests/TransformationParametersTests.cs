@@ -77,7 +77,7 @@ namespace TRANS4D.Tests
             double latitude = Utilities.DmsToDecimalDegrees(40, 0, 0.00002).ToRadians();
             double longitude = Utilities.DmsToDecimalDegrees(-105, -0, -0.00004).ToRadians();
             double height = 1500.0;
-            var inputCoordinates = new GeodeticCoordinates(latitude, longitude, height);
+            var inputCoordinates = GeodeticCoordinates.FromRadians(latitude, longitude, height);
             
             var inputXyz = Ellipsoid.GRS80.GeodeticToCartesian(inputCoordinates);
             var result = transform.Transform(inputXyz, transform.RefEpoch); //2010.0
@@ -95,7 +95,7 @@ namespace TRANS4D.Tests
             double latitude = Utilities.DmsToDecimalDegrees(39, 59, 59.97972).ToRadians();
             double longitude = Utilities.DmsToDecimalDegrees(-104, -59, -59.95473).ToRadians();
             double height = 1500.865;
-            var geodeticCoords = new GeodeticCoordinates(latitude, longitude, height);
+            var geodeticCoords = GeodeticCoordinates.FromRadians(latitude, longitude, height);
 
             var inputXyz = Ellipsoid.GRS80.GeodeticToCartesian(geodeticCoords);
             var result = transform.TransformInverse(inputXyz, transform.RefEpoch); //2010.0
