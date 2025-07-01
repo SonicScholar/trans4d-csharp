@@ -53,7 +53,9 @@ namespace TRANS4D.BlockData
                 // calculate the velocity of a location on a plate using plate
                 // motion model (Euler's fixed point theorem).
                 if (region <= NumGrids)
-                    regions.Add(new GridBasedRegion(boundary));
+                {
+                    regions.Add(new GridBasedRegion(boundary, region));
+                }
                 else
                     regions.Add(new PlateMotionModelRegion(boundary));
             }
@@ -69,11 +71,11 @@ namespace TRANS4D.BlockData
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <returns></returns>
-        public IRegion GetBoundary(double x, double y)
+        public IRegion GetBoundary(GeodeticCoordinates coordinates)
         {
             foreach (var region in Regions)
             {
-                if (region.ContainsPoint(x, y))
+                if (region.ContainsPoint(coordinates))
                     return region;
             }
 

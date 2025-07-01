@@ -10,7 +10,7 @@ namespace TRANS4D
         {
         }
 
-        public override VelocityInfo GetVelocity(double latitude, double longitude)
+        public override VelocityInfo GetVelocity(GeodeticCoordinates coordinates)
         {
             throw new NotImplementedException();
         }

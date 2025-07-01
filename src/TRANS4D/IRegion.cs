@@ -6,8 +6,8 @@ namespace TRANS4D
     {
         Polygon Boundary { get; }
         
-        bool ContainsPoint(double latitude, double longitude);
+        bool ContainsPoint(GeodeticCoordinates coordinates);
 
-        VelocityInfo GetVelocity(double latitude, double longitude);
+        VelocityInfo GetVelocity(GeodeticCoordinates coordinates);
     }
 }
