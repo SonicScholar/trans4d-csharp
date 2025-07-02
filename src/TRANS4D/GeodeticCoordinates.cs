@@ -64,6 +64,18 @@ namespace TRANS4D
         public double LongitudeDegrees => Longitude * 180.0 / Math.PI;
 
         /// <summary>
+        /// Returns a new GeodeticCoordinates with longitude normalized to [0, 2pi).
+        /// </summary>
+        public GeodeticCoordinates Normalize()
+        {
+            return new GeodeticCoordinates(
+                this.Latitude,
+                this.Longitude.NormalizeRadians(),
+                this.Height
+            );
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="GeodeticCoordinates"/> class.
         /// Protected to enforce use of factory methods.
         /// </summary>

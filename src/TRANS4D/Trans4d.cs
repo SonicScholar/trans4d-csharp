@@ -95,12 +95,10 @@ namespace TRANS4D
             }
 
             // Get deformation region
-            int? jregn;
             //GETREG(rlat, rlon, out int jregnTemp);
-            int jregnTemp = 0; // Temporary assignment
-            jregn = jregnTemp == 0 ? (int?)null : jregnTemp;
+            var region = RegionManager.GetBoundary(coordinates);
 
-            if (jregn == null)
+            if (region == null)
             {
                 return new VelocityInfo(0.0, 0.0, 0.0);
             }
@@ -108,6 +106,7 @@ namespace TRANS4D
             double vn = 0, ve = 0, vu = 0;
             double sn = 0, se = 0, su = 0; // Standard deviations of velocities (unused)
             //COMVEL(rlat, rlon, jregnTemp, out vn, out ve, out vu, out sn, out se, out su);
+            var velocityInfo = region.GetVelocity(coordinates);
 
             // Convert velocity to reference frame if iopt != ITRF2014
             if (ioptDatum != Datum.ITRF2014)

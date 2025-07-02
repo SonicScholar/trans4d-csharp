@@ -41,5 +41,25 @@
             var gc2 = new object();
             Assert.False(gc1.Equals(gc2));
         }
+
+        [Fact]
+        public void Normalize_LongitudeMinus90Degrees_Becomes270DegreesOr3PiOver2()
+        {
+            // -90 degrees = -pi/2 radians, expect 3pi/2 radians after normalization
+            var coords = GeodeticCoordinates.FromDegrees(0, -90, 0);
+            var normalized = coords.Normalize();
+            double expected = 3 * Math.PI / 2;
+            Assert.True(Math.Abs(normalized.Longitude - expected) < 1e-10, $"Expected {expected}, got {normalized.Longitude}");
+        }
+
+        [Fact]
+        public void Normalize_LongitudeMinus180Degrees_Becomes180DegreesOrPi()
+        {
+            // -180 degrees = -pi radians, expect pi radians after normalization
+            var coords = GeodeticCoordinates.FromDegrees(0, -180, 0);
+            var normalized = coords.Normalize();
+            double expected = Math.PI;
+            Assert.True(Math.Abs(normalized.Longitude - expected) < 1e-10, $"Expected {expected}, got {normalized.Longitude}");
+        }
     }
 }

@@ -59,8 +59,6 @@ namespace TRANS4D.BlockData
                 else
                     regions.Add(new PlateMotionModelRegion(boundary));
             }
-
-            
             
             return regions;
         }
@@ -71,7 +69,7 @@ namespace TRANS4D.BlockData
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <returns></returns>
-        public IRegion GetBoundary(GeodeticCoordinates coordinates)
+        public static IRegion GetBoundary(GeodeticCoordinates coordinates)
         {
             foreach (var region in Regions)
             {
