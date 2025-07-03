@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using TRANS4D.Compatibility;
 using TRANS4D.Geometry;
 
@@ -17,6 +16,15 @@ namespace TRANS4D
             1, 1, 1, 1, 1, 1, 1,
             2
         }.ToFortranArray();
+
+        private static string GridFilePathForRegion(int regionId)
+        {
+            int neededGrid = NeededGrid[regionId];
+            if(neededGrid == 1) return "Data4.2.5A.txt";
+            if(neededGrid == 2) return "Data4.2.5B.txt";
+
+            throw new ArgumentException($"No grid file defined for region {regionId}");
+        }
 
         public GridBasedRegion(Polygon boundary, int regionId): base(boundary)
         {
@@ -48,7 +56,7 @@ namespace TRANS4D
         {
 
 
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public double[][] GetGridWeights(GeodeticCoordinates coordinates)
@@ -85,88 +93,6 @@ namespace TRANS4D
             gridWeights[1][1] = (xDegrees - cellXMin) * (yDegrees - cellYMin) / denominator;
 
             return gridWeights;
-        }
-
-        public class GridFile
-        {
-            public string FilePath { get; set; }
-            public double[] Velocities { get; set; }
-            public double[] VelocityErrors { get; set; }
-            public GridFile(string filePath)
-            {
-                FilePath = filePath;
-            }
-
-            public void LoadFile()
-            {
-                GridRecord g = new GridRecord();
-                long seek = 0;
-                using (var filestream = new FileStream(FilePath, FileMode.Open))
-                {
-                    filestream.Seek(0, SeekOrigin.Begin);
-
-                    for (int iregn = 1; iregn <= 7; iregn++)
-                    {
-                        for (int i = 1; i <= BlockData.Velocity.ICNTX[iregn] + 1; i++)
-                        {
-                            for (int j = 1; j <= BlockData.Velocity.ICNTY[iregn] + 1; j++)
-                            {
-                                g.ReadRecordFromFile(filestream);
-                                int index = IUNGRD(iregn, i, j, 1);
-                                int index1 = index + 1;
-                                int index2 = index + 2;
-                                Velocities[index] = g.VN;
-                                VelocityErrors[index] = g.SN;
-                                Velocities[index1] = g.VE;
-                                VelocityErrors[index1] = g.SE;
-                                Velocities[index2] = g.VU;
-                                VelocityErrors[index2] = g.SU;
-                            }
-                        }
-                    }
-                }
-            }
-
-            //todo: understand this function, and rename it for C#. possibly Ungrid()?
-            static int IUNGRD(int IREGN, int I, int J, int IVEC)
-            {
-                int IUNGRD = BlockData.Velocity.NBASE[IREGN] +
-                             3 * ((J - 1) * (BlockData.Velocity.ICNTX[IREGN] + 1) + (I - 1)) + IVEC;
-
-                return IUNGRD;
-            }
-
-    }
-
-        public struct GridRecord
-        {
-            public int padding1;
-            public double VN;
-            public double SN;
-            public double VE;
-            public double SE;
-            public double VU;
-            public double SU;
-            public int padding2;
-
-            // Reads a GridRecord from a FileStream (FORTRAN unformatted sequential binary)
-            // Returns the total number of bytes read
-            public uint ReadRecordFromFile(FileStream file)
-            {
-                int bytesRead = 0;
-                using (var reader = new BinaryReader(file, System.Text.Encoding.Default, leaveOpen: true))
-                {
-                    padding1 = reader.ReadInt32(); bytesRead += sizeof(int);
-                    VN = reader.ReadDouble(); bytesRead += sizeof(double);
-                    SN = reader.ReadDouble(); bytesRead += sizeof(double);
-                    VE = reader.ReadDouble(); bytesRead += sizeof(double);
-                    SE = reader.ReadDouble(); bytesRead += sizeof(double);
-                    VU = reader.ReadDouble(); bytesRead += sizeof(double);
-                    SU = reader.ReadDouble(); bytesRead += sizeof(double);
-                    padding2 = reader.ReadInt32(); bytesRead += sizeof(int);
-                }
-                return (uint)bytesRead;
-            }
         }
     }
 }
