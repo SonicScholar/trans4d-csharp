@@ -1,6 +1,3 @@
-using TRANS4D;
-using Xunit;
-
 namespace TRANS4D.Tests
 {
     public class VelocityTransformerTests

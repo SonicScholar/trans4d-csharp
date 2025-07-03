@@ -1,5 +1,4 @@
-﻿using TRANS4D.BlockData;
-using static TRANS4D.BlockData.Velocity;
+﻿using static TRANS4D.BlockData.Velocity;
 namespace TRANS4D.Tests;
 
 public class VelocityTests

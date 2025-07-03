@@ -1,7 +1,3 @@
-using System;
-using Xunit;
-using TRANS4D;
-
 namespace TRANS4D.Tests
 {
     public class Trans4dTests

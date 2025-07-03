@@ -1,5 +1,4 @@
-﻿using TRANS4D.BlockData;
-using static TRANS4D.BlockData.PostSeismic;
+﻿using static TRANS4D.BlockData.PostSeismic;
 
 namespace TRANS4D.Tests;
 

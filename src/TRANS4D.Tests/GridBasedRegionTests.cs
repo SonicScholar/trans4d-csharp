@@ -1,8 +1,3 @@
-using System;
-using Xunit;
-using TRANS4D;
-using TRANS4D.Geometry;
-
 namespace TRANS4D.Tests
 {
     public class GridBasedRegionTests

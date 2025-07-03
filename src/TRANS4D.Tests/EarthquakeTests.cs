@@ -1,5 +1,4 @@
-﻿using TRANS4D.BlockData;
-using static TRANS4D.BlockData.Earthquake;
+﻿using static TRANS4D.BlockData.Earthquake;
 
 public class EarthquakeTests
 {
