@@ -142,7 +142,7 @@ namespace TRANS4D
         /// <summary>
         /// Converts X,Y,Z in specified datum to latitude and
         /// longitude (in radians) and height (meters) in ITRF2014
-        /// datum with longitude positive west.
+        /// datum with longitude positive east.
         /// </summary>
         /// <param name="xyz"></param>
         /// <param name="date"></param>

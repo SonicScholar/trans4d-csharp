@@ -12,8 +12,11 @@ namespace TRANS4D
         public Polygon Boundary { get; }
 
 
-        public bool ContainsPoint(GeodeticCoordinates coordinates) => 
-            Boundary.ContainsPoint(coordinates.Longitude, coordinates.Latitude);
+        public bool ContainsPoint(GeodeticCoordinates coordinates)
+        {
+            var normalizedCoordinates = coordinates.Normalize();
+            return Boundary.ContainsPoint(normalizedCoordinates.Longitude, normalizedCoordinates.Latitude);
+        }
 
         public abstract VelocityInfo GetVelocity(GeodeticCoordinates coordinates);
     }

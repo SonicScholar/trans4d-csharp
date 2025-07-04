@@ -69,10 +69,29 @@ namespace TRANS4D
         public GeodeticCoordinates Normalize()
         {
             return new GeodeticCoordinates(
-                this.Latitude,
-                this.Longitude.NormalizeRadians(),
-                this.Height
+                Latitude,
+                Longitude.NormalizeRadians(),
+                Height
             );
+        }
+
+        /// <summary>
+        /// Returns a new GeodeticCoordinates with longitude direction switched
+        /// </summary>
+        public GeodeticCoordinates SwitchLongitudeDirection()
+        {
+            return new GeodeticCoordinates(
+                Latitude,
+                Longitude.SwitchLongitudeDirection(),
+                Height);
+        }
+
+        /// <summary>
+        /// Returns a copy of the current GeodeticCoordinates
+        /// </summary>
+        public GeodeticCoordinates Copy()
+        {
+            return new GeodeticCoordinates(Latitude, Longitude, Height);
         }
 
         /// <summary>

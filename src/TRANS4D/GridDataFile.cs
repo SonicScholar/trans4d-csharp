@@ -52,12 +52,20 @@ namespace TRANS4D
         }
 
         // todo: confirm order of velocity vectors
-        public (double VN, double VE, double VU)[][] GRDVEC(int jregn, int i, int j)
+        /// <summary>
+        /// Return the 2x2 array of VelocityInfo for the grid cell at (i,j) in region jregn.
+        /// </summary>
+        /// <param name="jregn"></param>
+        /// <param name="i"></param>
+        /// <param name="j"></param>
+        /// <returns></returns>
+        public VelocityInfo[][] GetGridCellVelocities(int jregn, int i, int j)
         {
-            var VEL = new (double VN, double VE, double VU)[2][];
+            // initialize 2x2 array of VelocityInfo
+            var result = new VelocityInfo[2][];
             for (int ii = 0; ii < 2; ii++)
             {
-                VEL[ii] = new (double VN, double VE, double VU)[2];
+                result[ii] = new VelocityInfo[2];
             }
 
             for (int II = 0; II <= 1; II++)
@@ -67,10 +75,13 @@ namespace TRANS4D
                     double vn = Velocities[IUNGRD(jregn, i + II, j + IJ, 1)];
                     double ve = Velocities[IUNGRD(jregn, i + II, j + IJ, 2)];
                     double vu = Velocities[IUNGRD(jregn, i + II, j + IJ, 3)];
-                    VEL[II][IJ] = (vn, ve, vu);
+                    double sn = VelocityErrors[IUNGRD(jregn, i + II, j + IJ, 1)];
+                    double se = VelocityErrors[IUNGRD(jregn, i + II, j + IJ, 2)];
+                    double su = VelocityErrors[IUNGRD(jregn, i + II, j + IJ, 3)];
+                    result[II][IJ] = new VelocityInfo(vn, ve, vu, sn, se, su);
                 }
             }
-            return VEL;
+            return result;
         }
 
     }

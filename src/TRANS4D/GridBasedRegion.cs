@@ -11,22 +11,37 @@ namespace TRANS4D
         // files are likely going to contain one grid each. For
         // now this is an implementation detail hidden away in
         // this class only.
-        private static readonly FortranArray<int> NeededGrid = new []
+        private static readonly FortranArray<int> NeededGrid = new[]
         {
             1, 1, 1, 1, 1, 1, 1,
             2
         }.ToFortranArray();
 
-        private static string GridFilePathForRegion(int regionId)
+        private string GridFilePathForRegion()
         {
-            int neededGrid = NeededGrid[regionId];
-            if(neededGrid == 1) return "Data4.2.5A.txt";
-            if(neededGrid == 2) return "Data4.2.5B.txt";
+            int neededGrid = NeededGrid[RegionId];
+            if (neededGrid == 1) return "Data4.2.5A.txt";
+            if (neededGrid == 2) return "Data4.2.5B.txt";
 
-            throw new ArgumentException($"No grid file defined for region {regionId}");
+            throw new ArgumentException($"No grid file defined for region {RegionId}");
         }
 
-        public GridBasedRegion(Polygon boundary, int regionId): base(boundary)
+        private GridDataFile GridDataFile
+        {
+            get
+            {
+                var path = GridFilePathForRegion();
+                if (!Ioc.NamedIocContainer.Instance.IsRegistered(path))
+                {
+                    var gridDataFile = new GridDataFile(path);
+                    gridDataFile.LoadFile();
+                    Ioc.NamedIocContainer.Instance.Register(path, gridDataFile);
+                }
+                return Ioc.NamedIocContainer.Instance.Get<GridDataFile>(path);
+            }
+        }
+
+        public GridBasedRegion(Polygon boundary, int regionId) : base(boundary)
         {
             RegionId = regionId;
         }
@@ -55,11 +70,46 @@ namespace TRANS4D
         public override VelocityInfo GetVelocity(GeodeticCoordinates coordinates)
         {
 
+            var gridWeights = GetGridWeights(coordinates, out int xCellIndex, out int yCellIndex);
+            var cellVelocities = GridDataFile.GetGridCellVelocities(RegionId, xCellIndex, yCellIndex);
 
-            throw new NotImplementedException();
+            VelocityInfo result = new VelocityInfo()
+            {
+                NorthVelocity = gridWeights[0][0] * cellVelocities[0][0].NorthVelocity +
+                                gridWeights[0][1] * cellVelocities[0][1].NorthVelocity +
+                                gridWeights[1][0] * cellVelocities[1][0].NorthVelocity +
+                                gridWeights[1][1] * cellVelocities[1][1].NorthVelocity,
+
+                EastVelocity = gridWeights[0][0] * cellVelocities[0][0].EastVelocity +
+                               gridWeights[0][1] * cellVelocities[0][1].EastVelocity +
+                               gridWeights[1][0] * cellVelocities[1][0].EastVelocity +
+                               gridWeights[1][1] * cellVelocities[1][1].EastVelocity,
+
+                UpwardVelocity = gridWeights[0][0] * cellVelocities[0][0].UpwardVelocity +
+                                 gridWeights[0][1] * cellVelocities[0][1].UpwardVelocity +
+                                 gridWeights[1][0] * cellVelocities[1][0].UpwardVelocity +
+                                 gridWeights[1][1] * cellVelocities[1][1].UpwardVelocity,
+
+                SigmaNorthVelocity = gridWeights[0][0] * cellVelocities[0][0].SigmaNorthVelocity +
+                                     gridWeights[0][1] * cellVelocities[0][1].SigmaNorthVelocity +
+                                     gridWeights[1][0] * cellVelocities[1][0].SigmaNorthVelocity +
+                                     gridWeights[1][1] * cellVelocities[1][1].SigmaNorthVelocity,
+
+                SigmaEastVelocity = gridWeights[0][0] * cellVelocities[0][0].SigmaEastVelocity +
+                                    gridWeights[0][1] * cellVelocities[0][1].SigmaEastVelocity +
+                                    gridWeights[1][0] * cellVelocities[1][0].SigmaEastVelocity +
+                                    gridWeights[1][1] * cellVelocities[1][1].SigmaEastVelocity,
+
+                SigmaUpwardVelocity = gridWeights[0][0] * cellVelocities[0][0].SigmaUpwardVelocity +
+                                      gridWeights[0][1] * cellVelocities[0][1].SigmaUpwardVelocity +
+                                      gridWeights[1][0] * cellVelocities[1][0].SigmaUpwardVelocity +
+                                      gridWeights[1][1] * cellVelocities[1][1].SigmaUpwardVelocity
+            };
+
+            return result;
         }
 
-        public double[][] GetGridWeights(GeodeticCoordinates coordinates)
+        public double[][] GetGridWeights(GeodeticCoordinates coordinates, out int xCellIndex, out int yCellIndex)
         {
             // coordinates are passed in as positive east for consistency, but the grids are defined using positive
             // west, so we're hiding that implementation detail here and getting degrees in positive west
@@ -71,8 +121,8 @@ namespace TRANS4D
             // C*** containing the point
             // I = IDINT((POSX - GRDLX[JREGN]) / STEPX) + 1;
             // J = IDINT((POSY - GRDLY[JREGN]) / STEPY) + 1;
-            int xCellIndex = (int)((xDegrees - XMin) / XInterval) + 1;
-            int yCellIndex = (int)((yDegrees - YMin) / YInterval) + 1;
+            xCellIndex = (int)((xDegrees - XMin) / XInterval) + 1;
+            yCellIndex = (int)((yDegrees - YMin) / YInterval) + 1;
 
             // C*** Compute the limits of the grid cell
             double cellXMin = XMin + (xCellIndex - 1) * XInterval;
