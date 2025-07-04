@@ -17,27 +17,39 @@ namespace TRANS4D
             2
         }.ToFortranArray();
 
-        private string GridFilePathForRegion()
+        private string GridFileResourcePathForRegion
         {
-            int neededGrid = NeededGrid[RegionId];
-            if (neededGrid == 1) return "Data4.2.5A.txt";
-            if (neededGrid == 2) return "Data4.2.5B.txt";
-
-            throw new ArgumentException($"No grid file defined for region {RegionId}");
+            get
+            {
+                int neededGrid = NeededGrid[RegionId];
+                string fileName = null;
+                if (neededGrid == 1) fileName = "Data4.2.5A.txt";
+                else if (neededGrid == 2) fileName = "Data4.2.5B.txt";
+                else throw new ArgumentException($"No grid file defined for region {RegionId}");
+                // Prepend the namespace and Data folder for embedded resource
+                return $"TRANS4D.Data.{fileName}";
+            }
         }
 
         private GridDataFile GridDataFile
         {
             get
             {
-                var path = GridFilePathForRegion();
-                if (!Ioc.NamedIocContainer.Instance.IsRegistered(path))
+                var resourcePath = GridFileResourcePathForRegion;
+                if (!Ioc.NamedIocContainer.Instance.IsRegistered(resourcePath))
                 {
-                    var gridDataFile = new GridDataFile(path);
-                    gridDataFile.LoadFile();
-                    Ioc.NamedIocContainer.Instance.Register(path, gridDataFile);
+                    var gridDataFile = new GridDataFile(resourcePath);
+                    // Load from embedded resource stream
+                    var assembly = typeof(GridBasedRegion).Assembly;
+                    using (var stream = assembly.GetManifestResourceStream(resourcePath))
+                    {
+                        if (stream == null)
+                            throw new InvalidOperationException($"Resource not found: {resourcePath}");
+                        gridDataFile.LoadFile(stream);
+                    }
+                    Ioc.NamedIocContainer.Instance.Register(resourcePath, gridDataFile);
                 }
-                return Ioc.NamedIocContainer.Instance.Get<GridDataFile>(path);
+                return Ioc.NamedIocContainer.Instance.Get<GridDataFile>(resourcePath);
             }
         }
 

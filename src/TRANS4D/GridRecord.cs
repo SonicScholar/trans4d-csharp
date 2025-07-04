@@ -13,9 +13,9 @@ namespace TRANS4D
         public double SU;
         public int padding2;
 
-        // Reads a GridRecord from a FileStream (FORTRAN unformatted sequential binary)
+        // Reads a GridRecord from a Stream (FORTRAN unformatted sequential binary)
         // Returns the total number of bytes read
-        public uint ReadRecordFromFile(FileStream file)
+        public uint ReadRecordFromFile(Stream file)
         {
             int bytesRead = 0;
             using (var reader = new BinaryReader(file, System.Text.Encoding.Default, leaveOpen: true))

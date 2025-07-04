@@ -4,4 +4,9 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <EmbeddedResource Include="Data\Data4.2.5A.txt" />
+    <EmbeddedResource Include="Data\Data4.2.5B.txt" />
+  </ItemGroup>
+
 </Project>
