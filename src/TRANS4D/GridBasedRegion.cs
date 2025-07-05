@@ -87,35 +87,35 @@ namespace TRANS4D
 
             VelocityInfo result = new VelocityInfo()
             {
-                NorthVelocity = gridWeights[0][0] * cellVelocities[0][0].NorthVelocity +
-                                gridWeights[0][1] * cellVelocities[0][1].NorthVelocity +
-                                gridWeights[1][0] * cellVelocities[1][0].NorthVelocity +
-                                gridWeights[1][1] * cellVelocities[1][1].NorthVelocity,
+                VelocityNorth = gridWeights[0][0] * cellVelocities[0][0].VelocityNorth +
+                                gridWeights[0][1] * cellVelocities[0][1].VelocityNorth +
+                                gridWeights[1][0] * cellVelocities[1][0].VelocityNorth +
+                                gridWeights[1][1] * cellVelocities[1][1].VelocityNorth,
 
-                EastVelocity = gridWeights[0][0] * cellVelocities[0][0].EastVelocity +
-                               gridWeights[0][1] * cellVelocities[0][1].EastVelocity +
-                               gridWeights[1][0] * cellVelocities[1][0].EastVelocity +
-                               gridWeights[1][1] * cellVelocities[1][1].EastVelocity,
+                VelocityEast = gridWeights[0][0] * cellVelocities[0][0].VelocityEast +
+                               gridWeights[0][1] * cellVelocities[0][1].VelocityEast +
+                               gridWeights[1][0] * cellVelocities[1][0].VelocityEast +
+                               gridWeights[1][1] * cellVelocities[1][1].VelocityEast,
 
-                UpwardVelocity = gridWeights[0][0] * cellVelocities[0][0].UpwardVelocity +
-                                 gridWeights[0][1] * cellVelocities[0][1].UpwardVelocity +
-                                 gridWeights[1][0] * cellVelocities[1][0].UpwardVelocity +
-                                 gridWeights[1][1] * cellVelocities[1][1].UpwardVelocity,
+                VelocityUp = gridWeights[0][0] * cellVelocities[0][0].VelocityUp +
+                                 gridWeights[0][1] * cellVelocities[0][1].VelocityUp +
+                                 gridWeights[1][0] * cellVelocities[1][0].VelocityUp +
+                                 gridWeights[1][1] * cellVelocities[1][1].VelocityUp,
 
-                SigmaNorthVelocity = gridWeights[0][0] * cellVelocities[0][0].SigmaNorthVelocity +
-                                     gridWeights[0][1] * cellVelocities[0][1].SigmaNorthVelocity +
-                                     gridWeights[1][0] * cellVelocities[1][0].SigmaNorthVelocity +
-                                     gridWeights[1][1] * cellVelocities[1][1].SigmaNorthVelocity,
+                SigmaVelocityNorth = gridWeights[0][0] * cellVelocities[0][0].SigmaVelocityNorth +
+                                     gridWeights[0][1] * cellVelocities[0][1].SigmaVelocityNorth +
+                                     gridWeights[1][0] * cellVelocities[1][0].SigmaVelocityNorth +
+                                     gridWeights[1][1] * cellVelocities[1][1].SigmaVelocityNorth,
 
-                SigmaEastVelocity = gridWeights[0][0] * cellVelocities[0][0].SigmaEastVelocity +
-                                    gridWeights[0][1] * cellVelocities[0][1].SigmaEastVelocity +
-                                    gridWeights[1][0] * cellVelocities[1][0].SigmaEastVelocity +
-                                    gridWeights[1][1] * cellVelocities[1][1].SigmaEastVelocity,
+                SigmaVelocityEast = gridWeights[0][0] * cellVelocities[0][0].SigmaVelocityEast +
+                                    gridWeights[0][1] * cellVelocities[0][1].SigmaVelocityEast +
+                                    gridWeights[1][0] * cellVelocities[1][0].SigmaVelocityEast +
+                                    gridWeights[1][1] * cellVelocities[1][1].SigmaVelocityEast,
 
-                SigmaUpwardVelocity = gridWeights[0][0] * cellVelocities[0][0].SigmaUpwardVelocity +
-                                      gridWeights[0][1] * cellVelocities[0][1].SigmaUpwardVelocity +
-                                      gridWeights[1][0] * cellVelocities[1][0].SigmaUpwardVelocity +
-                                      gridWeights[1][1] * cellVelocities[1][1].SigmaUpwardVelocity
+                SigmaVelocityUp = gridWeights[0][0] * cellVelocities[0][0].SigmaVelocityUp +
+                                      gridWeights[0][1] * cellVelocities[0][1].SigmaVelocityUp +
+                                      gridWeights[1][0] * cellVelocities[1][0].SigmaVelocityUp +
+                                      gridWeights[1][1] * cellVelocities[1][1].SigmaVelocityUp
             };
 
             return result;

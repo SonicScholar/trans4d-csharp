@@ -2,30 +2,30 @@
 {
     public class VelocityInfo
     {
-        public double NorthVelocity { get; set; }
-        public double EastVelocity { get; set; }
-        public double UpwardVelocity { get; set; }
+        public double VelocityNorth { get; set; }
+        public double VelocityEast { get; set; }
+        public double VelocityUp { get; set; }
 
-        public double SigmaNorthVelocity { get; set; }
-        public double SigmaEastVelocity { get; set; }
-        public double SigmaUpwardVelocity { get; set; }
+        public double SigmaVelocityNorth { get; set; }
+        public double SigmaVelocityEast { get; set; }
+        public double SigmaVelocityUp { get; set; }
 
         public VelocityInfo() { }
 
-        public VelocityInfo(double northVelocity, double eastVelocity, double upwardVelocity)
+        public VelocityInfo(double velocityNorth, double velocityEast, double velocityUp)
         {
-            NorthVelocity = northVelocity;
-            EastVelocity = eastVelocity;
-            UpwardVelocity = upwardVelocity;
+            VelocityNorth = velocityNorth;
+            VelocityEast = velocityEast;
+            VelocityUp = velocityUp;
         }
 
-        public VelocityInfo(double northVelocity, double eastVelocity, double upwardVelocity,
-            double sigmaNorthVelocity, double sigmaEastVelocity, double sigmaUpwardVelocity) : this(northVelocity,
-            eastVelocity, upwardVelocity)
+        public VelocityInfo(double velocityNorth, double velocityEast, double velocityUp,
+            double sigmaVelocityNorth, double sigmaVelocityEast, double sigmaVelocityUp) : this(velocityNorth,
+            velocityEast, velocityUp)
         {
-            SigmaNorthVelocity = sigmaNorthVelocity;
-            SigmaEastVelocity = sigmaEastVelocity;
-            SigmaUpwardVelocity = sigmaUpwardVelocity;
+            SigmaVelocityNorth = sigmaVelocityNorth;
+            SigmaVelocityEast = sigmaVelocityEast;
+            SigmaVelocityUp = sigmaVelocityUp;
         }
     }
 }

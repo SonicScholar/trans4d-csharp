@@ -1,27 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using TRANS4D.Compatibility;
+﻿using TRANS4D.Compatibility;
 
 namespace TRANS4D.BlockData
 {
-    public class VelocityInfo
-    {
-        public double VN { get; set; }
-        public double VE { get; set; }
-        public double VU { get; set; }
-        public double SN { get; set; }
-        public double SE { get; set; }
-        public double SU { get; set; }
-    }
-
     internal class Velocity
     {
-        public const int NUMGRD = 8;
+        public const int NumberOfGrids = 8;
 
-        private static bool Initialized = false;
+        private static bool _initialized;
 
-        private static readonly FortranArray<double> _GRDLX = new FortranArray<double>(NUMGRD);
+        private static readonly FortranArray<double> _GRDLX = new FortranArray<double>(NumberOfGrids);
         public static FortranArray<double> GRDLX
         {
             get
@@ -31,7 +18,7 @@ namespace TRANS4D.BlockData
             }
         }
 
-        private static readonly FortranArray<double> _GRDUX = new FortranArray<double>(NUMGRD);
+        private static readonly FortranArray<double> _GRDUX = new FortranArray<double>(NumberOfGrids);
         public static FortranArray<double> GRDUX
         {
             get
@@ -41,7 +28,7 @@ namespace TRANS4D.BlockData
             }
         }
 
-        private static readonly FortranArray<double> _GRDLY = new FortranArray<double>(NUMGRD);
+        private static readonly FortranArray<double> _GRDLY = new FortranArray<double>(NumberOfGrids);
         public static FortranArray<double> GRDLY
         {
             get
@@ -51,7 +38,7 @@ namespace TRANS4D.BlockData
             }
         }
 
-        private static readonly FortranArray<double> _GRDUY = new FortranArray<double>(NUMGRD);
+        private static readonly FortranArray<double> _GRDUY = new FortranArray<double>(NumberOfGrids);
         public static FortranArray<double> GRDUY
         {
             get
@@ -61,7 +48,7 @@ namespace TRANS4D.BlockData
             }
         }
 
-        private static readonly FortranArray<int> _ICNTX = new FortranArray<int>(NUMGRD);
+        private static readonly FortranArray<int> _ICNTX = new FortranArray<int>(NumberOfGrids);
         public static FortranArray<int> ICNTX
         {
             get
@@ -71,7 +58,7 @@ namespace TRANS4D.BlockData
             }
         }
 
-        private static readonly FortranArray<int> _ICNTY = new FortranArray<int>(NUMGRD);
+        private static readonly FortranArray<int> _ICNTY = new FortranArray<int>(NumberOfGrids);
         public static FortranArray<int> ICNTY
         {
             get
@@ -81,7 +68,7 @@ namespace TRANS4D.BlockData
             }
         }
 
-        private static readonly FortranArray<int> _NBASE = new FortranArray<int>(NUMGRD);
+        private static readonly FortranArray<int> _NBASE = new FortranArray<int>(NumberOfGrids);
         public static FortranArray<int> NBASE
         {
             get
@@ -93,7 +80,7 @@ namespace TRANS4D.BlockData
 
         private static void Init()
         {
-            if (Initialized)
+            if (_initialized)
                 return;
 
             _GRDLX[1] = 238.20000000000;
@@ -153,7 +140,7 @@ namespace TRANS4D.BlockData
             _ICNTY[8] = 288;
             _NBASE[8] = 0;
 
-            Initialized = true;
+            _initialized = true;
         }
     }
 }
