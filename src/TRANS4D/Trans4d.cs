@@ -103,8 +103,6 @@ namespace TRANS4D
                 return new VelocityInfo(0.0, 0.0, 0.0);
             }
 
-            double vn = 0, ve = 0, vu = 0;
-            double sn = 0, se = 0, su = 0; // Standard deviations of velocities (unused)
             //COMVEL(rlat, rlon, jregnTemp, out vn, out ve, out vu, out sn, out se, out su);
             var velocityInfo = region.GetVelocity(coordinates);
 
@@ -117,7 +115,8 @@ namespace TRANS4D
                 //TOVNEU(ylat, elon, vx, vy, vz, ref vn, ref ve, ref vu);
             }
 
-            return new VelocityInfo(vn, ve, vu);
+            //return new VelocityInfo(vn, ve, vu);
+            throw new NotImplementedException("working on this now.");
         }
 
 
