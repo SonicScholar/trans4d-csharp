@@ -2,6 +2,8 @@
 {
     public class VelocityInfo
     {
+        public static readonly VelocityInfo Zero = new VelocityInfo(0, 0, 0);
+
         public double VelocityNorth { get; set; }
         public double VelocityEast { get; set; }
         public double VelocityUp { get; set; }

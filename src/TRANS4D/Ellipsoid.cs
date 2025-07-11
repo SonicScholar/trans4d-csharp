@@ -48,9 +48,18 @@ namespace TRANS4D
             F = f;
         }
 
-
-
-
-        
+        /// <summary>
+        /// Computes the radius of curvature in the meridian and in the parallel at a given latitude (radians).
+        /// </summary>
+        /// <param name="latitude">Latitude in radians.</param>
+        /// <param name="radiusMeridian">Output: radius of curvature in the meridian (meters).</param>
+        /// <param name="radiusParallel">Output: radius of curvature in the parallel (meters).</param>
+        public void GetRadii(double latitude, out double radiusMeridian, out double radiusParallel)
+        {
+            double cosLat = Math.Cos(latitude);
+            double denom = Math.Sqrt(1.0 + EPS * cosLat * cosLat);
+            radiusMeridian = AF / Math.Pow(denom, 3);
+            radiusParallel = AF * cosLat / denom;
+        }
     }
 }

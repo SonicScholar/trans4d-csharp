@@ -52,13 +52,14 @@ namespace TRANS4D
         /// <param name="geo">Geodetic coordinates (lat, lon in radians).</param>
         /// <param name="ecefVelocity">Velocity in ECEF (vx, vy, vz).</param>
         /// <returns>Velocity in local tangent plane (vn, ve, vu) as XYZ (N, E, U).</returns>
-        public static XYZ ToNeu(GeodeticCoordinates geo, XYZ ecefVelocity)
+        public static VelocityInfo ToNeu(GeodeticCoordinates geo, XYZ ecefVelocity)
         {
             double lat = geo.Latitude;
             double lon = geo.Longitude;
             double vx = ecefVelocity.X;
             double vy = ecefVelocity.Y;
             double vz = ecefVelocity.Z;
+
             double slat = Math.Sin(lat);
             double clat = Math.Cos(lat);
             double slon = Math.Sin(lon);
@@ -66,22 +67,23 @@ namespace TRANS4D
             double vn = -slat * clon * vx - slat * slon * vy + clat * vz;
             double ve = -slon * vx + clon * vy;
             double vu = clat * clon * vx + clat * slon * vy + slat * vz;
-            return new XYZ(vn, ve, vu);
+            return new VelocityInfo(vn, ve, vu);
         }
 
         /// <summary>
         /// Converts velocity from local tangent plane (vn, ve, vu) to ECEF (vx, vy, vz) at the given geodetic coordinates.
         /// </summary>
         /// <param name="geo">Geodetic coordinates (lat, lon in radians).</param>
-        /// <param name="neuVelocity">Velocity in local tangent plane (vn, ve, vu).</param>
+        /// <param name="neuVelocity">Velocity in local tangent plane (vn, ve, vu) as VelocityInfo.</param>
         /// <returns>Velocity in ECEF (vx, vy, vz) as XYZ.</returns>
-        public static XYZ ToXyz(GeodeticCoordinates geo, XYZ neuVelocity)
+        public static XYZ ToXyz(GeodeticCoordinates geo, VelocityInfo neuVelocity)
         {
             double lat = geo.Latitude;
             double lon = geo.Longitude;
-            double vn = neuVelocity.X;
-            double ve = neuVelocity.Y;
-            double vu = neuVelocity.Z;
+            double vn = neuVelocity.VelocityNorth;
+            double ve = neuVelocity.VelocityEast;
+            double vu = neuVelocity.VelocityUp;
+
             double slat = Math.Sin(lat);
             double clat = Math.Cos(lat);
             double slon = Math.Sin(lon);
@@ -90,6 +92,25 @@ namespace TRANS4D
             double vy = -slat * slon * vn + clon * ve + clat * slon * vu;
             double vz = clat * vn + slat * vu;
             return new XYZ(vx, vy, vz);
+        }
+    }
+
+    public static class VelocityTransformerExtensions
+    {
+        /// <summary>
+        /// Converts horizontal velocities from mm/yr to rad/yr at a given latitude using the ellipsoid's radii.
+        /// </summary>
+        /// <param name="ellipsoid">The ellipsoid to use for radii calculation.</param>
+        /// <param name="latitude">Latitude in radians.</param>
+        /// <param name="vn">North velocity (mm/yr).</param>
+        /// <param name="ve">East velocity (mm/yr).</param>
+        /// <param name="vnr">Output: North velocity (rad/yr).</param>
+        /// <param name="ver">Output: East velocity (rad/yr).</param>
+        public static void ConvertHorizontalVelocityToRadians(this Ellipsoid ellipsoid, double latitude, double vn, double ve, out double vnr, out double ver)
+        {
+            ellipsoid.GetRadii(latitude, out double radMeridian, out double radParallel);
+            vnr = vn / (1000.0 * radMeridian);
+            ver = ve / (1000.0 * radParallel);
         }
     }
 }
