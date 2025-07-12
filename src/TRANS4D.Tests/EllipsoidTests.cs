@@ -9,7 +9,7 @@
         public void GRS80_AF_Is_Correct()
         {
             var grs80 = Ellipsoid.GRS80;
-            Assert.Equal(6399593.625864023, grs80.AF);
+            Assert.Equal(6399593.6258640233, grs80.AF);
         }
 
         [Fact]
@@ -147,16 +147,31 @@
         public void GetRadii_AtEquatorAndPole_ReturnsExpectedValues()
         {
             var grs80 = Ellipsoid.GRS80;
+
             // At equator (latitude = 0)
             grs80.GetRadii(0.0, out double radMeridianEq, out double radParallelEq);
+
             // At pole (latitude = pi/2)
             grs80.GetRadii(Math.PI / 2, out double radMeridianPole, out double radParallelPole);
 
-            // Use actual computed values for GRS80
-            Assert.Equal(6335439.3270838764, radMeridianEq, 6); // meters
-            Assert.Equal(6378137.0, radParallelEq, 6); // meters (should match semi-major axis)
-            Assert.Equal(6399593.625864023, radMeridianPole, 6); // meters (should match AF)
-            Assert.Equal(0.0, radParallelPole, 6); // parallel radius at pole is zero
+            // Corrected values for GRS80
+            Assert.Equal(6335439.327083875, radMeridianEq, 6);   // meters
+            Assert.Equal(6378137.0, radParallelEq, 6);            // meters
+            Assert.Equal(6399593.625864022, radMeridianPole, 6);  // meters
+            Assert.Equal(0.0, radParallelPole, 6);                // meters
+        }
+
+
+        [Fact]
+        public void ConvertHorizontalVelocityToRadians_ProducesExpectedResults_SpecificCase()
+        {
+            var grs80 = Ellipsoid.GRS80;
+            double rlat = 0.67059433985213446;
+            double vn = -0.34065493498120536;
+            double ve = 2.0075526460630884;
+            grs80.ConvertHorizontalVelocityToRadians(rlat, vn, ve, out double vnr, out double ver);
+            Assert.Equal(-5.3561353150016441e-11, vnr, 15);
+            Assert.Equal(4.0123454747273557e-10, ver, 15);
         }
     }
 }

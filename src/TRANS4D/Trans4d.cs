@@ -17,48 +17,90 @@ namespace TRANS4D
         //todo what is this for?
         static readonly FortranArray<int> JRFCON = new FortranArray<int>(REFCON_SIZE);
 
+        /// <summary>
+        /// Reference epoch for ITRF calculations (1/1/2010)
+        /// </summary>
+        public static readonly DateTime ReferenceEpoch = new DateTime(2010, 1, 1);
+
+        /// <summary>
+        /// Compute new coordinates based on velocity displacement over time.
+        /// This is the velocity movement portion of the legacy COMPSN function.
+        /// </summary>
+        /// <param name="coordinates">Input geodetic coordinates in radians</param>
+        /// <param name="fromDate">Source date/epoch</param>
+        /// <param name="toDate">Target date/epoch</param>
+        /// <param name="velocity">Velocity information in mm/yr (North, East, Up)</param>
+        /// <returns>New geodetic coordinates after applying velocity displacement</returns>
+        public static GeodeticCoordinates ComputeNewCoordinatesFromVelocity(
+            GeodeticCoordinates coordinates, DateTime fromDate, DateTime toDate, VelocityInfo velocity)
+        {
+            if (fromDate == toDate)
+            {
+                return GeodeticCoordinates.FromRadians(coordinates.Latitude, coordinates.Longitude, coordinates.Height);
+            }
+
+            double rlat = coordinates.Latitude;
+            double rlon = coordinates.Longitude;
+            double eht = coordinates.Height;
+
+            double vn = velocity.VelocityNorth;
+            double ve = velocity.VelocityEast;
+            double vu = velocity.VelocityUp;
+
+            // Convert velocities from mm/yr to radians/yr for horizontal components
+            GRS80.ConvertHorizontalVelocityToRadians(rlat, vn, ve, out double vnr, out double ver);
+
+            // Convert velocity from mm/yr to m/yr for vertical component
+            double vur = vu / 1000.0;
+
+            int fromDateMjdMinutes = fromDate.ToModifiedJulianDateMinutes();
+            int toDateMjdMinutes = toDate.ToModifiedJulianDateMinutes();
+            int itrefMjdMinutes = ReferenceEpoch.ToModifiedJulianDateMinutes();
+
+            // Compute time difference in years 
+            // Legacy used (date_minutes - itref_minutes) / (365.25 * 24 * 60)
+            double yearDiffFrom = (fromDateMjdMinutes - itrefMjdMinutes) / (365.25 * 24.0 * 60.0);
+            double yearDiffTo = (toDateMjdMinutes - itrefMjdMinutes) / (365.25 * 24.0 * 60.0);
+            double deltaYears = yearDiffTo - yearDiffFrom;
+
+            // Compute displacements
+            double dn = vnr * deltaYears;  // North displacement in radians
+            double de = ver * deltaYears;  // East displacement in radians  
+            double du = vur * deltaYears;  // Up displacement in meters
+
+            // Apply displacements to get new coordinates
+            double rlat1 = rlat + dn;
+            double rlon1 = rlon + de;
+            double eht1 = eht + du;
+
+            return GeodeticCoordinates.FromRadians(rlat1, rlon1, eht1);
+        }
+
         public static GeodeticCoordinates TransformPosition(
             GeodeticCoordinates coordinates, DatumEpoch sourceDatumEpoch, DatumEpoch targetDatumEpoch)
         {
-            int inDateMjdMinutes = sourceDatumEpoch.Epoch.ToModifiedJulianDateMinutes();
-            int outDateMjdMinutes = targetDatumEpoch.Epoch.ToModifiedJulianDateMinutes();
-
-            GeodeticCoordinates result = null;
             if (sourceDatumEpoch.Epoch == targetDatumEpoch.Epoch)
             {
-                result = GeodeticCoordinates.FromRadians(coordinates.Latitude, coordinates.Longitude, coordinates.Height);
+                return GeodeticCoordinates.FromRadians(coordinates.Latitude, coordinates.Longitude, coordinates.Height);
             }
-            else
-            {
-                int jregn;
-                double vn, ve, vu;
-                
-                // trans4d::PREDV(rlat, -rlon, eht, inDate, inOpt, jregn, vn, ve, vu);
-                var velocityInfo = PredictVelocity(coordinates, sourceDatumEpoch.Epoch, sourceDatumEpoch.Datum);
-                if (velocityInfo == VelocityInfo.Zero) return coordinates;
 
-                //double dn, de, du; //output displacement values (unused)
-                //trans4d::NEWCOR(rlat, -rlon, eht, inDateMINS, outDateMINS, rlat1, rlon1, eht1, dn, de, du, vn, ve, vu);
-                //rlon1 = -rlon1;
-            }
-            double x, y, z;
-            //trans4d::TOXYZ(rlat1, rlon1, eht1, x, y, z);
-            //double x1, y1, z1;
-            //trans4d::to_itrf2014(x, y, z, x1, y1, z1, outDate, inOpt);
-            //double x2, y2, z2;
-            //trans4d::from_itrf2014(x1, y1, z1, x2, y2, z2, outDate, outOpt);
+            // Get velocity information at the source coordinates and datum
+            var velocityInfo = PredictVelocity(coordinates, sourceDatumEpoch.Epoch, sourceDatumEpoch.Datum);
+            if (velocityInfo == VelocityInfo.Zero) return coordinates;
 
-            //if (!trans4d::FRMXYZ(x2, y2, z2, newLat, newLon, newEht))
-            //    return;
+            // Apply velocity displacement (first part of COMPSN)
+            var resultAfterVelocity = ComputeNewCoordinatesFromVelocity(
+                coordinates, sourceDatumEpoch.Epoch, targetDatumEpoch.Epoch, velocityInfo);
 
-            //// convert transformed coordinates from radians back to decimal degrees
-            //// ellipsoid height should already be in meters
-            //newLat = newLat * degPerRad;
-            //newLon = newLon * degPerRad;
-
-            throw new NotImplementedException();
+            // TODO: Apply earthquake adjustments (second part of COMPSN)
+            // TODO: Apply postseismic adjustments (third part of COMPSN)
+            
+            // TODO: Transform between reference frames if needed
+            // Convert to cartesian, transform through ITRF2014, convert back to geodetic
+            
+            // For now, return the velocity-adjusted coordinates
+            return resultAfterVelocity;
         }
-
 
         /// <summary>
         /// Compute the ITRF2014 velocity at a point in mm/yr todo: ?
@@ -119,7 +161,6 @@ namespace TRANS4D
             return vneu;
         }
 
-
         /// <summary>
         /// Compute the ITRF2014 velocity at a point in mm/yr
         /// </summary>
@@ -131,155 +172,5 @@ namespace TRANS4D
         {
             throw new NotImplementedException();
         }
-
-
-
-
-        //todo what is this for, and can we declare it as a literal?
-        // 11/19 - I think this is just for looking up bluebook format things
-        // likely don't need this. commenting out for now.
-        // would save some processing time
-        //internal static void SETRF()
-        //{
-        //    //*** From blue book identifier to HTDP indentifier
-        //    //*** WGS 72 Precise
-        //    IRFCON[1] = 1;
-
-        //    //*** WGS 84 (orig) Precise (set  equal to NAD 83)
-        //    IRFCON[2] = 1;
-
-        //    //*** WGS 72 Broadcast
-        //    IRFCON[3] = 1;
-
-        //    //*** WGS 84 (orig) Broadcast (set equal to NAD 83)
-        //    IRFCON[4] = 1;
-
-        //    //*** ITRF89
-        //    IRFCON[5] = 3;
-
-        //    //*** PNEOS 90 or NEOS 91.25 (set equal to ITRF90)
-        //    IRFCON[6] = 4;
-
-        //    //*** NEOS 90 (set equal to ITRF90)
-        //    IRFCON[7] = 4;
-
-        //    //*** ITRF91
-        //    IRFCON[8] = 5;
-
-        //    //*** SIO/MIT 92.57 (set equal to ITRF91)
-        //    IRFCON[9] = 5;
-
-        //    //*** ITRF91
-        //    IRFCON[10] = 5;
-
-        //    //*** ITRF92
-        //    IRFCON[11] = 6;
-
-        //    //*** ITRF93
-        //    IRFCON[12] = 7;
-
-        //    //*** WGS 84 (G730) Precise (set equal to ITRF91)
-        //    IRFCON[13] = 5;
-
-        //    //*** WGS 84 (G730) Broadcast (set equal to ITRF91)
-        //    IRFCON[14] = 5;
-
-        //    //*** ITRF94
-        //    IRFCON[15] = 8;
-
-        //    //*** WGS 84 (G873) Precise  (set equal to ITRF94)
-        //    IRFCON[16] = 8;
-
-        //    //*** WGS 84 (G873) Broadcast (set equal to ITRF94)
-        //    IRFCON[17] = 8;
-
-        //    //*** ITRF96
-        //    IRFCON[18] = 8;
-
-        //    //*** ITRF97
-        //    IRFCON[19] = 9;
-
-        //    //*** IGS97
-        //    IRFCON[20] = 9;
-
-        //    //*** ITRF00
-        //    IRFCON[21] = 11;
-
-        //    //*** IGS00
-        //    IRFCON[22] = 11;
-
-        //    //*** WGS 84 (G1150)
-        //    IRFCON[23] = 11;
-
-        //    //*** IGb00
-        //    IRFCON[24] = 11;
-
-        //    //*** ITRF2005
-        //    IRFCON[25] = 14;
-
-        //    //*** IGS05
-        //    IRFCON[26] = 14;
-
-        //    //*** ITRF2008 or IGS08
-        //    IRFCON[27] = 15;
-
-        //    //*** IGb08
-        //    IRFCON[28] = 15;
-
-        //    //*** ITRF2014
-        //    IRFCON[29] = 16;
-
-        //    //*** From HTDP identifier to blue book identifier
-        //    //*** NAD 83 (set equal to WGS 84 (transit))
-        //    JRFCON[1] = 2;
-
-        //    //*** ITRF88 (set equal to ITRF89)
-        //    JRFCON[2] = 5;
-
-        //    //*** ITRF89
-        //    JRFCON[3] = 5;
-
-        //    //*** ITRF90 (set equal to NEOS 90)
-        //    JRFCON[4] = 7;
-
-        //    //*** ITRF91
-        //    JRFCON[5] = 8;
-
-        //    //*** ITRF92
-        //    JRFCON[6] = 11;
-
-        //    //*** ITRF93
-        //    JRFCON[7] = 12;
-
-        //    //*** ITRF96 (= ITRF94)
-        //    JRFCON[8] = 18;
-
-        //    //*** ITRF97
-        //    JRFCON[9] = 19;
-
-        //    //*** NA12
-        //    JRFCON[10] = 0;
-
-        //    //*** ITRF00
-        //    JRFCON[11] = 21;
-
-        //    //*** NAD 83(PACP00) or NAD 83(PA11)
-        //    JRFCON[12] = 2;
-
-        //    //*** NAD 83(MARP00) or NAD 83(MA11)
-        //    JRFCON[13] = 2;
-
-        //    //*** ITRF2005 or IGS05
-        //    JRFCON[14] = 26;
-
-        //    //*** ITRF2008 or IGS08/IGb08
-        //    JRFCON[15] = 27;
-
-        //    //*** ITRF2014
-        //    JRFCON[16] = 29;
-
-        //    //*** NA_ICE-6G
-        //    JRFCON[17] = 0;
-        //}
-        }
+    }
 }
