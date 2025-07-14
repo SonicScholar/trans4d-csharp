@@ -79,31 +79,93 @@ namespace TRANS4D
         public static GeodeticCoordinates TransformPosition(
             GeodeticCoordinates coordinates, DatumEpoch sourceDatumEpoch, DatumEpoch targetDatumEpoch)
         {
+            GeodeticCoordinates sourceDatumTargetEpochCoordinates;
             if (sourceDatumEpoch.Epoch == targetDatumEpoch.Epoch)
             {
-                return GeodeticCoordinates.FromRadians(coordinates.Latitude, coordinates.Longitude, coordinates.Height);
+                //todo: don't return these
+                // these coordinates are source datum and target epoch 
+                sourceDatumTargetEpochCoordinates = coordinates;
             }
+            else
+            {
+                // Get velocity information at the source coordinates and datum
+                var velocityInfo = PredictVelocity(coordinates, sourceDatumEpoch.Epoch, sourceDatumEpoch.Datum);
+                if (velocityInfo == VelocityInfo.Zero) return coordinates;
 
-            // Get velocity information at the source coordinates and datum
-            var velocityInfo = PredictVelocity(coordinates, sourceDatumEpoch.Epoch, sourceDatumEpoch.Datum);
-            if (velocityInfo == VelocityInfo.Zero) return coordinates;
-
-            // Apply velocity displacement (first part of COMPSN)
-            var resultAfterVelocity = ComputeNewCoordinatesFromVelocity(
+                // Apply velocity displacement (first part of COMPSN)
+                sourceDatumTargetEpochCoordinates = ComputeNewCoordinatesFromVelocity(
                 coordinates, sourceDatumEpoch.Epoch, targetDatumEpoch.Epoch, velocityInfo);
+            }
 
             // TODO: Apply earthquake adjustments (second part of COMPSN)
             // TODO: Apply postseismic adjustments (third part of COMPSN)
-            
-            // TODO: Transform between reference frames if needed
-            // Convert to cartesian, transform through ITRF2014, convert back to geodetic
-            
-            // For now, return the velocity-adjusted coordinates
-            return resultAfterVelocity;
+
+            // Transform between reference frames if needed
+            if (sourceDatumEpoch.Datum == targetDatumEpoch.Datum)
+            {
+                // Same datum, just return the epoch-adjusted coordinates
+                return sourceDatumTargetEpochCoordinates;
+            }
+
+            // Convert to cartesian coordinates
+            var cartesianCoords = GRS80.GeodeticToCartesian(sourceDatumTargetEpochCoordinates);
+
+            // Transform through ITRF2014
+            // Step 1: Transform from source datum to ITRF2014
+            var itrf2014CartesianCoords = TransformToItrf2014Cartesian(cartesianCoords, targetDatumEpoch.Epoch, sourceDatumEpoch.Datum);
+
+            // Step 2: Transform from ITRF2014 to target datum
+            var targetCartesianCoords = TransformFromItrf2014Cartesian(itrf2014CartesianCoords, targetDatumEpoch.Epoch, targetDatumEpoch.Datum);
+
+            // Convert back to geodetic coordinates
+            var targetGeodeticResult = GRS80.XYZToLatLongHeight(targetCartesianCoords);
+            if (!targetGeodeticResult.Item2)
+            {
+                throw new InvalidOperationException("Failed to convert target cartesian coordinates back to geodetic coordinates.");
+            }
+
+            return targetGeodeticResult.Item1;
+        }
+
+        /// <summary>
+        /// Transform cartesian coordinates from the specified datum to ITRF2014.
+        /// </summary>
+        /// <param name="coordinates">Cartesian coordinates in the source datum</param>
+        /// <param name="epoch">Epoch date</param>
+        /// <param name="sourceDatum">Source datum</param>
+        /// <returns>Cartesian coordinates in ITRF2014</returns>
+        private static XYZ TransformToItrf2014Cartesian(XYZ coordinates, DateTime epoch, Datum sourceDatum)
+        {
+            if (sourceDatum == Datum.ITRF2014)
+            {
+                return coordinates;
+            }
+
+            var transformationParameters = sourceDatum.GetTransformationParametersForItrf2014();
+            return transformationParameters.TransformInverse(coordinates, epoch.ToEpoch());
+        }
+
+        /// <summary>
+        /// Transform cartesian coordinates from ITRF2014 to the specified datum.
+        /// </summary>
+        /// <param name="coordinates">Cartesian coordinates in ITRF2014</param>
+        /// <param name="epoch">Epoch date</param>
+        /// <param name="targetDatum">Target datum</param>
+        /// <returns>Cartesian coordinates in the target datum</returns>
+        private static XYZ TransformFromItrf2014Cartesian(XYZ coordinates, DateTime epoch, Datum targetDatum)
+        {
+            if (targetDatum == Datum.ITRF2014)
+            {
+                return coordinates;
+            }
+
+            var transformationParameters = targetDatum.GetTransformationParametersForItrf2014();
+            return transformationParameters.Transform(coordinates, epoch.ToEpoch());
         }
 
         /// <summary>
         /// Compute the ITRF2014 velocity at a point in mm/yr todo: ?
+        /// todo: this might actually be the velocity in the specified output datum
         /// </summary>
         /// <param name="coordinates">
         /// Geodetic coordinates in radians. (Positive east)
@@ -116,7 +178,7 @@ namespace TRANS4D
             // Predict velocity in output datum reference frame
 
             //TOXYZ(ylat, elon, eht, ref x, ref y, ref z);
-            var cartesianCoords  = GRS80.GeodeticToCartesian(coordinates);
+            var cartesianCoords = GRS80.GeodeticToCartesian(coordinates);
 
             GeodeticCoordinates itrf2014GeodeticCoords;
 

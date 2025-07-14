@@ -94,18 +94,18 @@ namespace TRANS4D
             return new GeodeticCoordinates(Latitude, Longitude, Height);
         }
 
-        /// <summary>
-        /// Deconstructs the coordinates into latitude (degrees), longitude (degrees), and height.
-        /// </summary>
-        /// <param name="latitudeDegrees">Latitude in decimal degrees.</param>
-        /// <param name="longitudeDegrees">Longitude in decimal degrees.</param>
-        /// <param name="height">Height above the ellipsoid in meters.</param>
-        public void Deconstruct(out double latitudeDegrees, out double longitudeDegrees, out double height)
-        {
-            latitudeDegrees = LatitudeDegrees;
-            longitudeDegrees = LongitudeDegrees;
-            height = Height;
-        }
+        ///// <summary>
+        ///// Deconstructs the coordinates into latitude (degrees), longitude (degrees), and height.
+        ///// </summary>
+        ///// <param name="latitudeDegrees">Latitude in decimal degrees.</param>
+        ///// <param name="longitudeDegrees">Longitude in decimal degrees.</param>
+        ///// <param name="height">Height above the ellipsoid in meters.</param>
+        //public void Deconstruct(out double latitudeDegrees, out double longitudeDegrees, out double height)
+        //{
+        //    latitudeDegrees = LatitudeDegrees;
+        //    longitudeDegrees = LongitudeDegrees;
+        //    height = Height;
+        //}
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GeodeticCoordinates"/> class.
