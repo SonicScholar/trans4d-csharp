@@ -38,7 +38,7 @@ namespace TRANS4D
                 var resourcePath = GridFileResourcePathForRegion;
                 if (!Ioc.NamedIocContainer.Instance.IsRegistered(resourcePath))
                 {
-                    var gridDataFile = new GridDataFile(resourcePath);
+                    var gridDataFile = new GridDataFile();
                     // Load from embedded resource stream
                     var assembly = typeof(GridBasedRegion).Assembly;
                     using (var stream = assembly.GetManifestResourceStream(resourcePath))

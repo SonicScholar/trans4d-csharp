@@ -15,7 +15,7 @@ namespace TRANS4D
         public bool ContainsPoint(GeodeticCoordinates coordinates)
         {
             var normalizedCoordinates = coordinates.Normalize();
-            return Boundary.ContainsPoint(normalizedCoordinates.Longitude, normalizedCoordinates.Latitude);
+            return Boundary.ContainsPoint(normalizedCoordinates.LongitudeDegrees, normalizedCoordinates.LatitudeDegrees);
         }
 
         public abstract VelocityInfo GetVelocity(GeodeticCoordinates coordinates);

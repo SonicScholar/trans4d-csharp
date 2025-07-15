@@ -71,6 +71,7 @@ namespace TRANS4D.BlockData
         /// <returns></returns>
         public static IRegion GetBoundary(GeodeticCoordinates coordinates)
         {
+            Init();
             foreach (var region in Regions)
             {
                 // All the regions boundary polygons are in positive west.
@@ -82,7 +83,7 @@ namespace TRANS4D.BlockData
         }
 
         private static readonly FortranArray<double> _Y = new FortranArray<double>(BoundarySize);
-        private static FortranArray<double> X
+        public static FortranArray<double> Y
         {
             get
             {
@@ -92,7 +93,7 @@ namespace TRANS4D.BlockData
         }
 
         private static readonly FortranArray<double> _X = new FortranArray<double>(BoundarySize);
-        public static FortranArray<double> Y
+        public static FortranArray<double> X
         {
             get
             {
@@ -108,38 +109,6 @@ namespace TRANS4D.BlockData
             {
                 Init();
                 return _NPOINT;
-            }
-        }
-
-        public static RadialUnits RadialUnits { get; private set; }
-
-        /// <summary>
-        /// Convert all the X,Y coordinates to radians
-        /// </summary>
-        public static void ConvertToRadians()
-        {
-            if(RadialUnits == RadialUnits.Radians)
-                return;
-            int lastCoordinateIndex = _NPOINT[NumRegions + 1] -1;
-            for (int i = 1; i <= lastCoordinateIndex; i++)
-            {
-                _Y[i] = _Y[i].ToRadians();
-                _X[i] = _X[i].ToRadians();
-            }
-        }
-
-        /// <summary>
-        /// Convert all the X,Y coordinates to degrees
-        /// </summary>
-        public static void ConvertToDegrees()
-        {
-            if (RadialUnits == RadialUnits.Degrees)
-                return;
-            int lastCoordinateIndex = _NPOINT[NumRegions + 1] - 1;
-            for (int i = 1; i <= lastCoordinateIndex; i++)
-            {
-                _Y[i] = _Y[i].ToDegrees();
-                _X[i] = _X[i].ToDegrees();
             }
         }
 
@@ -4632,7 +4601,6 @@ namespace TRANS4D.BlockData
             _NPOINT[24] = 4301;
             _NPOINT[25] = 4453;
 
-            ConvertToRadians();
             regions = InitRegions();
             initialized = true;
         }

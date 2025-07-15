@@ -5,13 +5,8 @@ namespace TRANS4D
 {
     public class GridDataFile
     {
-        public string ResourcePath { get; set; }
-        public double[] Velocities { get; set; } 
+        public double[] Velocities { get; set; }
         public double[] VelocityErrors { get; set; }
-        public GridDataFile(string resourcePath)
-        {
-            ResourcePath = resourcePath;
-        }
 
         private void Reallocate()
         {
