@@ -5,7 +5,7 @@
         [Fact]
         public void SupportedTransformationsCount_Is_21()
         {
-            Assert.Equal(21, BuiltInTransforms.SupportedTransformations.Length);
+            Assert.Equal(25, BuiltInTransforms.SupportedTransformations.Length);
         }
 
         [Fact]
