@@ -110,8 +110,15 @@ namespace TRANS4D
             // Convert to cartesian coordinates
             var cartesianCoords = GRS80.GeodeticToCartesian(sourceDatumTargetEpochCoordinates);
 
+            // todo: bottle up step 1 and 2 into its own method which would take
+            //   - coordinates
+            //   - epoch of coordinates
+            //   - source datum
+            //   - target datum
+            //   and return the coordinates in the target datum
+
             // Transform through ITRF2014
-            // Step 1: Transform from source datum to ITRF2014
+            // Step 1: Transform from source datum to ITRF201
             var itrf2014CartesianCoords = TransformToItrf2014Cartesian(cartesianCoords, targetDatumEpoch.Epoch, sourceDatumEpoch.Datum);
 
             // Step 2: Transform from ITRF2014 to target datum
@@ -164,15 +171,16 @@ namespace TRANS4D
         }
 
         /// <summary>
-        /// Compute the ITRF2014 velocity at a point in mm/yr todo: ?
-        /// todo: this might actually be the velocity in the specified output datum
+        /// Compute the velocity at a point in mm/yr in the specified output datum.
         /// </summary>
         /// <param name="coordinates">
         /// Geodetic coordinates in radians. (Positive east)
         /// </param>
         /// <param name="date">The reference epoch of the input coordinates</param>
         /// <param name="outputDatum">The datum to output the velocity in.</param>
-        /// <returns></returns>
+        /// <returns>
+        /// A <see cref="VelocityInfo"/> object containing the velocity in the specified datum.
+        /// </returns>
         public static VelocityInfo PredictVelocity(GeodeticCoordinates coordinates, DateTime date, Datum outputDatum)
         {
             // Predict velocity in output datum reference frame

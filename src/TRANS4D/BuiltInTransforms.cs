@@ -495,6 +495,41 @@ namespace TRANS4D
             drx: 0.0e0, dry: 0.0e0, drz: 0.0e0,
             scale: 0.00000000042e0, dscale: 0.0e0, refEpoch: 2010.00e0);
 
+        [Obsolete("Parameters are in beta. Future versions will remove the beta version and replace with the final one. See https://beta.ngs.noaa.gov/NATRF2022")]
+        public static readonly TransformationParameters ITRF_2014_TO_NATRF_2022_BETA = new TransformationParameters(
+            tx: 0.0014, ty: 0.0014, tz: -0.0024,
+            dtx: 0.0, dty: 0.0001, dtz: -0.0002,
+            rx: 0.0, ry: 0.0, rz: 0.0,
+            drx: 0.000046, dry: -0.000704, drz: -0.000047,
+            scale: 0.00000000042, dscale: 0.0,
+            refEpoch: 2010.0);
+
+        [Obsolete("Parameters are in beta. Future versions will remove the beta version and replace with the final one. See https://beta.ngs.noaa.gov/NATRF2022")]
+        public static readonly TransformationParameters ITRF_2014_TO_CATRF_2022_BETA = new TransformationParameters(
+            tx: 0.0014, ty: 0.0014, tz: -0.0024,
+            dtx: 0.0, dty: 0.0001, dtz: -0.0002,
+            rx: 0.0, ry: 0.0, rz: 0.0,
+            drx: -0.000056, dry: -0.000957, drz: 0.000589,
+            scale: 0.00000000042, dscale: 0.0,
+            refEpoch: 2010.0);
+
+        [Obsolete("Parameters are in beta. Future versions will remove the beta version and replace with the final one. See https://beta.ngs.noaa.gov/NATRF2022")]
+        public static readonly TransformationParameters ITRF_2014_TO_PATRF_2022_BETA = new TransformationParameters(
+            tx: 0.0014, ty: 0.0014, tz: -0.0024,
+            dtx: 0.0, dty: 0.0001, dtz: -0.0002,
+            rx: 0.0, ry: 0.0, rz: 0.0,
+            drx: -0.000409, dry: 0.001063, drz: -0.002188,
+            scale: 0.00000000042, dscale: 0.0,
+            refEpoch: 2010.0);
+
+        [Obsolete("Parameters are in beta. Future versions will remove the beta version and replace with the final one. See https://beta.ngs.noaa.gov/NATRF2022")]
+        public static readonly TransformationParameters ITRF_2014_TO_MATRF_2022_BETA = new TransformationParameters(
+            tx: 0.0014, ty: 0.0014, tz: -0.0024,
+            dtx: 0.0, dty: 0.0001, dtz: -0.0002,
+            rx: 0.0, ry: 0.0, rz: 0.0,
+            drx: -0.008089, dry: 0.005937, drz: 0.002159,
+            scale: 0.00000000042, dscale: 0.0,
+            refEpoch: 2010.0);
 
         public static readonly FortranArray<TransformationParameters> SupportedTransformations =
             new List<TransformationParameters>
@@ -519,7 +554,11 @@ namespace TRANS4D
                 ITRF_2014_TO_PMM_PACIFIC,
                 ITRF_2014_TO_PMM_MARIANA,
                 ITRF_2014_TO_PMM_BERING,
-                ITRF_2014_TO_ITRF_2020
+                ITRF_2014_TO_ITRF_2020,
+                ITRF_2014_TO_NATRF_2022_BETA,
+                ITRF_2014_TO_CATRF_2022_BETA,
+                ITRF_2014_TO_PATRF_2022_BETA,
+                ITRF_2014_TO_MATRF_2022_BETA
             }.ToFortranArray();
 
     }

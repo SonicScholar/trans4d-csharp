@@ -27,7 +27,15 @@ namespace TRANS4D
         PMM_Pacific = 18,
         PMM_Mariana = 19,
         PMM_Bering = 20,
-        ITRF20 = 21
+        ITRF20 = 21,
 
+        [Obsolete("Parameters are in beta. Future versions will remove the beta version and replace with the final one. See https://beta.ngs.noaa.gov/NATRF2022")]
+        NATRF2022_BETA = 22,
+        [Obsolete("Parameters are in beta. Future versions will remove the beta version and replace with the final one. See https://beta.ngs.noaa.gov/NATRF2022")]
+        CATRF2022_BETA = 23,
+        [Obsolete("Parameters are in beta. Future versions will remove the beta version and replace with the final one. See https://beta.ngs.noaa.gov/NATRF2022")]
+        PATRF2022_BETA = 24,
+        [Obsolete("Parameters are in beta. Future versions will remove the beta version and replace with the final one. See https://beta.ngs.noaa.gov/NATRF2022")]
+        MATRF2022_BETA = 25,
     }
 }

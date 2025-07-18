@@ -180,14 +180,6 @@ namespace TRANS4D
             }
 
             return itrf2014CoordinatesGeodetic.Item1;
-
-            // todo: make sure whatever uses this knows it's getting it in pos. East. Maybe make conversion property
-            //WLON = -ELON;
-            //while (WLON < 0)
-            //{
-            //    WLON = WLON + TWOPI;
-            //}
-            throw new NotImplementedException();
         }
     }
 }
