@@ -16,6 +16,15 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<None Include="../../.github/workflows/ci-cd.yml">
+			<Link>GitHub-Actions/ci-cd.yml</Link>
+		</None>
+		<None Include="../../.github/workflows/publish-nuget.yml">
+			<Link>GitHub-Actions/publish-nuget.yml</Link>
+		</None>
+	</ItemGroup>
+
+	<ItemGroup>
 		<EmbeddedResource Include="Data\Data4.2.5A.txt" />
 		<EmbeddedResource Include="Data\Data4.2.5B.txt" />
 	</ItemGroup>
