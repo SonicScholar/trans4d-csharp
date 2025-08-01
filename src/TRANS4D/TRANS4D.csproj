@@ -1,16 +1,21 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-	  <PackageId>SonicScholar.Trans4d</PackageId>
-	  <Version>0.0.1-alpha</Version>
-	  <Author>Collin Tewalt</Author>
-	  <Product>C# Trans4d / HTDP</Product>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<PackageId>SonicScholar.Trans4d</PackageId>
+		<Version>0.0.1-alpha</Version>
+		<Author>Collin Tewalt</Author>
+		<Product>C# Trans4d / HTDP</Product>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <EmbeddedResource Include="Data\Data4.2.5A.txt" />
-    <EmbeddedResource Include="Data\Data4.2.5B.txt" />
-  </ItemGroup>
+	<ItemGroup>
+		<None Include="../README.md" Pack="true" PackagePath="\" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Include="Data\Data4.2.5A.txt" />
+		<EmbeddedResource Include="Data\Data4.2.5B.txt" />
+	</ItemGroup>
 
 </Project>
