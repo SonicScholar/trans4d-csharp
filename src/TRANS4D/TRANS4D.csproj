@@ -7,7 +7,6 @@
 		<Author>Collin Tewalt</Author>
 		<Product>C# Trans4d / HTDP</Product>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 	</PropertyGroup>
 
