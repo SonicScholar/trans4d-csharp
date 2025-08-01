@@ -35,3 +35,6 @@ jobs:
       with:
         name: nuget-packages
         path: ./src/artifacts/*.nupkg
+    - name: Publish to NuGet.org
+      run: dotnet nuget push ./artifacts/*.nupkg --api-key ${{ secrets.NUGET_API_KEY_TRANS4D }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+      working-directory: ./src
