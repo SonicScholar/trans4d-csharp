@@ -15,9 +15,9 @@ namespace TRANS4D.BlockData
 
         private static bool initialized = false;
 
-        private static IReadOnlyList<IRegion> regions;
+        private static IReadOnlyList<IVelocityModelRegion> regions;
 
-        public static IReadOnlyList<IRegion> Regions
+        public static IReadOnlyList<IVelocityModelRegion> Regions
         {
             get
             {
@@ -27,10 +27,10 @@ namespace TRANS4D.BlockData
             }
         }
 
-        private static List<IRegion> InitRegions()
+        private static List<IVelocityModelRegion> InitRegions()
         {
             List<Polygon> polygons = new List<Polygon>(NumRegions);
-            List<IRegion> regions = new List<IRegion>(NumRegions);
+            List<IVelocityModelRegion> regions = new List<IVelocityModelRegion>(NumRegions);
             /*
                _NPOINT[1] = 1;
                _NPOINT[2] = 5;
@@ -54,10 +54,10 @@ namespace TRANS4D.BlockData
                 // motion model (Euler's fixed point theorem).
                 if (region <= NumGrids)
                 {
-                    regions.Add(new GridBasedRegion(boundary, region));
+                    regions.Add(new GridBasedVelocityModelRegion(boundary, region));
                 }
                 else
-                    regions.Add(new PlateMotionModelRegion(boundary));
+                    regions.Add(new PlateMotionModelVelocityModelRegion(boundary));
             }
             
             return regions;
@@ -69,7 +69,7 @@ namespace TRANS4D.BlockData
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <returns></returns>
-        public static IRegion GetBoundary(GeodeticCoordinates coordinates)
+        public static IVelocityModelRegion GetBoundary(GeodeticCoordinates coordinates)
         {
             Init();
             foreach (var region in Regions)

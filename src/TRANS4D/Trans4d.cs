@@ -82,7 +82,6 @@ namespace TRANS4D
             GeodeticCoordinates sourceDatumTargetEpochCoordinates;
             if (sourceDatumEpoch.Epoch == targetDatumEpoch.Epoch)
             {
-                //todo: don't return these
                 // these coordinates are source datum and target epoch 
                 sourceDatumTargetEpochCoordinates = coordinates;
             }
@@ -229,18 +228,6 @@ namespace TRANS4D
             //TOVNEU(ylat, elon, vx, vy, vz, ref vn, ref ve, ref vu);
             var vneu = VelocityTransformer.ToNeu(coordinates, vxyz);
             return vneu;
-        }
-
-        /// <summary>
-        /// Compute the ITRF2014 velocity at a point in mm/yr
-        /// </summary>
-        /// <param name="lat">latitude in radians</param>
-        /// <param name="lon">longitude in radians</param>
-        /// <param name="region"></param>
-        /// <returns></returns>
-        public static VelocityInfo ComputeVelocity(double lat, double lon, int region)
-        {
-            throw new NotImplementedException();
         }
     }
 }

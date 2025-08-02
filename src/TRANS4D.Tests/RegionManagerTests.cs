@@ -25,7 +25,7 @@ namespace TRANS4D.Tests
             // Assert
             Assert.NotNull(regions);
             Assert.Equal(24, regions.Count);
-            Assert.IsAssignableFrom<IReadOnlyList<IRegion>>(regions);
+            Assert.IsAssignableFrom<IReadOnlyList<IVelocityModelRegion>>(regions);
         }
 
         [Fact]
@@ -108,7 +108,7 @@ namespace TRANS4D.Tests
             var region = RegionManager.GetBoundary(coordinates);
             
             // Result can be null or valid region, but should not crash
-            Assert.True(region == null || region is IRegion);
+            Assert.True(region == null || region is IVelocityModelRegion);
         }
 
         [Fact]
@@ -189,7 +189,7 @@ namespace TRANS4D.Tests
             var regions = RegionManager.Regions;
 
             // Assert
-            Assert.IsAssignableFrom<IReadOnlyList<IRegion>>(regions);
+            Assert.IsAssignableFrom<IReadOnlyList<IVelocityModelRegion>>(regions);
 
             // todo: It's a regular List, so someone could cast it to IList<IRegion>.
             //A ssert.False(regions is IList<IRegion>, "Regions should not be modifiable");
@@ -236,8 +236,8 @@ namespace TRANS4D.Tests
             var region2 = RegionManager.GetBoundary(coords2);
 
             // Assert - Both should either be null or valid regions
-            Assert.True(region1 == null || region1 is IRegion);
-            Assert.True(region2 == null || region2 is IRegion);
+            Assert.True(region1 == null || region1 is IVelocityModelRegion);
+            Assert.True(region2 == null || region2 is IVelocityModelRegion);
         }
     }
 }

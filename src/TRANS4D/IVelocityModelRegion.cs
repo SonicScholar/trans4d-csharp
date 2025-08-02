@@ -2,7 +2,7 @@
 
 namespace TRANS4D
 {
-    public interface IRegion
+    public interface IVelocityModelRegion
     {
         Polygon Boundary { get; }
         

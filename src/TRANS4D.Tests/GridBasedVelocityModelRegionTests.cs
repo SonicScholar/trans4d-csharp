@@ -6,7 +6,7 @@ namespace TRANS4D.Tests
         public void GetGridWeights_ReturnsExpectedWeights_ForKnownInput()
         {
             // Arrange
-            var region = new GridBasedRegion(null, 3);
+            var region = new GridBasedVelocityModelRegion(null, 3);
             var coords = GeodeticCoordinates.FromRadians(0.67059447295648356, -1.4617038310036168, 0);
 
             // Act

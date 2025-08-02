@@ -2,9 +2,9 @@
 
 namespace TRANS4D
 {
-    public abstract class RegionBase: IRegion
+    public abstract class VelocityModelRegionBase: IVelocityModelRegion
     {
-        protected RegionBase(Polygon boundary)
+        protected VelocityModelRegionBase(Polygon boundary)
         {
             Boundary = boundary;
         }

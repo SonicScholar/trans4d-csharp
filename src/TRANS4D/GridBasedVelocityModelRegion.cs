@@ -4,7 +4,7 @@ using TRANS4D.Geometry;
 
 namespace TRANS4D
 {
-    public class GridBasedRegion : RegionBase
+    public class GridBasedVelocityModelRegion : VelocityModelRegionBase
     {
         // based on the region, a particular file is needed which
         // contains the grid points. In a future version, these
@@ -40,7 +40,7 @@ namespace TRANS4D
                 {
                     var gridDataFile = new GridDataFile();
                     // Load from embedded resource stream
-                    var assembly = typeof(GridBasedRegion).Assembly;
+                    var assembly = typeof(GridBasedVelocityModelRegion).Assembly;
                     using (var stream = assembly.GetManifestResourceStream(resourcePath))
                     {
                         if (stream == null)
@@ -53,7 +53,7 @@ namespace TRANS4D
             }
         }
 
-        public GridBasedRegion(Polygon boundary, int regionId) : base(boundary)
+        public GridBasedVelocityModelRegion(Polygon boundary, int regionId) : base(boundary)
         {
             RegionId = regionId;
         }

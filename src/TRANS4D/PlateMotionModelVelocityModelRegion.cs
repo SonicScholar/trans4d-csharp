@@ -3,9 +3,9 @@ using TRANS4D.Geometry;
 
 namespace TRANS4D
 {
-    public class PlateMotionModelRegion : RegionBase
+    public class PlateMotionModelVelocityModelRegion : VelocityModelRegionBase
     {
-        public PlateMotionModelRegion(Polygon boundary) 
+        public PlateMotionModelVelocityModelRegion(Polygon boundary) 
             : base(boundary)
         {
         }

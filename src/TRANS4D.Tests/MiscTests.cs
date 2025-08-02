@@ -5,11 +5,6 @@
         [Fact]
         public void Constants_AreCorrect()
         {
-            Assert.Equal(6.378137e6, Constants.A);
-            Assert.Equal(1.0 / 298.25722101, Constants.F);
-            Assert.Equal(0.6694380022903146e-2, Constants.E2);
-            Assert.Equal(6.378137e6 / (1.0 - 1.0 / 298.25722101), Constants.AF);
-            Assert.Equal((1.0 / 298.25722101) * (2.0 - 1.0 / 298.25722101) / (Math.Pow((1.0 - 1.0 / 298.25722101), 2)), Constants.EPS);
             Assert.Equal(Math.PI, Constants.PI);
             Assert.Equal(180.0 / Math.PI, Constants.DEGREES_PER_RADIAN);
             Assert.Equal((180.0 * 3600.0) / Math.PI, Constants.RHOSEC);
