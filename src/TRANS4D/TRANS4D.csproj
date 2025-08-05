@@ -3,7 +3,7 @@
 	<PropertyGroup>
 		<TargetFramework>netstandard2.0</TargetFramework>
 		<PackageId>SonicScholar.Trans4d</PackageId>
-		<Version>0.0.3-alpha</Version>
+		<Version>0.0.4-alpha</Version>
 		<Author>Collin Tewalt</Author>
 		<Product>C# Trans4d / HTDP</Product>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
