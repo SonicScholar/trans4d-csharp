@@ -28,6 +28,7 @@ Velocity models are implemented using polymorphic classes for grid-based and pla
 ## Future Work & Enhancements
 
 - Lots of code cleanup and refactoring.
+- Add doc generation for public API.
 - Add more test coordinates from all regions and validate against the Fortran version.
 - Implement earthquake and post-seismic displacement modeling.
 - Support for new NSRS 2025 terrestrial reference frames (NATREF, CATREF, MATREF, PATREF).
