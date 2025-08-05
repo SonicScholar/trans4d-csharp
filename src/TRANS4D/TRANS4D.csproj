@@ -3,16 +3,19 @@
 	<PropertyGroup>
 		<TargetFramework>netstandard2.0</TargetFramework>
 		<PackageId>SonicScholar.Trans4d</PackageId>
-		<Version>0.0.3-alpha</Version>
+		<Version>0.0.4-alpha</Version>
 		<Author>Collin Tewalt</Author>
 		<Product>C# Trans4d / HTDP</Product>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
+		<!-- Adding the NuGet package icon -->
+		<PackageIcon>Resources/Trans4d_NugetIcon_01_128.png</PackageIcon>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<None Include="../../README.md" Pack="true" PackagePath="\" />
 		<None Include="../../LICENSE" Pack="true" PackagePath="\" />
+		<None Include="Resources/Trans4d_NugetIcon_01_128.png" Pack="true" PackagePath="Resources/" />
 	</ItemGroup>
 
 	<ItemGroup>
